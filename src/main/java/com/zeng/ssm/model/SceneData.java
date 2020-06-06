@@ -20,6 +20,8 @@ public class SceneData extends Searchable {
     private List<EnergyData> energyDataList;
     private List<DeviceData> deviceDataList;
     private List<EnvLoadData> envLoadDataList;
+    private List<KeyParameterData> keyParameterDataList;
+
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
@@ -105,6 +107,14 @@ public class SceneData extends Searchable {
 
     public void setEnvLoadDataList(List<EnvLoadData> envLoadDataList) {
         this.envLoadDataList = envLoadDataList;
+    }
+
+    public List<KeyParameterData> getKeyParameterDataList() {
+        return keyParameterDataList;
+    }
+
+    public void setKeyParameterDataList(List<KeyParameterData> keyParameterDataList) {
+        this.keyParameterDataList = keyParameterDataList;
     }
 
     public Date getCreatedAt() {

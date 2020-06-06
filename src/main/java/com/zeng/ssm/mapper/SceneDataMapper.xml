@@ -8,6 +8,7 @@
         <result column="categoryRootId" jdbcType="INTEGER" property="categoryRootId" />
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="functionUnit" jdbcType="VARCHAR" property="functionUnit" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
         <association property="category" column="categoryId" select="com.zeng.ssm.dao.CategoryDao.selectSimpleByPrimaryKey"/>
@@ -19,6 +20,7 @@
         <result column="categoryRootId" jdbcType="INTEGER" property="categoryRootId" />
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="functionUnit" jdbcType="VARCHAR" property="functionUnit" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
         <!--当表中设置外键时，如果表中的一条记录单独对应其他表中的一条记录，就用association属性，property表示返回的对象的实例，
@@ -34,12 +36,14 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.DeviceDataDao.selectDeviceDataListBySceneDataId"/>
         <collection column="id" property="envLoadDataList" ofType="com.zeng.ssm.model.EnvLoadData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListBySceneDataId"/>
+        <collection column="id" property="keyParameterDataList" ofType="com.zeng.ssm.model.KeyParameterData"
+                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.KeyParameterDataDao.selectKeyParameterDataListBySceneDataId"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.SceneData" useGeneratedKeys="true" keyProperty="id" >
-        insert into scene_data (`categoryId`,`categoryRootId`, `title`, `description`)
+        insert into scene_data (`categoryId`,`categoryRootId`, `title`, `description`,`functionUnit`)
         values (#{categoryId,jdbcType=INTEGER},#{categoryRootId,jdbcType=INTEGER},#{title,jdbcType=VARCHAR},
-        #{description,jdbcType=VARCHAR})
+        #{description,jdbcType=VARCHAR},#{functionUnit,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">
@@ -77,7 +81,8 @@
           categoryId = #{categoryId,jdbcType=INTEGER},
           categoryRootId = #{categoryRootId,jdbcType=INTEGER},
           `title` = #{title,jdbcType=VARCHAR},
-          `description` = #{description,jdbcType=VARCHAR}
+          `description` = #{description,jdbcType=VARCHAR},
+          `functionUnit` = #{functionUnit,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
 
