@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeng.ssm.dao.OutputPartDataDao">
+    <resultMap id="BaseResultMap" type="com.zeng.ssm.model.OutputPartData">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+        <result column="yieldRate" jdbcType="FLOAT" property="yieldRate" />
+        <result column="description" jdbcType="VARCHAR" property="description" />
+        <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
+        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.OutputPartData" useGeneratedKeys="true" keyProperty="id" >
+        insert into `output_part_data` (id, `title`, sceneDataId, `yieldRate`, `description`)
+        values (#{id,jdbcType=INTEGER}, #{title, jdbcType=VARCHAR}, #{sceneDataId,jdbcType=INTEGER}, #{yieldRate,jdbcType=VARCHAR},
+        #{description, jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `output_part_data` where id = #{pk};
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * from `output_part_data`;
+    </select>
+
+    <select id="selectOutputPartDataListBySceneDataId" resultMap="BaseResultMap">
+        select * from `output_part_data` where sceneDataId = #{pk}
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputPartData">
+        update `output_part_data`
+        set
+          `title` = #{title,jdbcType=VARCHAR},
+          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
+          `yieldRate` = #{yieldRate,jdbcType=VARCHAR},
+          `description` = #{description,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+</mapper>

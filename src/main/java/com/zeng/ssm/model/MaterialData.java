@@ -15,18 +15,18 @@ public class MaterialData extends AbstractModel {
     private Integer unitId;
     private Unit unit;
     private Material material;
+    private String source;
+    private String time;
+    private String reliability;
+    private Integer materialDataCategoryId;
+    private MaterialDataCategory materialDataCategory;
+
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
-
-    private String source;
-    private String time;
-    private String reliability;
-    private Integer materialDataCategoryId;
-    private MaterialDataCategory materialDataCategory;
 
     public SceneData getSceneData() {
         return sceneData;

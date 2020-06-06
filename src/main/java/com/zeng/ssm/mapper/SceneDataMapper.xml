@@ -38,6 +38,8 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListBySceneDataId"/>
         <collection column="id" property="keyParameterDataList" ofType="com.zeng.ssm.model.KeyParameterData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.KeyParameterDataDao.selectKeyParameterDataListBySceneDataId"/>
+        <collection column="id" property="outputPartDataList" ofType="com.zeng.ssm.model.OutputPartData"
+                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputPartDataDao.selectOutputPartDataListBySceneDataId"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.SceneData" useGeneratedKeys="true" keyProperty="id" >
