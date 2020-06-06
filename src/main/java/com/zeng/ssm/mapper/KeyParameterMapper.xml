@@ -4,12 +4,12 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.KeyParameter">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="categoryRootId" jdbcType="INTEGER" property="categoryRootId" />
-        <association property="category" column="categoryId" select="com.zeng.ssm.dao.CategoryDao.selectSimpleByPrimaryKey"/>
+        <association property="category" column="categoryRootId" select="com.zeng.ssm.dao.CategoryDao.selectCategoryTree"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.KeyParameter" useGeneratedKeys="true" keyProperty="id" >
         insert into  `key_parameter` ( `title`, `categoryRootId`)
-        values ( #{title,jdbcType=VARCHAR}, #{categoryRootId,jdbcType=Integer})
+        values ( #{title,jdbcType=VARCHAR}, #{categoryRootId,jdbcType=INTEGER})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -24,11 +24,11 @@
         update `key_parameter`
         set
           `title` = #{title,jdbcType=VARCHAR},
-          `categoryRootId` = #{categoryRootId,jdbcType=Integer}
+          `categoryRootId` = #{categoryRootId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-      delete from `device` where id = #{pk,jdbcType=INTEGER}
+      delete from `key_parameter` where id = #{pk,jdbcType=INTEGER}
     </delete>
 </mapper>

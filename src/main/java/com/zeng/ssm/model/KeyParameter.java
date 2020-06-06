@@ -21,7 +21,7 @@ public class KeyParameter extends Searchable {
         return categoryRootId;
     }
 
-    public void setCategoryRootId(int categoryRootId) {
+    public void setCategoryRootId(int parentId) {
         this.categoryRootId = categoryRootId;
     }
 

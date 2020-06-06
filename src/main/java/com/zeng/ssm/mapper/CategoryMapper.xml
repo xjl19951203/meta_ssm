@@ -4,7 +4,7 @@
     <resultMap id="TreeResultMap" type="com.zeng.ssm.model.Category">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="parentId" jdbcType="VARCHAR" property="parentId" />
+        <result column="parentId" jdbcType="INTEGER" property="parentId" />
         <collection property="children" column="id" javaType="java.util.List"
                     ofType="com.zeng.ssm.model.Category"
                     select="selectCategoriesByCategoryId" />
@@ -13,8 +13,8 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.Category">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="parentId" jdbcType="VARCHAR" property="parentId" />
-        <association property="parent" column="parent_id" select="selectByPrimaryKey"/>
+        <result column="parentId" jdbcType="INTEGER" property="parentId" />
+        <association property="parent" column="parentId" select="selectByPrimaryKey"/>
     </resultMap>
 
     <select id="selectAll" resultMap="BaseResultMap">
