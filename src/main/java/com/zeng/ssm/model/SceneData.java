@@ -9,11 +9,13 @@ import java.util.List;
 
 public class SceneData extends Searchable {
 
+    private String title;
     private Integer categoryId;
     private Integer categoryRootId; // 标识分类大类，便于按大类查询
-    private String title;
-    private String description;
     private Category category;
+    private String description;
+    private String functionUnit;
+
     private List<MaterialData> materialDataList;
     private List<EnergyData> energyDataList;
     private List<DeviceData> deviceDataList;
@@ -25,14 +27,6 @@ public class SceneData extends Searchable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
-    public Integer getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Integer categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -41,12 +35,44 @@ public class SceneData extends Searchable {
         this.title = title;
     }
 
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Integer getCategoryRootId() {
+        return categoryRootId;
+    }
+
+    public void setCategoryRootId(Integer categoryRootId) {
+        this.categoryRootId = categoryRootId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getFunctionUnit() {
+        return functionUnit;
+    }
+
+    public void setFunctionUnit(String functionUnit) {
+        this.functionUnit = functionUnit;
     }
 
     public List<MaterialData> getMaterialDataList() {
@@ -81,14 +107,6 @@ public class SceneData extends Searchable {
         this.envLoadDataList = envLoadDataList;
     }
 
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -103,14 +121,6 @@ public class SceneData extends Searchable {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public Integer getCategoryRootId() {
-        return categoryRootId;
-    }
-
-    public void setCategoryRootId(Integer categoryRootId) {
-        this.categoryRootId = categoryRootId;
     }
 
     @Override
