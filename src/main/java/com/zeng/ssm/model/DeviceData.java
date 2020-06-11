@@ -9,7 +9,8 @@ import java.util.Date;
 public class DeviceData extends AbstractModel {
 
     private Integer sceneDataId;
-    private SceneData sceneData;
+    private Integer sceneDataFrameId;
+    private SceneDataFrame sceneDataFrame;
     private Integer deviceId;
     private Device device;
     private String workTime;
@@ -29,12 +30,20 @@ public class DeviceData extends AbstractModel {
         this.sceneDataId = sceneDataId;
     }
 
-    public SceneData getSceneData() {
-        return sceneData;
+    public Integer getSceneDataFrameId() {
+        return sceneDataFrameId;
     }
 
-    public void setSceneData(SceneData sceneData) {
-        this.sceneData = sceneData;
+    public void setSceneDataFrameId(Integer sceneDataFrameId) {
+        this.sceneDataFrameId = sceneDataFrameId;
+    }
+
+    public SceneDataFrame getSceneDataFrame() {
+        return sceneDataFrame;
+    }
+
+    public void setSceneDataFrame(SceneDataFrame sceneDataFrame) {
+        this.sceneDataFrame = sceneDataFrame;
     }
 
     public Integer getDeviceId() {

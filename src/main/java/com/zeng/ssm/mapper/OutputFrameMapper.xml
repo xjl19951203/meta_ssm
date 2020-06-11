@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeng.ssm.dao.OutputFrameDao">
+
+    <!--展示一个工艺场景有多少组数据以及数据分别在什么情况下采集，代表什么功能单位时用SimpleResultMap-->
+<!--    <resultMap id="SimpleResultMap" type="com.zeng.ssm.model.InputFrame">-->
+<!--        <id column="id" jdbcType="INTEGER" property="id" />-->
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
+<!--        <result column="order" jdbcType="INTEGER" property="order" />-->
+<!--        <result column="value" jdbcType="FLOAT" property="value" />-->
+<!--        <result column="unitId" jdbcType="INTEGER" property="unitId" />-->
+<!--        <result column="title" jdbcType="VARCHAR" property="title" />-->
+<!--        <result column="remark" jdbcType="VARCHAR" property="remark" />-->
+<!--        <result column="description" jdbcType="VARCHAR" property="description" />-->
+<!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
+<!--    </resultMap>-->
+
+    <!--展示一个工艺场景所有组的数据详情时用BaseResultMap-->
+    <resultMap id="BaseResultMap" type="com.zeng.ssm.model.OutputFrame">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
+        <result column="collectionDescription" jdbcType="VARCHAR" property="collectionDescription" />
+
+        <collection column="id" property="outputPartDataList" ofType="com.zeng.ssm.model.OutputPartData"
+                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputPartDataDao.selectOutputPartDataListByOutputFrameId"/>
+        <collection column="id" property="envLoadDataList" ofType="com.zeng.ssm.model.EnvLoadData"
+                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListByOutputFrameId"/>
+<!--        <collection column="id" property="envLoadDataList" ofType="com.zeng.ssm.model.EnvLoadData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListByOutputFrameId"/>-->
+<!--        <collection column="id" property="outputPartDataList" ofType="com.zeng.ssm.model.OutputPartData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputPartDataDao.selectOutputPartDataListByOutputFrameId"/>-->
+    </resultMap>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.OutputFrame" useGeneratedKeys="true" keyProperty="id" >
+        insert into output_frame (`inputFrameId`,`collectionDescription` )
+        values (#{inputFrameId,jdbcType=INTEGER},#{collectionDescription,jdbcType=VARCHAR} )
+    </insert>
+
+<!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">-->
+<!--        SELECT * from `scene_data`-->
+<!--        <if test="content != null">-->
+<!--            where title like '%${content}%'-->
+<!--        </if>-->
+<!--        ;-->
+<!--    </select>-->
+
+<!--    <select id="selectAll" parameterType="int" resultMap="BaseResultMap">-->
+<!--        SELECT * from `scene_data`-->
+<!--&lt;!&ndash;        <if test="categoryRootId != null">-->
+<!--                where category_root_id = #{categoryRootId}-->
+<!--                </if>-->
+<!--        ;&ndash;&gt;-->
+<!--    </select>-->
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `output_frame` where inputFrameId = #{pk};
+    </select>
+
+<!--    <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
+<!--    </select>-->
+<!--    <select id="selectSimpleSceneDataFrameListBySceneDataId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `scene_data_frame` where sceneDataid = #{pk};-->
+<!--    </select>-->
+
+<!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
+<!--    </select>-->
+
+<!--    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `scene_data` where categoryId in-->
+<!--        (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}));-->
+<!--    </select>-->
+
+    <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputFrame">
+        update `output_frame`
+        set id = #{id,jdbcType=INTEGER},
+            inputFrameId = #{inputFrameId,jdbcType=INTEGER},
+            collectionDescription = #{collectionDescription,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+</mapper>

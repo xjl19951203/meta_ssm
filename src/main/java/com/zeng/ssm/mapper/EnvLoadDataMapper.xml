@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.EnvLoadData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+        <result column="sceneDataFrameId" jdbcType="INTEGER" property="sceneDataFrameId" />
         <result column="envLoadId" jdbcType="INTEGER" property="envLoadId" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
@@ -24,7 +25,7 @@
         <result column="collectProblemId" jdbcType="INTEGER" property="collectProblemId" />
         <result column="dataSourceId" jdbcType="INTEGER" property="dataSourceId" />
 
-        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>
+        <association property="sceneDataFrame" column="sceneDataFrameId" select="com.zeng.ssm.dao.SceneDataFrameDao.selectSimpleByPrimaryKey"/>
         <association property="envLoad" column="envLoadId" select="com.zeng.ssm.dao.EnvLoadDao.selectByPrimaryKey"/>
         <association property="unit" column="unitId" select="com.zeng.ssm.dao.UnitDao.selectByPrimaryKey"/>
         <association property="device" column="deviceId" select="com.zeng.ssm.dao.DeviceDao.selectByPrimaryKey"/>
@@ -39,50 +40,50 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnvLoadData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `env_load_data` (id, sceneDataId, `envLoadId`, `unitId`, `value`, `description`, `deviceId`, `collectReasonId`
+        insert into `env_load_data` (id, sceneDataId, `sceneDataFrameId`, `envLoadId`, `unitId`, `value`, `description`, `deviceId`, `collectReasonId`
                     , `monitorRangeId`, `frequency`, `location`, `collectMethodId`, `time`, `reliability`, `calculateMethodId`, `treatment`
                     , `monitorMethodId`, `collectProblemId`, `dataSourceId`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{envLoadId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}
+        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{sceneDataFrameId,jdbcType=INTEGER}, #{envLoadId,jdbcType=INTEGER}, #{unitId,jdbcType=INTEGER}
                 , #{value,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{deviceId,jdbcType=INTEGER}, #{collectReasonId,jdbcType=INTEGER}
                 , #{monitorRangeId,jdbcType=INTEGER},#{frequency,jdbcType=VARCHAR},#{location,jdbcType=VARCHAR},#{collectMethodId,jdbcType=INTEGER}
                 , #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR}, #{calculateMethodId,jdbcType=INTEGER}, #{treatment,jdbcType=VARCHAR}
                 , #{monitorMethodId,jdbcType=INTEGER}, #{collectProblemId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER})
     </insert>
 
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `env_load_data` where id = #{pk};
-    </select>
+<!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `env_load_data` where id = #{pk};-->
+<!--    </select>-->
 
-    <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `env_load_data`;
-    </select>
+<!--    <select id="selectAll" resultMap="BaseResultMap">-->
+<!--        SELECT * from `env_load_data`;-->
+<!--    </select>-->
 
-    <select id="selectEnvLoadDataListBySceneDataId" resultMap="BaseResultMap">
-        select * from `env_load_data` where sceneDataId = #{pk}
+    <select id="selectEnvLoadDataListBySceneDataFrameId" resultMap="BaseResultMap">
+        select * from `env_load_data` where sceneDataFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnvLoadData">
         update `env_load_data`
         set
-          #{id,jdbcType=INTEGER},
-          #{sceneDataId,jdbcType=INTEGER},
-          #{envLoadId,jdbcType=INTEGER},
-          #{unitId,jdbcType=INTEGER},
-          #{value,jdbcType=VARCHAR},
-          #{description,jdbcType=VARCHAR},
-          #{deviceId,jdbcType=INTEGER},
-          #{collectReasonId,jdbcType=INTEGER},
-          #{monitorRangeId,jdbcType=INTEGER},
-          #{frequency,jdbcType=VARCHAR},
-          #{location,jdbcType=VARCHAR},
-          #{collectMethodId,jdbcType=INTEGER},
-          #{time,jdbcType=VARCHAR},
-          #{reliability,jdbcType=VARCHAR},
-          #{calculateMethodId,jdbcType=INTEGER},
-          #{treatment,jdbcType=VARCHAR},
-          #{monitorMethodId,jdbcType=INTEGER},
-          #{collectProblemId,jdbcType=INTEGER},
-          #{dataSourceId,jdbcType=INTEGER}
+          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
+          `sceneDataFrameId` = #{sceneDataFrameId,jdbcType=INTEGER},
+          `envLoadId` = #{envLoadId,jdbcType=INTEGER},
+          `unitId` = #{unitId,jdbcType=INTEGER},
+          `value` = #{value,jdbcType=VARCHAR},
+          `description` = #{description,jdbcType=VARCHAR},
+          `deviceId` = #{deviceId,jdbcType=INTEGER},
+          `collectReasonId` = #{collectReasonId,jdbcType=INTEGER},
+          `monitorRangeId` = #{monitorRangeId,jdbcType=INTEGER},
+          `frequency` = #{frequency,jdbcType=VARCHAR},
+          `location` = #{location,jdbcType=VARCHAR},
+          `collectMethodId` = #{collectMethodId,jdbcType=INTEGER},
+          `time` = #{time,jdbcType=VARCHAR},
+          `reliability` = #{reliability,jdbcType=VARCHAR},
+          `calculateMethodId` = #{calculateMethodId,jdbcType=INTEGER},
+          `treatment` = #{treatment,jdbcType=VARCHAR},
+          `monitorMethodId` = #{monitorMethodId,jdbcType=INTEGER},
+          `collectProblemId` = #{collectProblemId,jdbcType=INTEGER},
+          `dataSourceId` = #{dataSourceId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
 

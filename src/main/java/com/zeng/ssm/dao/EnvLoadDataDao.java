@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface EnvLoadDataDao extends ModelDao{
-    List<EnvLoadData> selectEnvLoadDataListBySceneDataId (Integer pk);
+    List<EnvLoadData> selectEnvLoadDataListBySceneDataFrameId (Integer pk);
 }

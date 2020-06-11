@@ -4,6 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.EnergyData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+        <result column="sceneDataFrameId" jdbcType="INTEGER" property="sceneDataFrameId" />
         <result column="energyId" jdbcType="INTEGER" property="energyId" />
         <result column="unitId" jdbcType="INTEGER" property="unitId" />
         <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
@@ -13,13 +14,13 @@
         <result column="origin" jdbcType="VARCHAR" property="origin"/>
         <association property="energy" column="energyId" select="com.zeng.ssm.dao.EnergyDao.selectByPrimaryKey"/>
         <association property="unit" column="unitId" select="com.zeng.ssm.dao.UnitDao.selectByPrimaryKey"/>
-        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>
+        <association property="sceneDataFrame" column="sceneDataFrameId" select="com.zeng.ssm.dao.SceneDataFrameDao.selectSimpleByPrimaryKey"/>
         <association property="device" column="deviceId" select="com.zeng.ssm.dao.DeviceDao.selectByPrimaryKey"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnergyData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy_data` (id, sceneDataId, `energyId`, `unitId`, `deviceId`,`value`,`origin`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
+        insert into `energy_data` (id, sceneDataId, sceneDataFrameId, `energyId`, `unitId`, `deviceId`,`value`,`origin`)
+        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{sceneDataFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
         #{unitId,jdbcType=INTEGER},#{deviceId,jdbcType=INTEGER}, #{value, jdbcType=VARCHAR},#{origin=VARCHAR})
     </insert>
 
@@ -31,15 +32,19 @@
         SELECT * from `energy_data`;
     </select>
 
-    <select id="selectEnergyDataListBySceneDataId" resultMap="BaseResultMap">
-        select * from `energy_data` where sceneDataId = #{pk}
+    <select id="selectEnergyDataListBySceneDataFrameId" resultMap="BaseResultMap">
+        select * from `energy_data` where sceneDataFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnergyData">
         update `energy_data`
         set
+          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
+          `sceneDataFrameId` = #{sceneDataFrameId,jdbcType=INTEGER},
+          `deviceId` = #{deviceId,jdbcType=INTEGER},
           `value` = #{value,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
+
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

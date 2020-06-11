@@ -9,7 +9,8 @@ import java.util.Date;
 public class EnvLoadData extends  AbstractModel {
 
     private Integer sceneDataId;
-    private SceneData sceneData;
+    private Integer sceneDataFrameId;
+    private SceneDataFrame sceneDataFrame;
     private Integer envLoadId;
     private EnvLoad envLoad;
     private Integer unitId;
@@ -44,83 +45,94 @@ public class EnvLoadData extends  AbstractModel {
     private int collectProblemId;
     private CollectProblem collectProblem;
     private int dataSourceId;
-
-
-    public int getCalculateMethodId() {
-        return calculateMethodId;
-    }
-
-    public void setCalculateMethodId(int calculateMethodId) {
-        this.calculateMethodId = calculateMethodId;
-    }
-
-    public CalculateMethod getCalculateMethod() {
-        return calculateMethod;
-    }
-
-    public void setCalculateMethod(CalculateMethod calculateMethod) {
-        this.calculateMethod = calculateMethod;
-    }
-
-    public MonitorMethod getMonitorMethod() {
-        return monitorMethod;
-    }
-
-    public void setMonitorMethod(MonitorMethod monitorMethod) {
-        this.monitorMethod = monitorMethod;
-    }
-
-    public int getCollectProblemId() {
-        return collectProblemId;
-    }
-
-    public void setCollectProblemId(int collectProblemId) {
-        this.collectProblemId = collectProblemId;
-    }
-
-    public CollectProblem getCollectProblem() {
-        return collectProblem;
-    }
-
-    public void setCollectProblem(CollectProblem collectProblem) {
-        this.collectProblem = collectProblem;
-    }
-
-    public int getDataSourceId() {
-        return dataSourceId;
-    }
-
-    public void setDataSourceId(int dataSourceId) {
-        this.dataSourceId = dataSourceId;
-    }
-
-    public DataSource getDataSource() {
-        return dataSource;
-    }
-
-    public void setDataSource(DataSource dataSource) {
-        this.dataSource = dataSource;
-    }
-
     private DataSource dataSource;
 
-
-    public int getMonitorMethodId() {
-        return monitorMethodId;
+    public Integer getSceneDataId() {
+        return sceneDataId;
     }
 
-    public void setMonitorMethodId(int monitorMethodId) {
-        this.monitorMethodId = monitorMethodId;
+    public void setSceneDataId(Integer sceneDataId) {
+        this.sceneDataId = sceneDataId;
     }
 
-
-
-    public String getTreatment() {
-        return treatment;
+    public Integer getSceneDataFrameId() {
+        return sceneDataFrameId;
     }
 
-    public void setTreatment(String treatment) {
-        this.treatment = treatment;
+    public void setSceneDataFrameId(Integer sceneDataFrameId) {
+        this.sceneDataFrameId = sceneDataFrameId;
+    }
+
+    public SceneDataFrame getSceneDataFrame() {
+        return sceneDataFrame;
+    }
+
+    public void setSceneDataFrame(SceneDataFrame sceneDataFrame) {
+        this.sceneDataFrame = sceneDataFrame;
+    }
+
+    public Integer getEnvLoadId() {
+        return envLoadId;
+    }
+
+    public void setEnvLoadId(Integer envLoadId) {
+        this.envLoadId = envLoadId;
+    }
+
+    public EnvLoad getEnvLoad() {
+        return envLoad;
+    }
+
+    public void setEnvLoad(EnvLoad envLoad) {
+        this.envLoad = envLoad;
+    }
+
+    public Integer getUnitId() {
+        return unitId;
+    }
+
+    public void setUnitId(Integer unitId) {
+        this.unitId = unitId;
+    }
+
+    public Unit getUnit() {
+        return unit;
+    }
+
+    public void setUnit(Unit unit) {
+        this.unit = unit;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public int getDeviceId() {
@@ -219,84 +231,75 @@ public class EnvLoadData extends  AbstractModel {
         this.reliability = reliability;
     }
 
-    public Integer getSceneDataId() {
-        return sceneDataId;
+    public int getCalculateMethodId() {
+        return calculateMethodId;
     }
 
-    public void setSceneDataId(Integer sceneDataId) {
-        this.sceneDataId = sceneDataId;
+    public void setCalculateMethodId(int calculateMethodId) {
+        this.calculateMethodId = calculateMethodId;
     }
 
-
-    public Integer getEnvLoadId() {
-        return envLoadId;
+    public CalculateMethod getCalculateMethod() {
+        return calculateMethod;
     }
 
-    public void setEnvLoadId(Integer envLoadId) {
-        this.envLoadId = envLoadId;
+    public void setCalculateMethod(CalculateMethod calculateMethod) {
+        this.calculateMethod = calculateMethod;
     }
 
-    public EnvLoad getEnvLoad() {
-        return envLoad;
+    public String getTreatment() {
+        return treatment;
     }
 
-    public void setEnvLoad(EnvLoad envLoad) {
-        this.envLoad = envLoad;
+    public void setTreatment(String treatment) {
+        this.treatment = treatment;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public int getMonitorMethodId() {
+        return monitorMethodId;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
+    public void setMonitorMethodId(int monitorMethodId) {
+        this.monitorMethodId = monitorMethodId;
     }
 
-    public Date getUpdatedAt() {
-        return updatedAt;
+    public MonitorMethod getMonitorMethod() {
+        return monitorMethod;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setMonitorMethod(MonitorMethod monitorMethod) {
+        this.monitorMethod = monitorMethod;
     }
 
-    public Integer getUnitId() {
-        return unitId;
+    public int getCollectProblemId() {
+        return collectProblemId;
     }
 
-    public void setUnitId(Integer unitId) {
-        this.unitId = unitId;
+    public void setCollectProblemId(int collectProblemId) {
+        this.collectProblemId = collectProblemId;
     }
 
-    public String getValue() {
-        return value;
+    public CollectProblem getCollectProblem() {
+        return collectProblem;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setCollectProblem(CollectProblem collectProblem) {
+        this.collectProblem = collectProblem;
     }
 
-    public Unit getUnit() {
-        return unit;
+    public int getDataSourceId() {
+        return dataSourceId;
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    public void setDataSourceId(int dataSourceId) {
+        this.dataSourceId = dataSourceId;
     }
 
-    public String getDescription() {
-        return description;
+    public DataSource getDataSource() {
+        return dataSource;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public SceneData getSceneData() {
-        return sceneData;
-    }
-
-    public void setSceneData(SceneData sceneData) {
-        this.sceneData = sceneData;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

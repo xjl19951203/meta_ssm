@@ -22,6 +22,12 @@ public class ManageController{
         return this.modelDao.selectAll();
     }
 
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public List<List<AbstractModel>> getLists(@PathVariable String tableName) {
+//        ModelImpl.setTableName(tableName);
+//        return this.modelDao.selectAll();
+//    }
+
     @RequestMapping(value = "/{pk}", method = RequestMethod.GET)
     public AbstractModel get(@PathVariable String tableName, @PathVariable Integer pk){
         ModelImpl.setTableName(tableName);

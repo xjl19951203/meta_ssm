@@ -14,14 +14,14 @@ public class SceneData extends Searchable {
     private Integer categoryRootId; // 标识分类大类，便于按大类查询
     private Category category;
     private String description;
-    private String functionUnit;
 
-    private List<MaterialData> materialDataList;
-    private List<EnergyData> energyDataList;
-    private List<DeviceData> deviceDataList;
-    private List<EnvLoadData> envLoadDataList;
-    private List<KeyParameterData> keyParameterDataList;
-    private List<OutputPartData> outputPartDataList;
+    private List<InputFrame> inputFrameList;
+    private List<OutputFrame> outputFrameList;
+//    private List<MaterialData> materialDataList;
+//    private List<EnergyData> energyDataList;
+//    private List<DeviceData> deviceDataList;
+//    private List<EnvLoadData> envLoadDataList;
+//    private List<OutputPartData> outputPartDataList;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -30,10 +30,12 @@ public class SceneData extends Searchable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public void setTitle(String title) {
         this.title = title;
     }
@@ -70,60 +72,20 @@ public class SceneData extends Searchable {
         this.description = description;
     }
 
-    public String getFunctionUnit() {
-        return functionUnit;
+    public List<InputFrame> getInputFrameList() {
+        return inputFrameList;
     }
 
-    public void setFunctionUnit(String functionUnit) {
-        this.functionUnit = functionUnit;
+    public void setInputFrameList(List<InputFrame> inputFrameList) {
+        this.inputFrameList = inputFrameList;
     }
 
-    public List<MaterialData> getMaterialDataList() {
-        return materialDataList;
+    public List<OutputFrame> getOutputFrameList() {
+        return outputFrameList;
     }
 
-    public void setMaterialDataList(List<MaterialData> materialDataList) {
-        this.materialDataList = materialDataList;
-    }
-
-    public List<EnergyData> getEnergyDataList() {
-        return energyDataList;
-    }
-
-    public void setEnergyDataList(List<EnergyData> energyDataList) {
-        this.energyDataList = energyDataList;
-    }
-
-    public List<DeviceData> getDeviceDataList() {
-        return deviceDataList;
-    }
-
-    public void setDeviceDataList(List<DeviceData> deviceDataList) {
-        this.deviceDataList = deviceDataList;
-    }
-
-    public List<EnvLoadData> getEnvLoadDataList() {
-        return envLoadDataList;
-    }
-
-    public void setEnvLoadDataList(List<EnvLoadData> envLoadDataList) {
-        this.envLoadDataList = envLoadDataList;
-    }
-
-    public List<KeyParameterData> getKeyParameterDataList() {
-        return keyParameterDataList;
-    }
-
-    public void setKeyParameterDataList(List<KeyParameterData> keyParameterDataList) {
-        this.keyParameterDataList = keyParameterDataList;
-    }
-
-    public List<OutputPartData> getOutputPartDataList() {
-        return outputPartDataList;
-    }
-
-    public void setOutputPartDataList(List<OutputPartData> outputPartDataList) {
-        this.outputPartDataList = outputPartDataList;
+    public void setOutputFrameList(List<OutputFrame> outputFrameList) {
+        this.outputFrameList = outputFrameList;
     }
 
     public Date getCreatedAt() {

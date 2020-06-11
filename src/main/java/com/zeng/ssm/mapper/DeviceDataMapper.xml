@@ -4,36 +4,38 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.DeviceData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+        <result column="sceneDataFrameId" jdbcType="INTEGER" property="sceneDataFrameId" />
         <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
         <result column="workTime" jdbcType="VARCHAR" property="workTime" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
         <association property="device" column="deviceId" select="com.zeng.ssm.dao.DeviceDao.selectByPrimaryKey"/>
-        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>
+        <association property="sceneDataFrame" column="sceneDataFrameId" select="com.zeng.ssm.dao.SceneDataFrameDao.selectSimpleByPrimaryKey"/>
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.DeviceData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `device_data` (id, sceneDataId, `deviceId`, `workTime`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{deviceId,jdbcType=INTEGER}, #{
+        insert into `device_data` (id, sceneDataId, `sceneDataFrameId` `deviceId`, `workTime`)
+        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{sceneDataFrameId,jdbcType=INTEGER}, #{deviceId,jdbcType=INTEGER}, #{
         workTime,jdbcType=VARCHAR})
     </insert>
 
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `device_data` where id = #{pk};
-    </select>
+<!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `device_data` where id = #{pk};-->
+<!--    </select>-->
 
-    <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `device_data`;
-    </select>
+<!--    <select id="selectAll" resultMap="BaseResultMap">-->
+<!--        SELECT * from `device_data`;-->
+<!--    </select>-->
 
-    <select id="selectDeviceDataListBySceneDataId" resultMap="BaseResultMap">
-        select * from `device_data` where sceneDataId = #{pk}
+    <select id="selectDeviceDataListBySceneDataFrameId" resultMap="BaseResultMap">
+        select * from `device_data` where sceneDataFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DeviceData">
         update `device_data`
         set
           `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
+          `sceneDataFrameId` = #{sceneDataFrameId,jdbcType=INTEGER},
           `deviceId` = #{deviceId,jdbcType=INTEGER},
           `workTime` = #{workTime,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
