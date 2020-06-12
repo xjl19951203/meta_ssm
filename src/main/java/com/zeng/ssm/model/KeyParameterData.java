@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class KeyParameterData extends AbstractModel{
     private String title;
-    private Integer sceneDataId;
+//    private Integer sceneDataId;
 //    private SceneData sceneData;
     private Integer inputFrameId;
 //    private InputFrame inputFrame;
@@ -21,22 +21,6 @@ public class KeyParameterData extends AbstractModel{
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
     @Override
     public String getTitle() {
         return title;
@@ -47,13 +31,13 @@ public class KeyParameterData extends AbstractModel{
         this.title = title;
     }
 
-    public Integer getSceneDataId() {
-        return sceneDataId;
-    }
-
-    public void setSceneDataId(Integer sceneDataId) {
-        this.sceneDataId = sceneDataId;
-    }
+//    public Integer getSceneDataId() {
+//        return sceneDataId;
+//    }
+//
+//    public void setSceneDataId(Integer sceneDataId) {
+//        this.sceneDataId = sceneDataId;
+//    }
 
     public Integer getInputFrameId() {
         return inputFrameId;
@@ -69,5 +53,21 @@ public class KeyParameterData extends AbstractModel{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

@@ -3,7 +3,7 @@
 <mapper namespace="com.zeng.ssm.dao.FunctionUnitDataDao">
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.FunctionUnitData">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="functionValue" jdbcType="FLOAT" property="functionValue" />
         <result column="functionUnit" jdbcType="VARCHAR" property="functionUnit" />
@@ -14,8 +14,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.FunctionUnitData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `function_unit_data` (id, sceneDataId, `inputFrameId`, `functionValue`, `functionUnit`, `functionDescription`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
+        insert into `function_unit_data` (id, `inputFrameId`, `functionValue`, `functionUnit`, `functionDescription`)
+        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
         #{functionUnit,jdbcType=VARCHAR}, #{functionDescription,jdbcType=VARCHAR})
     </insert>
 
@@ -34,7 +34,6 @@
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.FunctionUnitData">
         update `function_unit_data`
         set
-          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
           `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
           `functionValue` = #{functionValue,jdbcType=FLOAT},
           `functionUnit` = #{functionUnit,jdbcType=VARCHAR},

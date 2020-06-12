@@ -3,7 +3,7 @@
 <mapper namespace="com.zeng.ssm.dao.DeviceDataDao">
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.DeviceData">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="workTime" jdbcType="FLOAT" property="workTime" />
         <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
@@ -14,8 +14,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.DeviceData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `device_data` (id, sceneDataId, `inputFrameId`, `workTime`, `deviceId`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{
+        insert into `device_data` (id, `inputFrameId`, `workTime`, `deviceId`)
+        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{
         workTime,jdbcType=FLOAT}, #{deviceId,jdbcType=INTEGER})
     </insert>
 
@@ -34,7 +34,6 @@
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DeviceData">
         update `device_data`
         set
-          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
           `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
           `workTime` = #{workTime,jdbcType=FLOAT},
           `deviceId` = #{deviceId,jdbcType=INTEGER},

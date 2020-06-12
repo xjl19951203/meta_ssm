@@ -9,7 +9,7 @@ import java.util.Date;
 public class OutputPartData extends AbstractModel {
 
     private String title;
-    private Integer sceneDataId;
+//    private Integer sceneDataId;
 //    private SceneData sceneData;
     private Integer outputFrameId;
 //    private OutputFrame outputFrame;
@@ -34,13 +34,13 @@ public class OutputPartData extends AbstractModel {
         this.title = title;
     }
 
-    public Integer getSceneDataId() {
-        return sceneDataId;
-    }
-
-    public void setSceneDataId(Integer sceneDataId) {
-        this.sceneDataId = sceneDataId;
-    }
+//    public Integer getSceneDataId() {
+//        return sceneDataId;
+//    }
+//
+//    public void setSceneDataId(Integer sceneDataId) {
+//        this.sceneDataId = sceneDataId;
+//    }
 
     public Integer getOutputFrameId() {
         return outputFrameId;

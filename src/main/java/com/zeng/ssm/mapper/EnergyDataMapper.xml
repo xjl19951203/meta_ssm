@@ -3,7 +3,7 @@
 <mapper namespace="com.zeng.ssm.dao.EnergyDataDao">
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.EnergyData">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="energyId" jdbcType="INTEGER" property="energyId" />
         <result column="value" jdbcType="FLOAT" property="value" />
@@ -20,8 +20,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnergyData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy_data` (id, sceneDataId, inputFrameId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
+        insert into `energy_data` (id, inputFrameId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
+        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
         #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{dataSourceId=INTEGER},#{deviceId,jdbcType=INTEGER})
     </insert>
 
@@ -40,7 +40,6 @@
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnergyData">
         update `energy_data`
         set
-          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
           `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
           `energyId` = #{`energyId`,jdbcType=INTEGER},
           `value` = #{value,jdbcType=FLOAT},

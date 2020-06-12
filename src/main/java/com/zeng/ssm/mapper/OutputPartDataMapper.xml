@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.OutputPartData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="outputFrameId" jdbcType="INTEGER" property="outputFrameId" />
         <result column="category" jdbcType="TINYINT" property="category" />
         <result column="yieldRate" jdbcType="FLOAT" property="yieldRate" />
@@ -15,8 +15,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.OutputPartData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `output_part_data` (`title`, `sceneDataId`, `outputFrameId`, `category`, `yieldRate`, `description`)
-        values (#{title, jdbcType=VARCHAR}, #{sceneDataId,jdbcType=INTEGER}, #{outputFrameId,jdbcType=INTEGER},
+        insert into `output_part_data` (`title`, `outputFrameId`, `category`, `yieldRate`, `description`)
+        values (#{title, jdbcType=VARCHAR}, #{outputFrameId,jdbcType=INTEGER},
         #{category, jdbcType=TINYINT}, #{yieldRate,jdbcType=FLOAT}, #{description, jdbcType=VARCHAR})
     </insert>
 
@@ -36,7 +36,6 @@
         update `output_part_data`
         set
           `title` = #{title,jdbcType=VARCHAR},
-          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
           `outputFrameId` = #{outputFrameId,jdbcType=INTEGER},
           `category` = #{category, jdbcType=TINYINT},
           `yieldRate` = #{yieldRate,jdbcType=FLOAT},

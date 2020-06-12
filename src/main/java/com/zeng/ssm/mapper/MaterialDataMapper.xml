@@ -3,7 +3,7 @@
 <mapper namespace="com.zeng.ssm.dao.MaterialDataDao">
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.MaterialData">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="materialId" jdbcType="INTEGER" property="materialId" />
         <result column="materialDataCategoryId" jdbcType="INTEGER" property="materialDataCategoryId" />
@@ -22,9 +22,9 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.MaterialData" useGeneratedKeys="true" keyProperty="id" >
-        insert into material_data (id, sceneDataId, `inputFrameId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
+        insert into material_data (id, `inputFrameId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
         `dataSourceId`, `time`, `reliability`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER},
+        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER},
         #{materialDataCategoryId, jdbcType=INTEGER}, #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER},
         #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR})
     </insert>
@@ -44,7 +44,6 @@
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialData">
         update `material_data`
         set
-          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
           `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
           `materialId` = #{materialId,jdbcType=INTEGER},
           `materialDataCategoryId` = #{materialDataCategoryId,jdbcType=INTEGER},

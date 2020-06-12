@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class FunctionUnitData extends AbstractModel {
 
-    private Integer sceneDataId;
+//    private Integer sceneDataId;
 //    private SceneData sceneData;
     private Integer inputFrameId;
 //    private InputFrame inputFrame;
@@ -23,13 +23,13 @@ public class FunctionUnitData extends AbstractModel {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
-    public Integer getSceneDataId() {
-        return sceneDataId;
-    }
-
-    public void setSceneDataId(Integer sceneDataId) {
-        this.sceneDataId = sceneDataId;
-    }
+//    public Integer getSceneDataId() {
+//        return sceneDataId;
+//    }
+//
+//    public void setSceneDataId(Integer sceneDataId) {
+//        this.sceneDataId = sceneDataId;
+//    }
 
     public Integer getInputFrameId() {
         return inputFrameId;

@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.KeyParameterData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
-        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
@@ -13,8 +13,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.KeyParameterData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `key_parameter_data` (id, `title`, sceneDataId, `inputFrameId`, `description`)
-        values (#{id,jdbcType=INTEGER},#{title,jdbcType=VARCHAR}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER},
+        insert into `key_parameter_data` (id, `title`, `inputFrameId`, `description`)
+        values (#{id,jdbcType=INTEGER},#{title,jdbcType=VARCHAR}, #{inputFrameId,jdbcType=INTEGER},
         #{description,jdbcType=VARCHAR})
     </insert>
 
@@ -34,7 +34,6 @@
         update `key_parameter_data`
         set
           `title` = #{title,jdbcType=VARCHAR},
-          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
           `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
           `description` = #{description,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}

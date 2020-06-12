@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class MaterialData extends AbstractModel {
 
-    private Integer sceneDataId;
+//    private Integer sceneDataId;
 //    private SceneData sceneData;
     private Integer inputFrameId;
 //    private InputFrame inputFrame;
@@ -39,13 +39,13 @@ public class MaterialData extends AbstractModel {
 //        this.sceneData = sceneData;
 //    }
 
-    public Integer getSceneDataId() {
-        return sceneDataId;
-    }
-
-    public void setSceneDataId(Integer sceneDataId) {
-        this.sceneDataId = sceneDataId;
-    }
+//    public Integer getSceneDataId() {
+//        return sceneDataId;
+//    }
+//
+//    public void setSceneDataId(Integer sceneDataId) {
+//        this.sceneDataId = sceneDataId;
+//    }
 
 //    public Integer getSceneDataFrameId() {
 //        return sceneDataFrameId;
