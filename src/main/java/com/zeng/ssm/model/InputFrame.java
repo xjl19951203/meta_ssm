@@ -10,8 +10,9 @@ public class InputFrame extends Searchable {
     private List<MaterialData> materialDataList;
     private List<DeviceData> deviceDataList;
     private List<EnergyData> energyDataList;
-    private List<FunctionUnit> functionUnitList;
+    private List<FunctionUnitData> FunctionUnitDataList;
     private List<KeyParameterData> keyParameterDataList;
+    private List<OutputFrame> outputFrameList;
 
     public Integer getSceneDataId() {
         return sceneDataId;
@@ -53,12 +54,12 @@ public class InputFrame extends Searchable {
         this.energyDataList = energyDataList;
     }
 
-    public List<FunctionUnit> getFunctionUnitList() {
-        return functionUnitList;
+    public List<FunctionUnitData> getFunctionUnitDataList() {
+        return FunctionUnitDataList;
     }
 
-    public void setFunctionUnitList(List<FunctionUnit> functionUnitList) {
-        this.functionUnitList = functionUnitList;
+    public void setFunctionUnitDataList(List<FunctionUnitData> FunctionUnitDataList) {
+        this.FunctionUnitDataList = FunctionUnitDataList;
     }
 
     public List<KeyParameterData> getKeyParameterDataList() {
@@ -67,5 +68,13 @@ public class InputFrame extends Searchable {
 
     public void setKeyParameterDataList(List<KeyParameterData> keyParameterDataList) {
         this.keyParameterDataList = keyParameterDataList;
+    }
+
+    public List<OutputFrame> getOutputFrameList() {
+        return outputFrameList;
+    }
+
+    public void setOutputFrameList(List<OutputFrame> outputFrameList) {
+        this.outputFrameList = outputFrameList;
     }
 }

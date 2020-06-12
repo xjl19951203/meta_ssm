@@ -6,5 +6,5 @@ import com.zeng.ssm.model.OutputPartData;
 import java.util.List;
 
 public interface OutputPartDataDao extends ModelDao {
-    List<OutputPartData> selectOutputPartDataListBySceneDataFrameId (Integer pk);
+    List<OutputPartData> selectOutputPartDataListByOutputFrameId (Integer pk);
 }

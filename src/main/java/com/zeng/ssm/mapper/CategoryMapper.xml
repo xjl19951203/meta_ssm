@@ -17,18 +17,6 @@
         <association property="parent" column="parentId" select="selectByPrimaryKey"/>
     </resultMap>
 
-    <select id="selectAll" resultMap="BaseResultMap">
-        select * from category;
-    </select>
-
-    <select id="selectCategoryTree" resultMap="TreeResultMap">
-      select * from category where `parentId` = 0;
-    </select>
-
-    <select id="selectCategoriesByCategoryId" resultMap="TreeResultMap" parameterType="java.lang.Integer">
-        select t.id, t.title, t.parentId from category t where parentId = #{id}
-    </select>
-
     <resultMap id="MostSimpleResultMap" type="com.zeng.ssm.model.Category">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
@@ -39,19 +27,29 @@
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="parentId" jdbcType="INTEGER" property="parentId" />
-        <collection property="sceneDataList" column="id" ofType="com.zeng.ssm.model.SceneData"
-                    javaType="java.util.ArrayList"  select="com.zeng.ssm.dao.SceneDataDao.selectListByCategoryId"/>
-<!--        <association column="parent_id" property="parent" select="selectByPrimaryKey" />-->
+                <collection property="sceneDataList" column="id" ofType="com.zeng.ssm.model.SceneData"
+                            javaType="java.util.ArrayList"  select="com.zeng.ssm.dao.SceneDataDao.selectListByCategoryId"/>
+<!--        <association column="parentId" property="parent" select="selectByPrimaryKey" />-->
     </resultMap>
 
+    <select id="selectAll" resultMap="BaseResultMap">
+        select * from category;
+    </select>
+
+    <select id="selectCategoryTree" resultMap="TreeResultMap">
+      select * from category where `parentId` = 0;
+    </select>
+
+    <select id="selectCategoriesByCategoryId" resultMap="TreeResultMap" parameterType="java.lang.Integer">
+        select t.id, t.title, t.parentId from category t where parentId = #{id};
+    </select>
+
     <select id="selectSimpleByPrimaryKey" parameterType="java.lang.Integer" resultMap="MostSimpleResultMap">
-        select * from category
-        where id = #{pk, jdbcType=INTEGER}
+        select * from category where id = #{pk, jdbcType=INTEGER};
     </select>
 
     <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="SimpleResultMap">
-        select * from category
-        where id = #{pk, jdbcType=INTEGER}
+        select * from category where id = #{pk, jdbcType=INTEGER};
     </select>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Category">

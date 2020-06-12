@@ -31,10 +31,12 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnergyDataDao.selectEnergyDataListByInputFrameId"/>
         <collection column="id" property="deviceDataList" ofType="com.zeng.ssm.model.DeviceData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.DeviceDataDao.selectDeviceDataListByInputFrameId"/>
-        <collection column="id" property="functionUnitList" ofType="com.zeng.ssm.model.FunctionUnit"
+        <collection column="id" property="functionUnitDataList" ofType="com.zeng.ssm.model.FunctionUnitData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.FunctionUnitDao.selectFunctionUnitListByInputFrameId"/>
         <collection column="id" property="keyParameterDataList" ofType="com.zeng.ssm.model.KeyParameterData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.KeyParameterDataDao.selectKeyParameterDataByInputFrameId"/>
+        <collection column="id" property="outputFrameList" ofType="com.zeng.ssm.model.OutputFrame"
+                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDao.selectOutputFrameListByInputFrameId"/>
 <!--        <collection column="id" property="envLoadDataList" ofType="com.zeng.ssm.model.EnvLoadData"-->
 <!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListBySceneDataFrameId"/>-->
 <!--        <collection column="id" property="outputPartDataList" ofType="com.zeng.ssm.model.OutputPartData"-->
@@ -63,15 +65,16 @@
 <!--    </select>-->
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `input_frame` where sceneDataId = #{pk};
+        SELECT * from `input_frame` where id = #{pk};
     </select>
 
 <!--    <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
 <!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
 <!--    </select>-->
-<!--    <select id="selectSimpleSceneDataFrameListBySceneDataId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `scene_data_frame` where sceneDataid = #{pk};-->
-<!--    </select>-->
+
+    <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `input_frame` where sceneDataId = #{pk};
+    </select>
 
 <!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
 <!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->

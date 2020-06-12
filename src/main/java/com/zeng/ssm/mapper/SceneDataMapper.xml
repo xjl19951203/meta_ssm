@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zeng.ssm.dao.SceneDataDao">
-
     <resultMap id="SimpleResultMap" type="com.zeng.ssm.model.SceneData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
@@ -28,8 +27,8 @@
 		column作为select语句的参数传入,如果只传一个参数id可以简写: column="id" -->
         <collection column="id" property="inputFrameList" ofType="com.zeng.ssm.model.InputFrame"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.InputFrameDao.selectInputFrameListBySceneDataId"/>
-        <collection column="id" property="outputFrameList" ofType="com.zeng.ssm.model.OutputFrame"
-                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDao.selectOutputFrameListBySceneDataId"/>
+<!--        <collection column="id" property="outputFrameList" ofType="com.zeng.ssm.model.OutputFrame"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDao.selectOutputFrameListBySceneDataId"/>-->
 <!--        <collection column="id" property="materialDataList" ofType="com.zeng.ssm.model.MaterialData"-->
 <!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.MaterialDataDao.selectMaterialDataListBySceneDataId"/>-->
 <!--        <collection column="id" property="energyDataList" ofType="com.zeng.ssm.model.EnergyData"-->

@@ -9,5 +9,5 @@ import java.util.List;
 @Mapper
 public interface DeviceDataDao extends ModelDao{
 
-    List<DeviceData> selectDeviceDataListBySceneDataFrameId (Integer pk);
+    List<DeviceData> selectDeviceDataListByInputFrameId (Integer pk);
 }

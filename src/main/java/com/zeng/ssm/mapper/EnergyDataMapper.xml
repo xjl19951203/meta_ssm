@@ -4,24 +4,24 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.EnergyData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
-        <result column="sceneDataFrameId" jdbcType="INTEGER" property="sceneDataFrameId" />
+        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="energyId" jdbcType="INTEGER" property="energyId" />
         <result column="unitId" jdbcType="INTEGER" property="unitId" />
         <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
-        <result column="value" jdbcType="VARCHAR" property="value" />
+        <result column="value" jdbcType="FLOAT" property="value" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
         <result column="origin" jdbcType="VARCHAR" property="origin"/>
         <association property="energy" column="energyId" select="com.zeng.ssm.dao.EnergyDao.selectByPrimaryKey"/>
         <association property="unit" column="unitId" select="com.zeng.ssm.dao.UnitDao.selectByPrimaryKey"/>
-        <association property="sceneDataFrame" column="sceneDataFrameId" select="com.zeng.ssm.dao.SceneDataFrameDao.selectSimpleByPrimaryKey"/>
         <association property="device" column="deviceId" select="com.zeng.ssm.dao.DeviceDao.selectByPrimaryKey"/>
+<!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnergyData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy_data` (id, sceneDataId, sceneDataFrameId, `energyId`, `unitId`, `deviceId`,`value`,`origin`)
-        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{sceneDataFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
-        #{unitId,jdbcType=INTEGER},#{deviceId,jdbcType=INTEGER}, #{value, jdbcType=VARCHAR},#{origin=VARCHAR})
+        insert into `energy_data` (id, sceneDataId, inputFrameId, `energyId`, `value`, `unitId`, `deviceId`,`origin`)
+        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
+        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{deviceId,jdbcType=INTEGER},#{origin=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -32,23 +32,25 @@
         SELECT * from `energy_data`;
     </select>
 
-    <select id="selectEnergyDataListBySceneDataFrameId" resultMap="BaseResultMap">
-        select * from `energy_data` where sceneDataFrameId = #{pk}
+    <select id="selectEnergyDataListByInputFrameId" resultMap="BaseResultMap">
+        select * from `energy_data` where inputFrameId = #{pk};
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnergyData">
         update `energy_data`
         set
           `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
-          `sceneDataFrameId` = #{sceneDataFrameId,jdbcType=INTEGER},
+          `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
+          `energyId` = #{`energyId`,jdbcType=INTEGER},
+          `value` = #{value,jdbcType=FLOAT},
+          `unitId` = #{`unitId`,jdbcType=INTEGER},
           `deviceId` = #{deviceId,jdbcType=INTEGER},
-          `value` = #{value,jdbcType=VARCHAR}
+          `origin` = #{origin,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
-
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-      delete from `energy_data` where id = #{pk,jdbcType=INTEGER}
+      delete from `energy_data` where id = #{pk};
     </delete>
 
 </mapper>

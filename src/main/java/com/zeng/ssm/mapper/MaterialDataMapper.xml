@@ -17,7 +17,7 @@
         <association property="material" column="materialId" select="com.zeng.ssm.dao.MaterialDao.selectByPrimaryKey"/>
         <association property="unit" column="unitId" select="com.zeng.ssm.dao.UnitDao.selectByPrimaryKey"/>
         <association property="materialDataCategory" column="materialDataCategoryId" select="com.zeng.ssm.dao.MaterialDataCategoryDao.selectByPrimaryKey"/>
-<!--        <association property="sceneDataFrame" column="sceneDataFrameId" select="com.zeng.ssm.dao.SceneDataFrameDao.selectSimpleByPrimaryKey"/>-->
+<!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.MaterialData" useGeneratedKeys="true" keyProperty="id" >
@@ -29,16 +29,16 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `material_data` where inputFrameId = #{pk};
+        SELECT * from `material_data` where id = #{pk};
     </select>
 
 <!--    <select id="selectAll" resultMap="BaseResultMap">-->
 <!--        SELECT * from `material_data`;-->
 <!--    </select>-->
 
-<!--    <select id="selectMaterialDataListBySceneDataFrameId" resultMap="BaseResultMap">-->
-<!--        select * from `material_data` where sceneDataFrameId = #{pk}-->
-<!--    </select>-->
+    <select id="selectMaterialDataListByInputFrameId" resultMap="BaseResultMap">
+        select * from `material_data` where inputFrameId = #{pk};
+    </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialData">
         update `material_data`

@@ -62,6 +62,14 @@ public class MaterialData extends AbstractModel {
 //        this.sceneDataFrame = sceneDataFrame;
 //    }
 
+    public Integer getInputFrameId() {
+        return inputFrameId;
+    }
+
+    public void setInputFrameId(Integer inputFrameId) {
+        this.inputFrameId = inputFrameId;
+    }
+
     public Integer getMaterialId() {
         return materialId;
     }

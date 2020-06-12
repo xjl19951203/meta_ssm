@@ -9,13 +9,17 @@ import java.util.Date;
 public class EnergyData extends AbstractModel {
 
     private Integer sceneDataId;
-    private Integer sceneDataFrameId;
-    private SceneDataFrame sceneDataFrame;
+//    private SceneData sceneData;
+    private Integer inputFrameId;
+    //    private InputFrame inputFrame;
     private Integer energyId;
     private Energy energy;
+    private float value;
     private Integer unitId;
     private Unit unit;
-    private String value;
+    private String origin;
+    private int deviceId;
+    private Device device;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -23,10 +27,6 @@ public class EnergyData extends AbstractModel {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
-
-    private String origin;
-    private int deviceId;
-    private Device device;
 
     public Integer getSceneDataId() {
         return sceneDataId;
@@ -36,20 +36,12 @@ public class EnergyData extends AbstractModel {
         this.sceneDataId = sceneDataId;
     }
 
-    public Integer getSceneDataFrameId() {
-        return sceneDataFrameId;
+    public Integer getInputFrameId() {
+        return inputFrameId;
     }
 
-    public void setSceneDataFrameId(Integer sceneDataFrameId) {
-        this.sceneDataFrameId = sceneDataFrameId;
-    }
-
-    public SceneDataFrame getSceneDataFrame() {
-        return sceneDataFrame;
-    }
-
-    public void setSceneDataFrame(SceneDataFrame sceneDataFrame) {
-        this.sceneDataFrame = sceneDataFrame;
+    public void setInputFrameId(Integer inputFrameId) {
+        this.inputFrameId = inputFrameId;
     }
 
     public Integer getEnergyId() {
@@ -68,6 +60,14 @@ public class EnergyData extends AbstractModel {
         this.energy = energy;
     }
 
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
     public Integer getUnitId() {
         return unitId;
     }
@@ -82,30 +82,6 @@ public class EnergyData extends AbstractModel {
 
     public void setUnit(Unit unit) {
         this.unit = unit;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public String getOrigin() {
@@ -130,5 +106,21 @@ public class EnergyData extends AbstractModel {
 
     public void setDevice(Device device) {
         this.device = device;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

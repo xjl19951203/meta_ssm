@@ -9,22 +9,15 @@ import java.util.Date;
 public class EnvLoadData extends  AbstractModel {
 
     private Integer sceneDataId;
-    private Integer sceneDataFrameId;
-    private SceneDataFrame sceneDataFrame;
+//    private SceneData sceneData;
+    private Integer outputFrameId;
+//    private OutputFrame outputFrame;
     private Integer envLoadId;
     private EnvLoad envLoad;
+    private float value;
     private Integer unitId;
     private Unit unit;
-    private String value;
     private String description;
-
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private Date createdAt;
-    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private Date updatedAt;
-
     private int deviceId;
     private Device device;
     private int collectReasonId;
@@ -47,6 +40,13 @@ public class EnvLoadData extends  AbstractModel {
     private int dataSourceId;
     private DataSource dataSource;
 
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private Date createdAt;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private Date updatedAt;
+
     public Integer getSceneDataId() {
         return sceneDataId;
     }
@@ -55,20 +55,12 @@ public class EnvLoadData extends  AbstractModel {
         this.sceneDataId = sceneDataId;
     }
 
-    public Integer getSceneDataFrameId() {
-        return sceneDataFrameId;
+    public Integer getOutputFrameId() {
+        return outputFrameId;
     }
 
-    public void setSceneDataFrameId(Integer sceneDataFrameId) {
-        this.sceneDataFrameId = sceneDataFrameId;
-    }
-
-    public SceneDataFrame getSceneDataFrame() {
-        return sceneDataFrame;
-    }
-
-    public void setSceneDataFrame(SceneDataFrame sceneDataFrame) {
-        this.sceneDataFrame = sceneDataFrame;
+    public void setOutputFrameId(Integer outputFrameId) {
+        this.outputFrameId = outputFrameId;
     }
 
     public Integer getEnvLoadId() {
@@ -87,6 +79,14 @@ public class EnvLoadData extends  AbstractModel {
         this.envLoad = envLoad;
     }
 
+    public float getValue() {
+        return value;
+    }
+
+    public void setValue(float value) {
+        this.value = value;
+    }
+
     public Integer getUnitId() {
         return unitId;
     }
@@ -103,36 +103,12 @@ public class EnvLoadData extends  AbstractModel {
         this.unit = unit;
     }
 
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
     }
 
     public int getDeviceId() {
@@ -301,5 +277,21 @@ public class EnvLoadData extends  AbstractModel {
 
     public void setDataSource(DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 }

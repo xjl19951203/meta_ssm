@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zeng.ssm.dao.FunctionUnitDataDao">
+    <resultMap id="BaseResultMap" type="com.zeng.ssm.model.FunctionUnitData">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
+        <result column="functionValue" jdbcType="FLOAT" property="functionValue" />
+        <result column="functionUnit" jdbcType="VARCHAR" property="functionUnit" />
+        <result column="functionDescription" jdbcType="VARCHAR" property="functionDescription" />
+        <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
+<!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
+    </resultMap>
+    
+    <insert id="insert" parameterType="com.zeng.ssm.model.FunctionUnitData" useGeneratedKeys="true" keyProperty="id" >
+        insert into `function_unit_data` (id, sceneDataId, `inputFrameId`, `functionValue`, `functionUnit`, `functionDescription`)
+        values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
+        #{functionUnit,jdbcType=VARCHAR}, #{functionDescription,jdbcType=VARCHAR})
+    </insert>
+
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `function_unit_data` where id = #{pk};
+    </select>
+
+    <select id="selectAll" resultMap="BaseResultMap">
+        SELECT * from `function_unit_data`;
+    </select>
+
+    <select id="selectFunctionUnitDataListByInputFrameId" resultMap="BaseResultMap">
+        select * from `function_unit_data` where inputFrameId = #{pk};
+    </select>
+
+    <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.FunctionUnitData">
+        update `function_unit_data`
+        set
+          `sceneDataId` = #{sceneDataId,jdbcType=INTEGER},
+          `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
+          `functionValue` = #{functionValue,jdbcType=FLOAT},
+          `functionUnit` = #{functionUnit,jdbcType=VARCHAR},
+          `functionDescription` = #{functionDescription,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+      delete from `function_unit_data` where id = #{pk,jdbcType=INTEGER}
+    </delete>
+
+</mapper>

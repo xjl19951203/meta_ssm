@@ -6,16 +6,15 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
-public class OutputPartData extends AbstractModel {
+public class FunctionUnitData extends AbstractModel {
 
-    private String title;
     private Integer sceneDataId;
 //    private SceneData sceneData;
-    private Integer outputFrameId;
-//    private OutputFrame outputFrame;
-    private boolean category;
-    private float yieldRate;
-    private String description;
+    private Integer inputFrameId;
+//    private InputFrame inputFrame;
+    private float functionValue;
+    private String functionUnit;
+    private String functionDescription;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -23,16 +22,6 @@ public class OutputPartData extends AbstractModel {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
-
-    @Override
-    public String getTitle() {
-        return title;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public Integer getSceneDataId() {
         return sceneDataId;
@@ -42,36 +31,36 @@ public class OutputPartData extends AbstractModel {
         this.sceneDataId = sceneDataId;
     }
 
-    public Integer getOutputFrameId() {
-        return outputFrameId;
+    public Integer getInputFrameId() {
+        return inputFrameId;
     }
 
-    public void setOutputFrameId(Integer outputFrameId) {
-        this.outputFrameId = outputFrameId;
+    public void setInputFrameId(Integer inputFrameId) {
+        this.inputFrameId = inputFrameId;
     }
 
-    public boolean isCategory() {
-        return category;
+    public float getFunctionValue() {
+        return functionValue;
     }
 
-    public void setCategory(boolean category) {
-        this.category = category;
+    public void setFunctionValue(float functionValue) {
+        this.functionValue = functionValue;
     }
 
-    public float getYieldRate() {
-        return yieldRate;
+    public String getFunctionUnit() {
+        return functionUnit;
     }
 
-    public void setYieldRate(float yieldRate) {
-        this.yieldRate = yieldRate;
+    public void setFunctionUnit(String functionUnit) {
+        this.functionUnit = functionUnit;
     }
 
-    public String getDescription() {
-        return description;
+    public String getFunctionDescription() {
+        return functionDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setFunctionDescription(String functionDescription) {
+        this.functionDescription = functionDescription;
     }
 
     public Date getCreatedAt() {

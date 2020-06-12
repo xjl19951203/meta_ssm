@@ -9,11 +9,11 @@ import java.util.Date;
 public class DeviceData extends AbstractModel {
 
     private Integer sceneDataId;
-    private Integer sceneDataFrameId;
-    private SceneDataFrame sceneDataFrame;
+    private Integer inputFrameId;
+    private InputFrame inputFrame;
+    private float workTime;
     private Integer deviceId;
     private Device device;
-    private String workTime;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -30,20 +30,28 @@ public class DeviceData extends AbstractModel {
         this.sceneDataId = sceneDataId;
     }
 
-    public Integer getSceneDataFrameId() {
-        return sceneDataFrameId;
+    public Integer getInputFrameId() {
+        return inputFrameId;
     }
 
-    public void setSceneDataFrameId(Integer sceneDataFrameId) {
-        this.sceneDataFrameId = sceneDataFrameId;
+    public void setInputFrameId(Integer inputFrameId) {
+        this.inputFrameId = inputFrameId;
     }
 
-    public SceneDataFrame getSceneDataFrame() {
-        return sceneDataFrame;
+    public InputFrame getInputFrame() {
+        return inputFrame;
     }
 
-    public void setSceneDataFrame(SceneDataFrame sceneDataFrame) {
-        this.sceneDataFrame = sceneDataFrame;
+    public void setInputFrame(InputFrame inputFrame) {
+        this.inputFrame = inputFrame;
+    }
+
+    public float getWorkTime() {
+        return workTime;
+    }
+
+    public void setWorkTime(float workTime) {
+        this.workTime = workTime;
     }
 
     public Integer getDeviceId() {
@@ -76,13 +84,5 @@ public class DeviceData extends AbstractModel {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
-    }
-
-    public String getWorkTime() {
-        return workTime;
-    }
-
-    public void setWorkTime(String workTime) {
-        this.workTime = workTime;
     }
 }

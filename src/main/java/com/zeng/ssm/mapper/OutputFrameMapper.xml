@@ -56,11 +56,12 @@
         SELECT * from `output_frame` where inputFrameId = #{pk};
     </select>
 
-<!--    <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
-<!--    </select>-->
+    <select id="selectOutputFrameListByInputFrameId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `output_frame` where inputFrameId = #{pk};
+    </select>
+
 <!--    <select id="selectSimpleSceneDataFrameListBySceneDataId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `scene_data_frame` where sceneDataid = #{pk};-->
+<!--        SELECT * from `scene_data_frame` where sceneDataId = #{pk};-->
 <!--    </select>-->
 
 <!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
