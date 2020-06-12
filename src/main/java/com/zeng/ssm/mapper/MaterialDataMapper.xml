@@ -9,22 +9,23 @@
         <result column="materialDataCategoryId" jdbcType="INTEGER" property="materialDataCategoryId" />
         <result column="value" jdbcType="FLOAT" property="value" />
         <result column="unitId" jdbcType="INTEGER" property="unitId" />
-        <result column="source" jdbcType="VARCHAR" property="source" />
+        <result column="dataSourceId" jdbcType="INTEGER" property="dataSourceId" />
         <result column="time" jdbcType="VARCHAR" property="time" />
         <result column="reliability" jdbcType="VARCHAR" property="reliability" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
         <association property="material" column="materialId" select="com.zeng.ssm.dao.MaterialDao.selectByPrimaryKey"/>
         <association property="unit" column="unitId" select="com.zeng.ssm.dao.UnitDao.selectByPrimaryKey"/>
+        <association property="dataSource" column="dataSourceId" select="com.zeng.ssm.dao.DataSourceDao.selectByPrimaryKey"/>
         <association property="materialDataCategory" column="materialDataCategoryId" select="com.zeng.ssm.dao.MaterialDataCategoryDao.selectByPrimaryKey"/>
 <!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.MaterialData" useGeneratedKeys="true" keyProperty="id" >
         insert into material_data (id, sceneDataId, `inputFrameId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
-        `source`, `time`, `reliability`)
+        `dataSourceId`, `time`, `reliability`)
         values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER},
-        #{materialDataCategoryId, jdbcType=INTEGER}, #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR},
+        #{materialDataCategoryId, jdbcType=INTEGER}, #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER},
         #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR})
     </insert>
 
@@ -49,7 +50,7 @@
           `materialDataCategoryId` = #{materialDataCategoryId,jdbcType=INTEGER},
           `value` = #{value,jdbcType=FLOAT},
           `unitId` = #{unitId,jdbcType=INTEGER},
-          `source` = #{source,jdbcType=VARCHAR},
+          `dataSourceId` = #{dataSourceId,jdbcType=INTEGER},
           `time` = #{time,jdbcType=VARCHAR},
           `reliability` = #{reliability,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}

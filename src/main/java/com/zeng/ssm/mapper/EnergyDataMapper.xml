@@ -6,22 +6,23 @@
         <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
         <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
         <result column="energyId" jdbcType="INTEGER" property="energyId" />
-        <result column="unitId" jdbcType="INTEGER" property="unitId" />
-        <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
         <result column="value" jdbcType="FLOAT" property="value" />
+        <result column="unitId" jdbcType="INTEGER" property="unitId" />
+        <result column="dataSourceId" jdbcType="INTEGER" property="dataSourceId"/>
+        <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
-        <result column="origin" jdbcType="VARCHAR" property="origin"/>
         <association property="energy" column="energyId" select="com.zeng.ssm.dao.EnergyDao.selectByPrimaryKey"/>
         <association property="unit" column="unitId" select="com.zeng.ssm.dao.UnitDao.selectByPrimaryKey"/>
+        <association property="dataSource" column="dataSourceId" select="com.zeng.ssm.dao.DataSourceDao.selectByPrimaryKey"/>
         <association property="device" column="deviceId" select="com.zeng.ssm.dao.DeviceDao.selectByPrimaryKey"/>
 <!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnergyData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy_data` (id, sceneDataId, inputFrameId, `energyId`, `value`, `unitId`, `deviceId`,`origin`)
+        insert into `energy_data` (id, sceneDataId, inputFrameId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
         values (#{id,jdbcType=INTEGER}, #{sceneDataId,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
-        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{deviceId,jdbcType=INTEGER},#{origin=VARCHAR})
+        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{dataSourceId=INTEGER},#{deviceId,jdbcType=INTEGER})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -44,8 +45,8 @@
           `energyId` = #{`energyId`,jdbcType=INTEGER},
           `value` = #{value,jdbcType=FLOAT},
           `unitId` = #{`unitId`,jdbcType=INTEGER},
-          `deviceId` = #{deviceId,jdbcType=INTEGER},
-          `origin` = #{origin,jdbcType=VARCHAR}
+          `dataSourceId` = #{dataSourceId,jdbcType=INTEGER},
+          `deviceId` = #{deviceId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
 

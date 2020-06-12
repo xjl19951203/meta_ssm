@@ -10,7 +10,7 @@ public class DeviceData extends AbstractModel {
 
     private Integer sceneDataId;
     private Integer inputFrameId;
-    private InputFrame inputFrame;
+//    private InputFrame inputFrame;
     private float workTime;
     private Integer deviceId;
     private Device device;
@@ -38,13 +38,13 @@ public class DeviceData extends AbstractModel {
         this.inputFrameId = inputFrameId;
     }
 
-    public InputFrame getInputFrame() {
-        return inputFrame;
-    }
-
-    public void setInputFrame(InputFrame inputFrame) {
-        this.inputFrame = inputFrame;
-    }
+//    public InputFrame getInputFrame() {
+//        return inputFrame;
+//    }
+//
+//    public void setInputFrame(InputFrame inputFrame) {
+//        this.inputFrame = inputFrame;
+//    }
 
     public float getWorkTime() {
         return workTime;

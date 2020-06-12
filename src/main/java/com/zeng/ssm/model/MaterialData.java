@@ -17,7 +17,8 @@ public class MaterialData extends AbstractModel {
     private String value;
     private Integer unitId;
     private Unit unit;
-    private String source;
+    private Integer dataSourceId;
+    private DataSource dataSource;
     private String time;
     private String reliability;
     private Integer materialDataCategoryId;
@@ -110,12 +111,20 @@ public class MaterialData extends AbstractModel {
         this.unit = unit;
     }
 
-    public String getSource() {
-        return source;
+    public Integer getDataSourceId() {
+        return dataSourceId;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setDataSourceId(Integer dataSourceId) {
+        this.dataSourceId = dataSourceId;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public String getTime() {

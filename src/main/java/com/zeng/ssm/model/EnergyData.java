@@ -17,7 +17,8 @@ public class EnergyData extends AbstractModel {
     private float value;
     private Integer unitId;
     private Unit unit;
-    private String origin;
+    private Integer dataSourceId;
+    private DataSource dataSource;
     private int deviceId;
     private Device device;
 
@@ -84,12 +85,20 @@ public class EnergyData extends AbstractModel {
         this.unit = unit;
     }
 
-    public String getOrigin() {
-        return origin;
+    public Integer getDataSourceId() {
+        return dataSourceId;
     }
 
-    public void setOrigin(String origin) {
-        this.origin = origin;
+    public void setDataSourceId(Integer dataSourceId) {
+        this.dataSourceId = dataSourceId;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
+    }
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public int getDeviceId() {

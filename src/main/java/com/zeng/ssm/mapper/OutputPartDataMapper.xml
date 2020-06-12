@@ -15,8 +15,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.OutputPartData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `output_part_data` (id, `title`, sceneDataId, `outputFrameId`, `category`, `yieldRate`, `description`)
-        values (#{id,jdbcType=INTEGER}, #{title, jdbcType=VARCHAR}, #{sceneDataId,jdbcType=INTEGER}, #{outputFrameId,jdbcType=INTEGER},
+        insert into `output_part_data` (`title`, `sceneDataId`, `outputFrameId`, `category`, `yieldRate`, `description`)
+        values (#{title, jdbcType=VARCHAR}, #{sceneDataId,jdbcType=INTEGER}, #{outputFrameId,jdbcType=INTEGER},
         #{category, jdbcType=TINYINT}, #{yieldRate,jdbcType=FLOAT}, #{description, jdbcType=VARCHAR})
     </insert>
 

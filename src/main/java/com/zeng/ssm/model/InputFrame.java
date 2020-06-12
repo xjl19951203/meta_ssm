@@ -10,7 +10,7 @@ public class InputFrame extends Searchable {
     private List<MaterialData> materialDataList;
     private List<DeviceData> deviceDataList;
     private List<EnergyData> energyDataList;
-    private List<FunctionUnitData> FunctionUnitDataList;
+    private List<FunctionUnitData> functionUnitDataList;
     private List<KeyParameterData> keyParameterDataList;
     private List<OutputFrame> outputFrameList;
 
@@ -55,11 +55,11 @@ public class InputFrame extends Searchable {
     }
 
     public List<FunctionUnitData> getFunctionUnitDataList() {
-        return FunctionUnitDataList;
+        return functionUnitDataList;
     }
 
     public void setFunctionUnitDataList(List<FunctionUnitData> FunctionUnitDataList) {
-        this.FunctionUnitDataList = FunctionUnitDataList;
+        this.functionUnitDataList = functionUnitDataList;
     }
 
     public List<KeyParameterData> getKeyParameterDataList() {
