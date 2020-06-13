@@ -57,7 +57,7 @@
         ;
     </select>
 
-    <select id="selectAll" parameterType="int" resultMap="BaseResultMap">
+    <select id="selectAll" parameterType="int" resultMap="SimpleResultMap">
         SELECT * from `scene_data`
 <!--        <if test="categoryRootId != null">
                 where category_root_id = #{categoryRootId}
