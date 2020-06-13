@@ -57,6 +57,10 @@
         ;
     </select>
 
+    <select id="selectByPage" parameterType="int" resultMap="SimpleResultMap">
+        SELECT * from `scene_data` limit #{page},10
+    </select>
+
     <select id="selectAll" parameterType="int" resultMap="SimpleResultMap">
         SELECT * from `scene_data`
 <!--        <if test="categoryRootId != null">
