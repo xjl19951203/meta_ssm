@@ -10,15 +10,15 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `collect_reason` where id = #{pk};
+        SELECT * from `collect_reason` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from information_schema.TABLES where TABLE_SCHEMA=(select database());
+        select * from information_schema.TABLES where TABLE_SCHEMA=(select database())
     </select>
 
     <select id="selectListByTableName" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from information_schema.COLUMNS where `TABLE_NAME`=#{TABLE_NAME} and TABLE_SCHEMA=(select database());
+        select * from information_schema.COLUMNS where `TABLE_NAME`=#{TABLE_NAME} and TABLE_SCHEMA=(select database())
     </select>
 
 </mapper>

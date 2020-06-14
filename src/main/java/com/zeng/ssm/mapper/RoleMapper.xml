@@ -7,11 +7,11 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `role` where id = #{pk};
+        SELECT * from `role` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `role`;
+        SELECT * from `role`
     </select>
 
 </mapper>

@@ -12,11 +12,11 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `permission_operation` where id = #{pk};
+        SELECT * from `permission_operation` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `permission_operation`;
+        SELECT * from `permission_operation`
     </select>
 
 </mapper>

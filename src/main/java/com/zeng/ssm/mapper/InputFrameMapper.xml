@@ -61,7 +61,7 @@
 <!--    </select>-->
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `input_frame` where id = #{pk};
+        SELECT * from `input_frame` where id = #{pk}
     </select>
 
 <!--    <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
@@ -69,7 +69,7 @@
 <!--    </select>-->
 
     <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `input_frame` where sceneDataId = #{pk};
+        SELECT * from `input_frame` where sceneDataId = #{pk}
     </select>
 
 <!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->

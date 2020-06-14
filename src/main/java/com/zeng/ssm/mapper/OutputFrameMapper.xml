@@ -25,10 +25,6 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputPartDataDao.selectOutputPartDataListByOutputFrameId"/>
         <collection column="id" property="envLoadDataList" ofType="com.zeng.ssm.model.EnvLoadData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListByOutputFrameId"/>
-<!--        <collection column="id" property="envLoadDataList" ofType="com.zeng.ssm.model.EnvLoadData"-->
-<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListByOutputFrameId"/>-->
-<!--        <collection column="id" property="outputPartDataList" ofType="com.zeng.ssm.model.OutputPartData"-->
-<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputPartDataDao.selectOutputPartDataListByOutputFrameId"/>-->
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.OutputFrame" useGeneratedKeys="true" keyProperty="id" >
@@ -53,24 +49,24 @@
 <!--    </select>-->
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `output_frame` where inputFrameId = #{pk};
+        SELECT * from `output_frame` where inputFrameId = #{pk}
     </select>
 
     <select id="selectOutputFrameListByInputFrameId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `output_frame` where inputFrameId = #{pk};
+        SELECT * from `output_frame` where inputFrameId = #{pk}
     </select>
 
 <!--    <select id="selectSimpleSceneDataFrameListBySceneDataId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `scene_data_frame` where sceneDataId = #{pk};-->
+<!--        SELECT * from `scene_data_frame` where sceneDataId = #{pk}-->
 <!--    </select>-->
 
 <!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
+<!--        SELECT * from `input_frame` where sceneDataId = #{pk}-->
 <!--    </select>-->
 
 <!--    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
 <!--        SELECT * from `scene_data` where categoryId in-->
-<!--        (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}));-->
+<!--        (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}))-->
 <!--    </select>-->
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputFrame">

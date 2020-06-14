@@ -30,7 +30,7 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `material_data` where id = #{pk};
+        SELECT * from `material_data` where id = #{pk}
     </select>
 
 <!--    <select id="selectAll" resultMap="BaseResultMap">-->
@@ -38,7 +38,7 @@
 <!--    </select>-->
 
     <select id="selectMaterialDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `material_data` where inputFrameId = #{pk};
+        select * from `material_data` where inputFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialData">

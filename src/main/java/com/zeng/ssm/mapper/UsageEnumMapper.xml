@@ -12,11 +12,11 @@
     </insert>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `usage_enum`;
+        SELECT * from `usage_enum`
     </select>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `usage_enum` where id = #{pk};
+        SELECT * from `usage_enum` where id = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.UsageEnum">

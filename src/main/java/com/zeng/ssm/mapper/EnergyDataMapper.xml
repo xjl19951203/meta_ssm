@@ -26,15 +26,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `energy_data` where id = #{pk};
+        SELECT * from `energy_data` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `energy_data`;
+        SELECT * from `energy_data`
     </select>
 
     <select id="selectEnergyDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `energy_data` where inputFrameId = #{pk};
+        select * from `energy_data` where inputFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnergyData">
@@ -50,7 +50,7 @@
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-      delete from `energy_data` where id = #{pk};
+      delete from `energy_data` where id = #{pk}
     </delete>
 
 </mapper>

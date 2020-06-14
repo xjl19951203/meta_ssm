@@ -49,14 +49,15 @@ public class ManageController{
     将所有的数据全部查询到了之后进行分页操作一次性打包
      */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public PageResult getLists(@PathVariable String tableName,@RequestParam(defaultValue="1") Integer pageNum) {
+    public PageResult getLists(@PathVariable String tableName,@RequestParam(defaultValue="1") Integer pageNum,@RequestParam(defaultValue="5") Integer pageSize) {
         ModelImpl.setTableName(tableName);
-        PageHelper.startPage(pageNum,10);
+        PageHelper.startPage(pageNum,pageSize);
         List<AbstractModel> list = this.modelDao.selectAll();
         PageInfo<AbstractModel> pageInfo = new PageInfo<>(list);
         System.out.println("PageSize: "+pageInfo.getPageSize()); //3  每页包含的条数
         PageResult pageResult = new PageResult();
-        pageResult.setCurrentPage(pageNum);//当前页
+        pageResult.setCurrentPage(pageInfo.getPageNum());//当前页
+        pageResult.setPageSize(pageInfo.getSize());//当前页的数目
         pageResult.setPages(pageInfo.getPages());//总页数
         pageResult.setCount(pageInfo.getTotal());//总条数
         pageResult.setData(pageInfo.getList());//显示的数据

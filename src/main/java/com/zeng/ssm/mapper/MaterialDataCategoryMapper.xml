@@ -8,11 +8,11 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `material_data_category` where id = #{pk};
+        SELECT * from `material_data_category` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `material_data_category`;
+        SELECT * from `material_data_category`
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialDataCategory">

@@ -20,15 +20,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `device_data` where id = #{pk};
+        SELECT * from `device_data` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `device_data`;
+        SELECT * from `device_data`
     </select>
 
     <select id="selectDeviceDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `device_data` where inputFrameId = #{pk};
+        select * from `device_data` where inputFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DeviceData">
@@ -41,7 +41,7 @@
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-      delete from `device_data` where id = #{pk};
+      delete from `device_data` where id = #{pk}
     </delete>
 
 </mapper>

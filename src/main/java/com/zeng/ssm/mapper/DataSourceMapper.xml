@@ -7,11 +7,11 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `data_source` where id = #{pk};
+        SELECT * from `data_source` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `data_source`;
+        SELECT * from `data_source`
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DataSource">

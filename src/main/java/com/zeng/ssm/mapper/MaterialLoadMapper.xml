@@ -38,15 +38,15 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `material_load` where id = #{pk};
+        SELECT * from `material_load` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `material_load`;
+        SELECT * from `material_load`
     </select>
 
     <select id="selectMaterialLoadListByMaterialId" resultMap="BaseResultMap">
-        SELECT * from `material_load` where materialId = #{pk};
+        SELECT * from `material_load` where materialId = #{pk}
     </select>
 
 </mapper>

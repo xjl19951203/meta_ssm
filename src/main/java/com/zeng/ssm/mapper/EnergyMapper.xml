@@ -14,7 +14,7 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
-        SELECT * from `energy` where id = #{pk};
+        SELECT * from `energy` where id = #{pk}
     </select>
 
 <!--    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">-->
@@ -22,7 +22,7 @@
 <!--    </select>-->
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `energy`;
+        SELECT * from `energy`
     </select>
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">

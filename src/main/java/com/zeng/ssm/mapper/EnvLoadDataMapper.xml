@@ -51,15 +51,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `env_load_data` where id = #{pk};
+        SELECT * from `env_load_data` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `env_load_data`;
+        SELECT * from `env_load_data`
     </select>
 
     <select id="selectEnvLoadDataListByOutputFrameId" resultMap="BaseResultMap">
-        select * from `env_load_data` where outputFrameId = #{pk};
+        select * from `env_load_data` where outputFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnvLoadData">

@@ -6,11 +6,11 @@
     </resultMap>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `user_group_permission_data` where id = #{pk};
+        SELECT * from `user_group_permission_data` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `user_group_permission_data`;
+        SELECT * from `user_group_permission_data`
     </select>
 
 </mapper>

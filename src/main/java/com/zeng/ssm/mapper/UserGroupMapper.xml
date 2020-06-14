@@ -19,15 +19,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `user_group` where id = #{pk};
+        SELECT * from `user_group` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `user_group`;
+        SELECT * from `user_group`
     </select>
 
     <select id="selectListByUserId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `user_group` where userId = #{userId};
+        SELECT * from `user_group` where userId = #{userId}
     </select>
 
 </mapper>

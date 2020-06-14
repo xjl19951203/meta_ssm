@@ -19,15 +19,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `permission` where id = #{pk};
+        SELECT * from `permission` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `permission`;
+        SELECT * from `permission`
     </select>
 
-    <select id="selectListByGroupId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `permission` where user_id = #{userGroupId};
-    </select>
+<!--    <select id="selectListByGroupId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `permission` where user_id = #{userGroupId}-->
+<!--    </select>-->
 
 </mapper>

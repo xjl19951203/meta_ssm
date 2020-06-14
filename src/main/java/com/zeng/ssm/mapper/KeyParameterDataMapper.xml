@@ -19,15 +19,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `key_parameter_data` where id = #{pk};
+        SELECT * from `key_parameter_data` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `key_parameter_data`;
+        SELECT * from `key_parameter_data`
     </select>
 
     <select id="selectKeyParameterDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `key_parameter_data` where inputFrameId = #{pk};
+        select * from `key_parameter_data` where inputFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.KeyParameterData">

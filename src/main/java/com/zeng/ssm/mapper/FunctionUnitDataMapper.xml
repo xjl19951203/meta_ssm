@@ -20,15 +20,15 @@
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `function_unit_data` where id = #{pk};
+        SELECT * from `function_unit_data` where id = #{pk}
     </select>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        SELECT * from `function_unit_data`;
+        SELECT * from `function_unit_data`
     </select>
 
     <select id="selectFunctionUnitDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `function_unit_data` where inputFrameId = #{pk};
+        select * from `function_unit_data` where inputFrameId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.FunctionUnitData">

@@ -10,6 +10,7 @@ public class PageResult implements Serializable {
     private Long count;		//总共有多少记录数
     private Integer currentPage;	//当前页数(从1开始)
     private Integer pages;		//总共页数
+    private Integer pageSize;
     private List<AbstractModel> data;	//数据
 
     public Long getCount() {
@@ -34,6 +35,14 @@ public class PageResult implements Serializable {
 
     public void setPages(Integer pages) {
         this.pages = pages;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer size) {
+        this.pageSize = size;
     }
 
     public List<AbstractModel> getData() {
