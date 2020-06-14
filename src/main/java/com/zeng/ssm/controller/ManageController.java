@@ -20,27 +20,49 @@ public class ManageController{
     @Resource
     ModelDao modelDao;
 
+   /*
+   查询的时候就只查询单页数据，不查询其他数据
+    */
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public PageResult getList(@PathVariable String tableName,@RequestParam(defaultValue="-100") Integer page,@RequestParam(defaultValue="-100") Integer size) {
+//        ModelImpl.setTableName(tableName);
+//        if (page == -100||size ==-100) {
+//            List list=this.modelDao.selectAll();
+//            PageResult pageResult = new PageResult();
+//            pageResult.setCurrentPage(1);
+//            pageResult.setCount((long)list.size());//总条数
+//            pageResult.setData(list);//显示的数据
+//            return pageResult;
+//        }else {
+//            PageHelper.startPage(page, size);
+//            List list=this.modelDao.selectByPage((page-1)*size,size);
+//            PageInfo pageInfo = new PageInfo(list);
+//            PageResult pageResult = new PageResult();
+//            pageResult.setCurrentPage(page);
+//            pageResult.setCount(pageInfo.getTotal());//总条数
+//            pageResult.setData(pageInfo.getList());//显示的数据
+//            return pageResult;
+//
+//        }
+//    }
+    /*
+    将所有的数据全部查询到了之后进行分页操作一次性打包
+     */
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public PageResult getList(@PathVariable String tableName,@RequestParam(defaultValue="-100") Integer page,@RequestParam(defaultValue="-100") Integer size) {
+    public PageResult getLists(@PathVariable String tableName,@RequestParam(defaultValue="1") Integer pageNum) {
         ModelImpl.setTableName(tableName);
-        if (page == -100||size ==-100) {
-            List list=this.modelDao.selectAll();
-            PageResult pageResult = new PageResult();
-            pageResult.setCurrentPage(1);
-            pageResult.setCount((long)list.size());//总条数
-            pageResult.setData(list);//显示的数据
-            return pageResult;
-        }else {
-            PageHelper.startPage(page, size);
-            List list=this.modelDao.selectByPage((page-1)*size,size);
-            PageInfo pageInfo = new PageInfo(list);
-            PageResult pageResult = new PageResult();
-            pageResult.setCurrentPage(page);
-            pageResult.setCount(pageInfo.getTotal());//总条数
-            pageResult.setData(pageInfo.getList());//显示的数据
-            return pageResult;
+        PageHelper.startPage(pageNum,10);
+        List<AbstractModel> list = this.modelDao.selectAll();
+        PageInfo<AbstractModel> pageInfo = new PageInfo<>(list);
+        System.out.println("PageSize: "+pageInfo.getPageSize()); //3  每页包含的条数
+        PageResult pageResult = new PageResult();
+        pageResult.setCurrentPage(pageNum);//当前页
+        pageResult.setPages(pageInfo.getPages());//总页数
+        pageResult.setCount(pageInfo.getTotal());//总条数
+        pageResult.setData(pageInfo.getList());//显示的数据
 
-        }
+        return pageResult;
+
     }
 
 //    @RequestMapping(value = "", method = RequestMethod.GET)

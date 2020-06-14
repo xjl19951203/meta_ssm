@@ -24,9 +24,9 @@
         SELECT * from `device`;
     </select>
 
-    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">
-        SELECT * from `device` limit #{page},#{size}
-    </select>
+<!--    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">-->
+<!--        SELECT * from `device` limit #{page},#{size}-->
+<!--    </select>-->
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * from `device`

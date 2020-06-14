@@ -57,9 +57,9 @@
         ;
     </select>
 
-    <select id="selectByPage" parameterType="int" resultMap="SimpleResultMap">
-        SELECT * from `scene_data` limit #{page},#{size}
-    </select>
+<!--    <select id="selectByPage" parameterType="int" resultMap="SimpleResultMap">-->
+<!--        SELECT * from `scene_data` limit #{page},#{size}-->
+<!--    </select>-->
 
     <select id="selectAll" parameterType="int" resultMap="SimpleResultMap">
         SELECT * from `scene_data`

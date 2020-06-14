@@ -50,10 +50,10 @@ public class ModelImpl implements ModelDao{
         return ModelHandler.getModelDaoInstance(tableName).selectAll();
     }
 
-    @Override
-    public List<AbstractModel> selectByPage(Integer page,Integer size) {
-        return ModelHandler.getModelDaoInstance(tableName).selectByPage(page,size);
-    }
+//    @Override
+//    public List<AbstractModel> selectByPage(Integer page,Integer size) {
+//        return ModelHandler.getModelDaoInstance(tableName).selectByPage(page,size);
+//    }
 
     //按传进来的id号查询表中的数据
     @Override
