@@ -1,8 +1,12 @@
 package com.zeng.ssm.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.zeng.ssm.common.*;
+import com.zeng.ssm.model.PageResult;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -17,13 +21,30 @@ public class ManageController{
     ModelDao modelDao;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<AbstractModel> getList(@PathVariable String tableName) {
+    public PageResult getList(@PathVariable String tableName,@RequestParam(defaultValue="-100") Integer page,@RequestParam(defaultValue="-100") Integer size) {
         ModelImpl.setTableName(tableName);
-        return this.modelDao.selectAll();
+        if (page == -100||size ==-100) {
+            List list=this.modelDao.selectAll();
+            PageResult pageResult = new PageResult();
+            pageResult.setCurrentPage(1);
+            pageResult.setCount((long)list.size());//总条数
+            pageResult.setData(list);//显示的数据
+            return pageResult;
+        }else {
+            PageHelper.startPage(page, size);
+            List list=this.modelDao.selectByPage((page-1)*size,size);
+            PageInfo pageInfo = new PageInfo(list);
+            PageResult pageResult = new PageResult();
+            pageResult.setCurrentPage(page);
+            pageResult.setCount(pageInfo.getTotal());//总条数
+            pageResult.setData(pageInfo.getList());//显示的数据
+            return pageResult;
+
+        }
     }
 
 //    @RequestMapping(value = "", method = RequestMethod.GET)
-//    public List<List<AbstractModel>> getLists(@PathVariable String tableName) {
+//    public List<AbstractModel> getLists(@PathVariable String tableName) {
 //        ModelImpl.setTableName(tableName);
 //        return this.modelDao.selectAll();
 //    }

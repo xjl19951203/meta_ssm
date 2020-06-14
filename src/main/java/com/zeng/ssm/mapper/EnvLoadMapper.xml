@@ -21,6 +21,10 @@
         SELECT * from `env_load` where id = #{pk};
     </select>
 
+    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">
+        SELECT * from `env_load` limit #{page},#{size}
+    </select>
+
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT * from `env_load`;
     </select>

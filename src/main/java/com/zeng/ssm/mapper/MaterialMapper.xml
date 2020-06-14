@@ -25,6 +25,10 @@
         SELECT * from `material`;
     </select>
 
+    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">
+        SELECT * from `material` limit #{page},#{size}
+    </select>
+
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * from `material`
         <if test="content != null">

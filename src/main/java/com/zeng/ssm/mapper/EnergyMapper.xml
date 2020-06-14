@@ -17,6 +17,10 @@
         SELECT * from `energy` where id = #{pk};
     </select>
 
+    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">
+        SELECT * from `energy` limit #{page},#{size}
+    </select>
+
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT * from `energy`;
     </select>
