@@ -72,9 +72,9 @@
         SELECT * from `input_frame` where sceneDataId = #{pk}
     </select>
 
-<!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
-<!--    </select>-->
+    <select id="selectInputFrameByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `input_frame` where Id = #{pk};
+    </select>
 
 <!--    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
 <!--        SELECT * from `scene_data` where categoryId in-->
