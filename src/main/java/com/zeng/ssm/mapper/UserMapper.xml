@@ -30,11 +30,20 @@
         SELECT * from `user`
     </select>
 
+    <select id="selectBySearch" resultMap="SimpleResultMap">
+        SELECT * from `user` where userName = #{userName,jdbcType=VARCHAR} or email = #{email,jdbcType=VARCHAR}
+    </select>
+
+    <select id="selectByLogin" resultType="com.zeng.ssm.model.User">
+        SELECT * from `user` where userName = #{userName,jdbcType=VARCHAR} and password = #{password,jdbcType=VARCHAR}
+    </select>
+
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `user` where id = #{pk}
     </select>
 
-<!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">-->
+
+    <!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">-->
 <!--        SELECT * from `user`-->
 <!--        <if test="content != null">-->
 <!--            where username like '%${content}%' or email like '%${content}%'-->
