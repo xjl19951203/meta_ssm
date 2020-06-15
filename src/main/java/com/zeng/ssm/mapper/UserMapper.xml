@@ -30,6 +30,7 @@
         SELECT * from `user`
     </select>
 
+    <!--传入的User对象可以直接用其属性，不用在userName上加record.userName-->
     <select id="selectBySearch" resultMap="SimpleResultMap">
         SELECT * from `user` where userName = #{userName,jdbcType=VARCHAR} or email = #{email,jdbcType=VARCHAR}
     </select>
