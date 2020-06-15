@@ -90,10 +90,12 @@ public class ModelHandler implements ApplicationContextAware {
         //根据systemTableData表名获取systemTableDataDao的实例，并调用selectAll方法，将获取到的AbstractModel类型的数据放在list中
         List<AbstractModel> tableList = getModelDaoInstance("systemTableData").selectAll();
         for (AbstractModel table : tableList) {
+//            System.out.println(table.getTableName());
             // 滤过数据表，只处理基础表
-            if (table.getTableName().contains("Data")) {
+            if (table.getTableName().contains("data")) {
                 continue;
             }
+//            System.out.println(table.getTableName());
             //强制类型转换，将AbstrModel类型的table转换为SystemTableData类型
             SystemTableData tableData = (SystemTableData) table;
             // 构造外键字段与其数据的键值对之前，先将外键对应表名转成驼峰法
