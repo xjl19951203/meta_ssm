@@ -12,5 +12,5 @@ public interface InputFrameDataDao extends ModelDao {
 
     List<InputFrameData> selectInputFrameDataListBySceneDataId (Integer pk);
 
-    AbstractModel selectInputFrameDataByPrimaryKey(Integer pk);
+//    AbstractModel selectInputFrameDataByPrimaryKey(Integer pk);
 }

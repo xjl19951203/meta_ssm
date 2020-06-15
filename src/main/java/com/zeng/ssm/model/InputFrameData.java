@@ -5,7 +5,7 @@ import java.util.List;
 
 public class InputFrameData extends Searchable {
     private Integer sceneDataId;
-//    private SceneData sceneData;
+    private SceneData sceneData;
 
     private List<MaterialData> materialDataList;
     private List<DeviceData> deviceDataList;
@@ -22,13 +22,13 @@ public class InputFrameData extends Searchable {
         this.sceneDataId = sceneDataId;
     }
 
-//    public SceneData getSceneData() {
-//        return sceneData;
-//    }
-//
-//    public void setSceneData(SceneData sceneData) {
-//        this.sceneData = sceneData;
-//    }
+    public SceneData getSceneData() {
+        return sceneData;
+    }
+
+    public void setSceneData(SceneData sceneData) {
+        this.sceneData = sceneData;
+    }
 
     public List<MaterialData> getMaterialDataList() {
         return materialDataList;

@@ -39,6 +39,29 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDataDao.selectOutputFrameDataListByInputFrameDataId"/>
     </resultMap>
 
+    <resultMap id="SimpleResultMap" type="com.zeng.ssm.model.InputFrameData">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
+
+        <!--当表中设置外键时，如果表中的一条记录单独对应其他表中的一条记录，就用association属性，property表示返回的对象的实例，
+        column表示主表的外键字段，select表示对应xml的namespace + 对应xml中的代码片段的id-->
+    <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>
+<!--    当表中设置外键时，如果表中的一条记录单独对应其他表中的多条记录，就用collection属性，select表示对应xml的namespace + 对应xml中的代码片段的id, -->
+<!--    column作为select语句的参数传入,如果只传一个参数id可以简写: column="id" -->
+<!--        <collection column="id" property="materialDataList" ofType="com.zeng.ssm.model.MaterialData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.MaterialDataDao.selectMaterialDataListByInputFrameDataId"/>-->
+<!--        <collection column="id" property="energyDataList" ofType="com.zeng.ssm.model.EnergyData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnergyDataDao.selectEnergyDataListByInputFrameDataId"/>-->
+<!--        <collection column="id" property="deviceDataList" ofType="com.zeng.ssm.model.DeviceData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.DeviceDataDao.selectDeviceDataListByInputFrameDataId"/>-->
+<!--        <collection column="id" property="functionUnitDataList" ofType="com.zeng.ssm.model.FunctionUnitData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.FunctionUnitDataDao.selectFunctionUnitDataListByInputFrameDataId"/>-->
+<!--        <collection column="id" property="keyParameterDataList" ofType="com.zeng.ssm.model.KeyParameterData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.KeyParameterDataDao.selectKeyParameterDataListByInputFrameDataId"/>-->
+<!--        <collection column="id" property="outputFrameDataList" ofType="com.zeng.ssm.model.OutputFrameData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDataDao.selectOutputFrameDataListByInputFrameDataId"/>-->
+    </resultMap>
+
     <insert id="insert" parameterType="com.zeng.ssm.model.InputFrameData" useGeneratedKeys="true" keyProperty="id" >
         insert into input_frame_data (`sceneDataId`)
         values (#{sceneDataId,jdbcType=INTEGER})
@@ -60,21 +83,18 @@
         ;-->
     </select>
 
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="SimpleResultMap" parameterType="java.lang.Integer">
         SELECT * from `input_frame_data` where id = #{pk}
     </select>
 
-<!--    <select id="selectInputFrameListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `input_frame` where sceneDataId = #{pk};-->
-<!--    </select>-->
 
     <select id="selectInputFrameDataListBySceneDataId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `input_frame_data` where sceneDataId = #{pk}
     </select>
 
-    <select id="selectInputFrameDataByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `input_frame_data` where id = #{pk};
-    </select>
+<!--    <select id="selectInputFrameDataByPrimaryKey" resultMap="SimpleResultMap" parameterType="java.lang.Integer">-->
+<!--        SELECT * from `input_frame_data` where id = #{pk};-->
+<!--    </select>-->
 
 <!--    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
 <!--        SELECT * from `scene_data` where categoryId in-->

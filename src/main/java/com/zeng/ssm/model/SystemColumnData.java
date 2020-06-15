@@ -2,7 +2,7 @@ package com.zeng.ssm.model;
 
 import com.zeng.ssm.common.AbstractModel;
 
-public class SystemColumnData extends  AbstractModel {
+public class SystemColumnData extends AbstractModel {
 
     private String tableName;
     private String columnName;
