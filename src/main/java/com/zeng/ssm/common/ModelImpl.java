@@ -44,6 +44,12 @@ public class ModelImpl implements ModelDao{
         return null;
     }
 
+//    @Override
+//    public List<AbstractModel> selectBySelectivePrimaryKey(Integer pk) {
+//        ModelHandler.getModelDaoInstance(tableName)
+//        return ;
+//    }
+
     //查询某张表中的所有数据
     @Override
     public List<AbstractModel> selectAll() {

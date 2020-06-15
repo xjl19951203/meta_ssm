@@ -60,7 +60,6 @@ public class ManageController{
         pageResult.setPages(pageInfo.getPages());//总页数
         pageResult.setCount(pageInfo.getTotal());//总条数
         pageResult.setData(pageInfo.getList());//显示的数据
-
         return pageResult;
 
     }
@@ -76,6 +75,8 @@ public class ManageController{
         ModelImpl.setTableName(tableName);
         return this.modelDao.selectByPrimaryKey(pk);
     }
+
+
 
     @RequestMapping(value = "", method = RequestMethod.POST)
     public int post(@PathVariable String tableName, @RequestBody String record){

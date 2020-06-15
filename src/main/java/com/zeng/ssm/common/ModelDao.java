@@ -22,6 +22,8 @@ public interface ModelDao {
 
     AbstractModel selectByPrimaryKey(Integer pk);
 
+//    List<AbstractModel> selectBySelectivePrimaryKey(Integer pk);
+
     int updateByPrimaryKeySelective(AbstractModel record);
 
     int updateByPrimaryKey(AbstractModel record);

@@ -77,7 +77,7 @@
         SELECT * from `scene_data` where id = #{pk}
     </select>
 
-    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    <select id="selectListByCategoryId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">
         SELECT * from `scene_data` where categoryId in
         (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}))
     </select>
