@@ -29,11 +29,11 @@ public class LoginController {
         for (User user:list) {
             //邮箱或者用户名重复注册不成功
           if ((user.getEmail().equals(temp.getEmail()))||(user.getUserName().equals(temp.getUserName()))) {
-              System.out.println("0");
+//              System.out.println("0");
               return null;
           }
         }
-        System.out.println("1");
+//        System.out.println("1");
         int pk = this.userDao.insert(temp);
         return this.userDao.selectByPrimaryKey(pk);
     }
@@ -45,15 +45,15 @@ public class LoginController {
         for (User user:list) {
             if (user.getUserName().equals(temp.getUserName())) {
                 if (user.getPassword().equals(temp.getPassword())) {
-                    System.out.println("yes");
+//                    System.out.println("yes");
                     return user;//用户名存在且密码正确返回User对象
                 }else {
-                    System.out.println("no");
+//                    System.out.println("no");
                     return temp;//用户名存在但密码错误，返回表单对象，此时邮箱为空
                 }
             }
         }
-        System.out.println("0");
+//        System.out.println("0");
         return null;//用户名不存在，直接返回空值
     }
 
