@@ -4,20 +4,20 @@ import com.zeng.ssm.common.Searchable;
 
 import java.util.List;
 
-public class OutputFrame extends Searchable {
-    private Integer inputFrameId;
+public class OutputFrameData extends Searchable {
+    private Integer inputFrameDataId;
 //    private InputFrame inputFrame;
     private String collectionDescription;
 
     private List<OutputPartData> outputPartDataList;
     private List<EnvLoadData> envLoadDataList;
 
-    public Integer getInputFrameId() {
-        return inputFrameId;
+    public Integer getInputFrameDataId() {
+        return inputFrameDataId;
     }
 
-    public void setInputFrameId(Integer inputFrameId) {
-        this.inputFrameId = inputFrameId;
+    public void setInputFrameDataId(Integer inputFrameId) {
+        this.inputFrameDataId = inputFrameDataId;
     }
 
 //    public InputFrame getInputFrame() {

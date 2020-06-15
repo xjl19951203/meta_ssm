@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.FunctionUnitData">
         <id column="id" jdbcType="INTEGER" property="id" />
 <!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
-        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
+        <result column="inputFrameDataId" jdbcType="INTEGER" property="inputFrameDataId" />
         <result column="functionValue" jdbcType="FLOAT" property="functionValue" />
         <result column="functionUnit" jdbcType="VARCHAR" property="functionUnit" />
         <result column="functionDescription" jdbcType="VARCHAR" property="functionDescription" />
@@ -14,8 +14,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.FunctionUnitData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `function_unit_data` (id, `inputFrameId`, `functionValue`, `functionUnit`, `functionDescription`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
+        insert into `function_unit_data` (id, `inputFrameDataId`, `functionValue`, `functionUnit`, `functionDescription`)
+        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
         #{functionUnit,jdbcType=VARCHAR}, #{functionDescription,jdbcType=VARCHAR})
     </insert>
 
@@ -27,14 +27,14 @@
         SELECT * from `function_unit_data`
     </select>
 
-    <select id="selectFunctionUnitDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `function_unit_data` where inputFrameId = #{pk}
+    <select id="selectFunctionUnitDataListByInputFrameDataId" resultMap="BaseResultMap">
+        select * from `function_unit_data` where inputFrameDataId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.FunctionUnitData">
         update `function_unit_data`
         set
-          `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
+          `inputFrameDataId` = #{inputFrameDataId,jdbcType=INTEGER},
           `functionValue` = #{functionValue,jdbcType=FLOAT},
           `functionUnit` = #{functionUnit,jdbcType=VARCHAR},
           `functionDescription` = #{functionDescription,jdbcType=VARCHAR}

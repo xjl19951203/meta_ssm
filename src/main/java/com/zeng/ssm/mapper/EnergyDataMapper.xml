@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.EnergyData">
         <id column="id" jdbcType="INTEGER" property="id" />
 <!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
-        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
+        <result column="inputFrameDataId" jdbcType="INTEGER" property="inputFrameDataId" />
         <result column="energyId" jdbcType="INTEGER" property="energyId" />
         <result column="value" jdbcType="FLOAT" property="value" />
         <result column="unitId" jdbcType="INTEGER" property="unitId" />
@@ -20,8 +20,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnergyData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy_data` (id, inputFrameId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
+        insert into `energy_data` (id, inputFrameDataId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
+        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
         #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{dataSourceId=INTEGER},#{deviceId,jdbcType=INTEGER})
     </insert>
 
@@ -33,14 +33,14 @@
         SELECT * from `energy_data`
     </select>
 
-    <select id="selectEnergyDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `energy_data` where inputFrameId = #{pk}
+    <select id="selectEnergyDataListByInputFrameDataId" resultMap="BaseResultMap">
+        select * from `energy_data` where inputFrameDataId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnergyData">
         update `energy_data`
         set
-          `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
+          `inputFrameDataId` = #{inputFrameDataId,jdbcType=INTEGER},
           `energyId` = #{`energyId`,jdbcType=INTEGER},
           `value` = #{value,jdbcType=FLOAT},
           `unitId` = #{`unitId`,jdbcType=INTEGER},

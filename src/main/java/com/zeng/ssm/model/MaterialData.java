@@ -10,8 +10,8 @@ public class MaterialData extends AbstractModel {
 
 //    private Integer sceneDataId;
 //    private SceneData sceneData;
-    private Integer inputFrameId;
-//    private InputFrame inputFrame;
+    private Integer inputFrameDataId;
+//    private InputFrameData inputFrameData;
     private Integer materialId;
     private Material material;
     private String value;
@@ -63,12 +63,12 @@ public class MaterialData extends AbstractModel {
 //        this.sceneDataFrame = sceneDataFrame;
 //    }
 
-    public Integer getInputFrameId() {
-        return inputFrameId;
+    public Integer getInputFrameDataId() {
+        return inputFrameDataId;
     }
 
-    public void setInputFrameId(Integer inputFrameId) {
-        this.inputFrameId = inputFrameId;
+    public void setInputFrameDataId(Integer inputFrameDataId) {
+        this.inputFrameDataId = inputFrameDataId;
     }
 
     public Integer getMaterialId() {

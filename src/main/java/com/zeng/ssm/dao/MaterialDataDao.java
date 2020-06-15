@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface MaterialDataDao extends ModelDao{
-    List<MaterialData> selectMaterialDataListByInputFrameId (Integer pk);
+    List<MaterialData> selectMaterialDataListByInputFrameDataId (Integer pk);
 }

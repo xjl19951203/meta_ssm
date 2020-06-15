@@ -10,8 +10,8 @@ public class KeyParameterData extends AbstractModel{
     private String title;
 //    private Integer sceneDataId;
 //    private SceneData sceneData;
-    private Integer inputFrameId;
-//    private InputFrame inputFrame;
+    private Integer inputFrameDataId;
+//    private InputFrameData inputFrameData;
     private String description;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -39,12 +39,12 @@ public class KeyParameterData extends AbstractModel{
 //        this.sceneDataId = sceneDataId;
 //    }
 
-    public Integer getInputFrameId() {
-        return inputFrameId;
+    public Integer getInputFrameDataId() {
+        return inputFrameDataId;
     }
 
-    public void setInputFrameId(Integer inputFrameId) {
-        this.inputFrameId = inputFrameId;
+    public void setInputFrameDataId(Integer inputFrameId) {
+        this.inputFrameDataId = inputFrameDataId;
     }
 
     public String getDescription() {

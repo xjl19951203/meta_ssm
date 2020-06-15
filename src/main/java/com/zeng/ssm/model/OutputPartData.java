@@ -11,8 +11,8 @@ public class OutputPartData extends AbstractModel {
     private String title;
 //    private Integer sceneDataId;
 //    private SceneData sceneData;
-    private Integer outputFrameId;
-//    private OutputFrame outputFrame;
+    private Integer outputFrameDataId;
+//    private OutputFrameData outputFrameData;
     private boolean category;
     private float yieldRate;
     private String description;
@@ -42,12 +42,12 @@ public class OutputPartData extends AbstractModel {
 //        this.sceneDataId = sceneDataId;
 //    }
 
-    public Integer getOutputFrameId() {
-        return outputFrameId;
+    public Integer getOutputFrameDataId() {
+        return outputFrameDataId;
     }
 
-    public void setOutputFrameId(Integer outputFrameId) {
-        this.outputFrameId = outputFrameId;
+    public void setOutputFrameDataId(Integer outputFrameDataId) {
+        this.outputFrameDataId = outputFrameDataId;
     }
 
     public boolean isCategory() {

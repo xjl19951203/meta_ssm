@@ -12,7 +12,7 @@ public interface SceneDataDao extends ModelDao{
 
     List<SceneData> selectAll(Integer categoryRootId);
 
-    List<SceneData> selectByPage(Integer categoryRootId);
+//    List<SceneData> selectByPage(Integer categoryRootId);
 
     List<SceneData> selectListByCategoryId(Integer categoryId);
 

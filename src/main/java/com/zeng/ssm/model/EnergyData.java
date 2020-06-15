@@ -10,8 +10,8 @@ public class EnergyData extends AbstractModel {
 
 //    private Integer sceneDataId;
 //    private SceneData sceneData;
-    private Integer inputFrameId;
-    //    private InputFrame inputFrame;
+    private Integer inputFrameDataId;
+    //    private InputFrameData inputFrameData;
     private Integer energyId;
     private Energy energy;
     private float value;
@@ -37,12 +37,12 @@ public class EnergyData extends AbstractModel {
 //        this.sceneDataId = sceneDataId;
 //    }
 
-    public Integer getInputFrameId() {
-        return inputFrameId;
+    public Integer getInputFrameDataId() {
+        return inputFrameDataId;
     }
 
-    public void setInputFrameId(Integer inputFrameId) {
-        this.inputFrameId = inputFrameId;
+    public void setInputFrameDataId(Integer inputFrameId) {
+        this.inputFrameDataId = inputFrameDataId;
     }
 
     public Integer getEnergyId() {

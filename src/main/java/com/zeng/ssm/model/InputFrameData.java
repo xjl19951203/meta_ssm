@@ -3,7 +3,7 @@ import com.zeng.ssm.common.Searchable;
 
 import java.util.List;
 
-public class InputFrame extends Searchable {
+public class InputFrameData extends Searchable {
     private Integer sceneDataId;
 //    private SceneData sceneData;
 
@@ -12,7 +12,7 @@ public class InputFrame extends Searchable {
     private List<EnergyData> energyDataList;
     private List<FunctionUnitData> functionUnitDataList;
     private List<KeyParameterData> keyParameterDataList;
-    private List<OutputFrame> outputFrameList;
+    private List<OutputFrameData> outputFrameDataList;
 
     public Integer getSceneDataId() {
         return sceneDataId;
@@ -70,11 +70,11 @@ public class InputFrame extends Searchable {
         this.keyParameterDataList = keyParameterDataList;
     }
 
-    public List<OutputFrame> getOutputFrameList() {
-        return outputFrameList;
+    public List<OutputFrameData> getOutputFrameDataList() {
+        return outputFrameDataList;
     }
 
-    public void setOutputFrameList(List<OutputFrame> outputFrameList) {
-        this.outputFrameList = outputFrameList;
+    public void setOutputFrameDataList(List<OutputFrameData> outputFrameDataList) {
+        this.outputFrameDataList = outputFrameDataList;
     }
 }

@@ -10,10 +10,10 @@ public class EnvLoadData extends  AbstractModel {
 
 //    private Integer sceneDataId;
 //    private SceneData sceneData;
-//    private Integer inputFrameId;
-//    private InputFrame inputFrame;
-    private Integer outputFrameId;
-//    private OutputFrame outputFrame;
+//    private Integer inputFrameDataId;
+//    private InputFrameData inputFrameData;
+    private Integer outputFrameDataId;
+//    private OutputFrameData outputFrameData;
     private Integer envLoadId;
     private EnvLoad envLoad;
     private float value;
@@ -57,20 +57,20 @@ public class EnvLoadData extends  AbstractModel {
 //        this.sceneDataId = sceneDataId;
 //    }
 
-//    public Integer getInputFrameId() {
-//        return inputFrameId;
+//    public Integer getInputFrameDataId() {
+//        return inputFrameDataId;
 //    }
 //
 //    public void setInputFrameId(Integer inputFrameId) {
-//        this.inputFrameId = inputFrameId;
+//        this.inputFrameDataId = inputFrameDataId;
 //    }
 
-    public Integer getOutputFrameId() {
-        return outputFrameId;
+    public Integer getOutputFrameDataId() {
+        return outputFrameDataId;
     }
 
-    public void setOutputFrameId(Integer outputFrameId) {
-        this.outputFrameId = outputFrameId;
+    public void setOutputFrameDataId(Integer outputFrameDataId) {
+        this.outputFrameDataId = outputFrameDataId;
     }
 
     public Integer getEnvLoadId() {

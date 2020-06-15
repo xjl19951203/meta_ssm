@@ -8,5 +8,5 @@ import java.util.List;
 
 @Mapper
 public interface EnergyDataDao extends ModelDao{
-    List<EnergyData> selectEnergyDataListByInputFrameId (Integer pk);
+    List<EnergyData> selectEnergyDataListByInputFrameDataId (Integer pk);
 }

@@ -25,10 +25,10 @@
         <association property="category" column="categoryId" select="com.zeng.ssm.dao.CategoryDao.selectSimpleByPrimaryKey"/>
         <!--当表中设置外键时，如果表中的一条记录单独对应其他表中的多条记录，就用collection属性，select表示对应xml的namespace + 对应xml中的代码片段的id,
 		column作为select语句的参数传入,如果只传一个参数id可以简写: column="id" -->
-        <collection column="id" property="inputFrameList" ofType="com.zeng.ssm.model.InputFrame"
-                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.InputFrameDao.selectInputFrameListBySceneDataId"/>
-<!--        <collection column="id" property="outputFrameList" ofType="com.zeng.ssm.model.OutputFrame"-->
-<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDao.selectOutputFrameListBySceneDataId"/>-->
+        <collection column="id" property="inputFrameDataList" ofType="com.zeng.ssm.model.InputFrameData"
+                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.InputFrameDataDao.selectInputFrameDataListBySceneDataId"/>
+<!--        <collection column="id" property="outputFrameDataList" ofType="com.zeng.ssm.model.OutputFrameData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDataDao.selectOutputFrameDataListBySceneDataId"/>-->
 <!--        <collection column="id" property="materialDataList" ofType="com.zeng.ssm.model.MaterialData"-->
 <!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.MaterialDataDao.selectMaterialDataListBySceneDataId"/>-->
 <!--        <collection column="id" property="energyDataList" ofType="com.zeng.ssm.model.EnergyData"-->

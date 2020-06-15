@@ -9,8 +9,8 @@ import java.util.Date;
 public class DeviceData extends AbstractModel {
 
 //    private Integer sceneDataId;
-    private Integer inputFrameId;
-//    private InputFrame inputFrame;
+    private Integer inputFrameDataId;
+//    private InputFrameData inputFrameData;
     private float workTime;
     private Integer deviceId;
     private Device device;
@@ -30,20 +30,20 @@ public class DeviceData extends AbstractModel {
 //        this.sceneDataId = sceneDataId;
 //    }
 
-    public Integer getInputFrameId() {
-        return inputFrameId;
+    public Integer getInputFrameDataId() {
+        return inputFrameDataId;
     }
 
-    public void setInputFrameId(Integer inputFrameId) {
-        this.inputFrameId = inputFrameId;
+    public void setInputFrameDataId(Integer inputFrameDataId) {
+        this.inputFrameDataId = inputFrameDataId;
     }
 
-//    public InputFrame getInputFrame() {
-//        return inputFrame;
+//    public InputFrame getInputFrameData() {
+//        return inputFrameData;
 //    }
 //
 //    public void setInputFrame(InputFrame inputFrame) {
-//        this.inputFrame = inputFrame;
+//        this.inputFrameData = inputFrameData;
 //    }
 
     public float getWorkTime() {

@@ -5,7 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
 <!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
-        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
+        <result column="inputFrameDataId" jdbcType="INTEGER" property="inputFrameDataId" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
@@ -13,8 +13,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.KeyParameterData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `key_parameter_data` (id, `title`, `inputFrameId`, `description`)
-        values (#{id,jdbcType=INTEGER},#{title,jdbcType=VARCHAR}, #{inputFrameId,jdbcType=INTEGER},
+        insert into `key_parameter_data` (id, `title`, `inputFrameDataId`, `description`)
+        values (#{id,jdbcType=INTEGER},#{title,jdbcType=VARCHAR}, #{inputFrameDataId,jdbcType=INTEGER},
         #{description,jdbcType=VARCHAR})
     </insert>
 
@@ -26,15 +26,15 @@
         SELECT * from `key_parameter_data`
     </select>
 
-    <select id="selectKeyParameterDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `key_parameter_data` where inputFrameId = #{pk}
+    <select id="selectKeyParameterDataListByInputFrameDataId" resultMap="BaseResultMap">
+        select * from `key_parameter_data` where inputFrameDataId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.KeyParameterData">
         update `key_parameter_data`
         set
           `title` = #{title,jdbcType=VARCHAR},
-          `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
+          `inputFrameDataId` = #{inputFrameDataId,jdbcType=INTEGER},
           `description` = #{description,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>

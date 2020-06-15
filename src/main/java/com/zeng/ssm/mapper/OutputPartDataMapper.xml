@@ -5,7 +5,7 @@
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
 <!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
-        <result column="outputFrameId" jdbcType="INTEGER" property="outputFrameId" />
+        <result column="outputFrameDataId" jdbcType="INTEGER" property="outputFrameDataId" />
         <result column="category" jdbcType="TINYINT" property="category" />
         <result column="yieldRate" jdbcType="FLOAT" property="yieldRate" />
         <result column="description" jdbcType="VARCHAR" property="description" />
@@ -15,8 +15,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.OutputPartData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `output_part_data` (`title`, `outputFrameId`, `category`, `yieldRate`, `description`)
-        values (#{title, jdbcType=VARCHAR}, #{outputFrameId,jdbcType=INTEGER},
+        insert into `output_part_data` (`title`, `outputFrameDataId`, `category`, `yieldRate`, `description`)
+        values (#{title, jdbcType=VARCHAR}, #{outputFrameDataId,jdbcType=INTEGER},
         #{category, jdbcType=TINYINT}, #{yieldRate,jdbcType=FLOAT}, #{description, jdbcType=VARCHAR})
     </insert>
 
@@ -28,15 +28,15 @@
         SELECT * from `output_part_data`
     </select>
 
-    <select id="selectOutputPartDataListByOutputFrameId" resultMap="BaseResultMap">
-        select * from `output_part_data` where outputFrameId = #{pk}
+    <select id="selectOutputPartDataListByOutputFrameDataId" resultMap="BaseResultMap">
+        select * from `output_part_data` where outputFrameDataId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputPartData">
         update `output_part_data`
         set
           `title` = #{title,jdbcType=VARCHAR},
-          `outputFrameId` = #{outputFrameId,jdbcType=INTEGER},
+          `outputFrameDataId` = #{outputFrameDataId,jdbcType=INTEGER},
           `category` = #{category, jdbcType=TINYINT},
           `yieldRate` = #{yieldRate,jdbcType=FLOAT},
           `description` = #{description,jdbcType=VARCHAR}

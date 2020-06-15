@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.DeviceData">
         <id column="id" jdbcType="INTEGER" property="id" />
 <!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
-        <result column="inputFrameId" jdbcType="INTEGER" property="inputFrameId" />
+        <result column="inputFrameDataId" jdbcType="INTEGER" property="inputFrameDataId" />
         <result column="workTime" jdbcType="FLOAT" property="workTime" />
         <result column="deviceId" jdbcType="INTEGER" property="deviceId" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
@@ -14,8 +14,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.DeviceData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `device_data` (id, `inputFrameId`, `workTime`, `deviceId`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameId,jdbcType=INTEGER}, #{
+        insert into `device_data` (id, `inputFrameDataId`, `workTime`, `deviceId`)
+        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{
         workTime,jdbcType=FLOAT}, #{deviceId,jdbcType=INTEGER})
     </insert>
 
@@ -27,14 +27,14 @@
         SELECT * from `device_data`
     </select>
 
-    <select id="selectDeviceDataListByInputFrameId" resultMap="BaseResultMap">
-        select * from `device_data` where inputFrameId = #{pk}
+    <select id="selectDeviceDataListByInputFrameDataId" resultMap="BaseResultMap">
+        select * from `device_data` where inputFrameDataId = #{pk}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DeviceData">
         update `device_data`
         set
-          `inputFrameId` = #{inputFrameId,jdbcType=INTEGER},
+          `inputFrameDataId` = #{inputFrameDataId,jdbcType=INTEGER},
           `workTime` = #{workTime,jdbcType=FLOAT},
           `deviceId` = #{deviceId,jdbcType=INTEGER},
         where id = #{id,jdbcType=INTEGER}
