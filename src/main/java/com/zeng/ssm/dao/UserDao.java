@@ -1,10 +1,16 @@
 package com.zeng.ssm.dao;
 
-import com.zeng.ssm.common.ModelDao;
 import com.zeng.ssm.model.User;
 import org.apache.ibatis.annotations.Mapper;
 
-@Mapper
-public interface UserDao extends ModelDao{
+import java.util.List;
 
+@Mapper
+public interface UserDao {
+
+    List<User> selectAll();
+
+    int insert(User record);
+
+    User selectByPrimaryKey(Integer pk);
 }

@@ -5,16 +5,19 @@ import com.zeng.ssm.common.AbstractModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户模型
  */
-public class User extends  AbstractModel {
+public class User extends AbstractModel{
 
-    private String username;
+    private String userName;
     private String password;
     private String email;
+
+//    private List<UserGroup> ownGroups; // 用户所创建的表
+//    private List<UserGroupData> joinGroups; // 用户所属的表
+
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
     private Date createdAt;
@@ -22,31 +25,12 @@ public class User extends  AbstractModel {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
-    private List<UserGroup> ownGroups; // 用户所创建的表
-    private List<UserGroupData> joinGroups; // 用户所属的表
-
-    public List<UserGroup> getOwnGroups() {
-        return ownGroups;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setOwnGroups(List<UserGroup> ownGroups) {
-        this.ownGroups = ownGroups;
-    }
-
-    public List<UserGroupData> getJoinGroups() {
-        return joinGroups;
-    }
-
-    public void setJoinGroups(List<UserGroupData> joinGroups) {
-        this.joinGroups = joinGroups;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -64,6 +48,22 @@ public class User extends  AbstractModel {
     public void setEmail(String email) {
         this.email = email;
     }
+
+//    public List<UserGroup> getOwnGroups() {
+//        return ownGroups;
+//    }
+//
+//    public void setOwnGroups(List<UserGroup> ownGroups) {
+//        this.ownGroups = ownGroups;
+//    }
+//
+//    public List<UserGroupData> getJoinGroups() {
+//        return joinGroups;
+//    }
+//
+//    public void setJoinGroups(List<UserGroupData> joinGroups) {
+//        this.joinGroups = joinGroups;
+//    }
 
     public Date getCreatedAt() {
         return createdAt;

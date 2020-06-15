@@ -3,7 +3,7 @@
 <mapper namespace="com.zeng.ssm.dao.UserDao">
     <resultMap id="SimpleResultMap" type="com.zeng.ssm.model.User">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
         <result column="email" jdbcType="VARCHAR" property="email" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
@@ -11,35 +11,34 @@
 
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.User">
         <id column="id" jdbcType="INTEGER" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="userName" jdbcType="VARCHAR" property="userName" />
         <result column="email" jdbcType="VARCHAR" property="email" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
-        <collection column="id" property="ownGroups" ofType="com.zeng.ssm.model.UserGroup"
-                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.UserGroupDao.selectListByUserId"/>
-        <collection column="id" property="joinGroups" ofType="com.zeng.ssm.model.UserGroupData"
-                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.UserGroupDataDao.selectListByUserId"/>
+<!--        <collection column="id" property="ownGroups" ofType="com.zeng.ssm.model.UserGroup"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.UserGroupDao.selectListByUserId"/>-->
+<!--        <collection column="id" property="joinGroups" ofType="com.zeng.ssm.model.UserGroupData"-->
+<!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.UserGroupDataDao.selectListByUserId"/>-->
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.User" useGeneratedKeys="true" keyProperty="record.id" >
-        insert into `user` (id, username, `email`, `password`)
-        values (#{record.id,jdbcType=INTEGER}, #{record.username,jdbcType=VARCHAR}, #{record.email,jdbcType=VARCHAR}, #{record.password,jdbcType=VARCHAR})
+    <insert id="insert" parameterType="com.zeng.ssm.model.User" useGeneratedKeys="true" keyProperty="id">
+        insert into `user` (id, userName, `email`, `password`)
+        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
     </insert>
-
-    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-        SELECT * from `user` where id = #{pk}
-    </select>
 
     <select id="selectAll" resultMap="SimpleResultMap">
         SELECT * from `user`
     </select>
 
-    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">
-        SELECT * from `user`
-        <if test="content != null">
-            where username like '%${content}%' or email like '%${content}%'
-        </if>
-        ;
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        SELECT * from `user` where id = #{pk}
     </select>
 
+<!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">-->
+<!--        SELECT * from `user`-->
+<!--        <if test="content != null">-->
+<!--            where username like '%${content}%' or email like '%${content}%'-->
+<!--        </if>-->
+<!--        ;-->
+<!--    </select>-->
 </mapper>

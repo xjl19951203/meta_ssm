@@ -22,7 +22,6 @@ public class AbstractModel {
         this.tableName = tableName;
     }
 
-
     public Integer getId() {
         return id;
     }

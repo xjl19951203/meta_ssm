@@ -6,7 +6,6 @@ import com.zeng.ssm.common.*;
 import com.zeng.ssm.model.PageResult;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
 import java.util.List;
