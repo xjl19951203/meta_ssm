@@ -21,7 +21,7 @@ public class LoginController {
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public User register(@RequestBody User record) {
-        List<User> list = this.userDao.selectBySearch(record);
+        List<User> list = this.userDao.selectByRegister(record);
         if (list.size()==0) {
             this.userDao.insert(record);
             return this.userDao.selectByPrimaryKey(record.getId());

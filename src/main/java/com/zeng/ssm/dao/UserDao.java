@@ -9,7 +9,7 @@ public interface UserDao {
 
     List<User> selectAll();
 
-    List<User> selectBySearch(User record);
+    List<User> selectByRegister(User record);
 
     User selectByLogin(User record);
 
