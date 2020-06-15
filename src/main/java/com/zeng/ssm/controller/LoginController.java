@@ -26,7 +26,7 @@ public class LoginController {
             this.userDao.insert(record);
             return this.userDao.selectByPrimaryKey(record.getId());
         }
-        System.out.println("0");
+//        System.out.println("0");
         return null;
 
     }
@@ -37,7 +37,7 @@ public class LoginController {
         if (user!=null) {
             return user;
         }
-        System.out.println("0");
+//        System.out.println("0");
         return null;//用户名不存在，直接返回空值
     }
 //    @RequestMapping(value = "/register", method = RequestMethod.POST)
