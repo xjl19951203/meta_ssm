@@ -44,10 +44,6 @@
         select t.id, t.title, t.parentId from category t where parentId = #{id}
     </select>
 
-    <select id="selectSceneDataByCategoryId" resultMap="BaseResultMap">
-        select * from category
-    </select>
-
     <select id="selectSimpleByPrimaryKey" parameterType="java.lang.Integer" resultMap="MostSimpleResultMap">
         select * from category where id = #{pk, jdbcType=INTEGER}
     </select>
