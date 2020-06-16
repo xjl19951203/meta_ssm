@@ -56,7 +56,8 @@ public class ManageController{
 //        System.out.println("PageSize: "+pageInfo.getPageSize()); //3  每页包含的条数
         PageResult pageResult = new PageResult();
         pageResult.setCurrentPage(pageInfo.getPageNum());//当前页
-        pageResult.setPageSize(pageInfo.getSize());//当前页的数目
+        pageResult.setCurrentPageSize(pageInfo.getSize());
+        pageResult.setPageSize(pageSize);//设定页的数目
         pageResult.setPages(pageInfo.getPages());//总页数
         pageResult.setCount(pageInfo.getTotal());//总条数
         pageResult.setData(pageInfo.getList());//显示的数据

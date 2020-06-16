@@ -1,5 +1,6 @@
 package com.zeng.ssm.common;
 
+
 import java.util.List;
 
 public interface ModelDao {
@@ -21,8 +22,6 @@ public interface ModelDao {
     List<AbstractModel> selectAll();
 
     AbstractModel selectByPrimaryKey(Integer pk);
-
-//    List<AbstractModel> selectBySelectivePrimaryKey(Integer pk);
 
     int updateByPrimaryKeySelective(AbstractModel record);
 

@@ -5,14 +5,12 @@ import com.github.pagehelper.PageInfo;
 import com.zeng.ssm.common.AbstractModel;
 import com.zeng.ssm.dao.CategoryDao;
 import com.zeng.ssm.dao.SceneDataDao;
-import com.zeng.ssm.model.Category;
-import com.zeng.ssm.model.PageResult;
-import com.zeng.ssm.model.SceneData;
-import com.zeng.ssm.model.User;
+import com.zeng.ssm.model.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,42 +24,65 @@ public class CategoryController {
     CategoryDao categoryDao;
 
     @RequestMapping(value = "/{pk}", method = RequestMethod.GET)
-    public PageResult get(@PathVariable Integer pk, @RequestParam(defaultValue="1") Integer currentPage, @RequestParam(defaultValue="5") Integer pageSize) {
-        Category category;
-        PageResult pageResult = new PageResult();
+    public CategoryPageResult get(@PathVariable Integer pk, @RequestParam(defaultValue="1") Integer currentPage, @RequestParam(defaultValue="5") Integer pageSize) {
+
+        CategoryPageResult categoryPageResult = new CategoryPageResult();
+        categoryPageResult.setCategory((Category)this.categoryDao.selectByPrimaryKey(pk));
+        List<Category> lists;
         List<SceneData> list = new ArrayList<>();
-//        category.getSceneDataList();
-        if (pk==0) {
-//            category = (Category)this.categoryDao.selectByPrimaryKey(1);
-            list.addAll(((Category) this.categoryDao.selectByPrimaryKey(1)).getSceneDataList());
-            list.addAll(((Category) this.categoryDao.selectByPrimaryKey(2)).getSceneDataList());
-            list.addAll(((Category) this.categoryDao.selectByPrimaryKey(3)).getSceneDataList());
-            list.addAll(((Category) this.categoryDao.selectByPrimaryKey(4)).getSceneDataList());
+        if (pk==1) {
+            lists = this.categoryDao.selectBySelectivePrimaryKey(2);
+            for (Category temp:lists) {
+                list.addAll(temp.getSceneDataList());
+            }
+            lists = this.categoryDao.selectBySelectivePrimaryKey(3);
+            for (Category temp:lists) {
+                list.addAll(temp.getSceneDataList());
+            }
+            lists = this.categoryDao.selectBySelectivePrimaryKey(4);
+            for (Category temp:lists) {
+                list.addAll(temp.getSceneDataList());
+            }
+            lists = this.categoryDao.selectBySelectivePrimaryKey(5);
+            for (Category temp:lists) {
+                list.addAll(temp.getSceneDataList());
+            }
         }else {
-            category = (Category)this.categoryDao.selectByPrimaryKey(pk);
-            list = category.getSceneDataList();
+            lists = this.categoryDao.selectBySelectivePrimaryKey(pk);
+            for (Category temp:lists) {
+                list.addAll(temp.getSceneDataList());
+            }
         }
 
         int size = list.size();
         if (size%pageSize!=0) {
-            pageResult.setPages(size/pageSize+1);
+            categoryPageResult.setPages(size/pageSize+1);
             if (currentPage==size/pageSize+1) {
-                pageResult.setPageSize(size%pageSize);
+                categoryPageResult.setCurrentPageSize(size%pageSize);
+            }else if (currentPage<=size/pageSize){
+                categoryPageResult.setCurrentPageSize(pageSize);
             }else {
-                pageResult.setPageSize(pageSize);
+                categoryPageResult.setCurrentPageSize(0);
             }
         }else {
-            pageResult.setPages(size/pageSize);
-            pageResult.setPageSize(pageSize);
+            categoryPageResult.setPages(size/pageSize);
+            if (currentPage<=size/pageSize) {
+                categoryPageResult.setCurrentPageSize(pageSize);
+            }else {
+                categoryPageResult.setCurrentPageSize(0);
+            }
         }
-        pageResult.setCurrentPage(currentPage);
+        categoryPageResult.setCurrentPage(currentPage);
+        categoryPageResult.setPageSize(pageSize);
+        categoryPageResult.setCount((long)size);
         List<AbstractModel> list1 = new ArrayList<>();
         for (int i=pageSize*(currentPage-1);i<pageSize*currentPage&&i<size;i++) {
             list1.add(list.get(i));
         }
-        pageResult.setData(list1);
-        return pageResult;
+        categoryPageResult.setData(list1);
+        return categoryPageResult;
     }
+
     @RequestMapping(value = "", method = RequestMethod.GET)
     public List<AbstractModel> getLists() {
         return this.categoryDao.selectAll();

@@ -78,8 +78,8 @@ public class LoginController {
 //        return null;//用户名不存在，直接返回空值
 //    }
 
-//    @RequestMapping(value = "/login", method = RequestMethod.GET)
-//    public List<User> getLists() {
+//    @RequestMapping(value = "/login????", method = RequestMethod.GET)
+//    public List<AbstractModel> getLists() {
 //        return this.userDao.selectAll();
 //    }
 }

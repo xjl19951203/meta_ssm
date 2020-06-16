@@ -78,8 +78,7 @@
     </select>
 
     <select id="selectListByCategoryId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">
-        SELECT * from `scene_data` where categoryId in
-        (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}))
+        SELECT * from `scene_data` where categoryId = #{categoryId}
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.SceneData">
