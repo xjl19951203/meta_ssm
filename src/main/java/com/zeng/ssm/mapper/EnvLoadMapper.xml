@@ -14,7 +14,8 @@
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnvLoad" useGeneratedKeys="true" keyProperty="id" >
         insert into `env_load` (`title`,`envLoadCategoryId`, `description`,`safetyId`,treatment)
-        values (#{title,jdbcType=VARCHAR}, #{envLoadCategoryId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{safetyId,jdbcType=INTEGER}, #{treatment,jdbcType=VARCHAR})
+        values (#{title,jdbcType=VARCHAR}, #{envLoadCategoryId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},
+         #{safetyId,jdbcType=INTEGER}, #{treatment,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
