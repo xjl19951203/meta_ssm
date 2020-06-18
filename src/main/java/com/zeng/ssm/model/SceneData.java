@@ -16,7 +16,7 @@ public class SceneData extends Searchable {
     private String description;
 
     private List<InputFrameData> inputFrameDataList;
-    private List<OutputFrameData> outputFrameDataList;
+//    private List<OutputFrameData> outputFrameDataList;
 //    private List<MaterialData> materialDataList;
 //    private List<EnergyData> energyDataList;
 //    private List<DeviceData> deviceDataList;
@@ -80,13 +80,13 @@ public class SceneData extends Searchable {
         this.inputFrameDataList = inputFrameDataList;
     }
 
-    public List<OutputFrameData> getOutputFrameDataList() {
-        return outputFrameDataList;
-    }
-
-    public void setOutputFrameDataList(List<OutputFrameData> outputFrameDataList) {
-        this.outputFrameDataList = outputFrameDataList;
-    }
+//    public List<OutputFrameData> getOutputFrameDataList() {
+//        return outputFrameDataList;
+//    }
+//
+//    public void setOutputFrameDataList(List<OutputFrameData> outputFrameDataList) {
+//        this.outputFrameDataList = outputFrameDataList;
+//    }
 
     public Date getCreatedAt() {
         return createdAt;
