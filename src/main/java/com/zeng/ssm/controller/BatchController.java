@@ -1,5 +1,8 @@
 package com.zeng.ssm.controller;
 
+import com.zeng.ssm.common.AbstractModel;
+import com.zeng.ssm.common.ModelHandler;
+import com.zeng.ssm.common.ModelImpl;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -89,7 +92,7 @@ public class BatchController {
             return 0;
         }
     }
-
+//    @PathVariable Integer sceneId,
     @RequestMapping(value="/sceneDataList", method = RequestMethod.POST)
     public int sceneDataListBatch (@RequestBody List<SceneData> record) {
         try {
@@ -148,8 +151,88 @@ public class BatchController {
         }
     }
 
+    @RequestMapping(value="/inputFrameDataList", method = RequestMethod.POST)
+    public int inputFrameDataBatch (@PathVariable Integer sceneDataId, @RequestBody List<InputFrameData> record) {
+        try {
+            for (InputFrameData inputFrameData :record) {
+                inputFrameData.setSceneDataId(sceneDataId);
+                this.inputFrameDataDao.insert(inputFrameData);
+                List<MaterialData> materialDataList = inputFrameData.getMaterialDataList();
+                for (MaterialData materialData:materialDataList) {
+                    materialData.setInputFrameDataId(inputFrameData.getId());
+                    this.materialDataDao.insert(materialData);
+                }
+                List<EnergyData> energyDataList = inputFrameData.getEnergyDataList();
+                for (EnergyData energyData:energyDataList) {
+                    energyData.setInputFrameDataId(inputFrameData.getId());
+                    this.energyDataDao.insert(energyData);
+                }
+                List<DeviceData> deviceDataList = inputFrameData.getDeviceDataList();
+                for (DeviceData deviceData:deviceDataList) {
+                    deviceData.setInputFrameDataId(inputFrameData.getId());
+                    this.deviceDataDao.insert(deviceData);
+                }
+                List<KeyParameterData> keyParameterDataList = inputFrameData.getKeyParameterDataList();
+                for (KeyParameterData keyParameterData:keyParameterDataList) {
+                    keyParameterData.setInputFrameDataId(inputFrameData.getId());
+                    this.keyParameterDataDao.insert(keyParameterData);
+                }
+                List<FunctionUnitData> functionUnitDataList = inputFrameData.getFunctionUnitDataList();
+                for (FunctionUnitData functionUnitData:functionUnitDataList) {
+                    functionUnitData.setInputFrameDataId(inputFrameData.getId());
+                    this.functionUnitDataDao.insert(functionUnitData);
+                }
+                List<OutputFrameData> outputFrameDataList = inputFrameData.getOutputFrameDataList();
+                for (OutputFrameData outputFrameData:outputFrameDataList) {
+                    outputFrameData.setInputFrameDataId(inputFrameData.getId());
+                    this.outputFrameDataDao.insert(outputFrameData);
+                    List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
+                    for (EnvLoadData envLoadData:envLoadDataList) {
+                        envLoadData.setOutputFrameDataId(outputFrameData.getId());
+                        this.envLoadDataDao.insert(envLoadData);
+                    }
+                    List<OutputPartData> outputPartDataList = outputFrameData.getOutputPartDataList();
+                    for (OutputPartData outputPartData:outputPartDataList) {
+                        outputPartData.setOutputFrameDataId(outputFrameData.getId());
+                        this.outputPartDataDao.insert(outputPartData);
+                    }
+                }
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @RequestMapping(value="/outputFrameDataList", method = RequestMethod.POST)
+    public int outputFrameDataBatch (@PathVariable Integer inputFrameId, @RequestBody List<OutputFrameData> record) {
+        try {
+            for (OutputFrameData outputFrameData :record) {
+                outputFrameData.setInputFrameDataId(inputFrameId);
+                this.outputFrameDataDao.insert(outputFrameData);
+                List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
+                for (EnvLoadData envLoadData:envLoadDataList) {
+                    envLoadData.setOutputFrameDataId(outputFrameData.getId());
+                    this.envLoadDataDao.insert(envLoadData);
+                }
+                List<OutputPartData> outputPartDataList = outputFrameData.getOutputPartDataList();
+                for (OutputPartData outputPartData:outputPartDataList) {
+                    outputPartData.setOutputFrameDataId(outputFrameData.getId());
+                    this.outputPartDataDao.insert(outputPartData);
+                }
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
     @RequestMapping(value="/baseTable", method = RequestMethod.POST)
-    public int baseTableBatch (@RequestBody SceneData record) {
+    public int baseTableBatch (@PathVariable String tableName,@RequestBody List<AbstractModel> record) {
+
+
         return 0;
     }
 }
