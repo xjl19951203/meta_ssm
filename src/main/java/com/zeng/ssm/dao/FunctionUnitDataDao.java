@@ -8,5 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface FunctionUnitDataDao extends ModelDao {
+
     List<FunctionUnitData> selectFunctionUnitDataListByInputFrameDataId(Integer pk);
 }

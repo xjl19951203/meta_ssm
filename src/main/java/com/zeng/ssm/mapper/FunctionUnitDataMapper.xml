@@ -3,7 +3,6 @@
 <mapper namespace="com.zeng.ssm.dao.FunctionUnitDataDao">
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.FunctionUnitData">
         <id column="id" jdbcType="INTEGER" property="id" />
-<!--        <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />-->
         <result column="inputFrameDataId" jdbcType="INTEGER" property="inputFrameDataId" />
         <result column="functionValue" jdbcType="FLOAT" property="functionValue" />
         <result column="functionUnit" jdbcType="VARCHAR" property="functionUnit" />
@@ -14,8 +13,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.FunctionUnitData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `function_unit_data` (id, `inputFrameDataId`, `functionValue`, `functionUnit`, `functionDescription`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
+        insert into `function_unit_data` (`inputFrameDataId`, `functionValue`, `functionUnit`, `functionDescription`)
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
         #{functionUnit,jdbcType=VARCHAR}, #{functionDescription,jdbcType=VARCHAR})
     </insert>
 

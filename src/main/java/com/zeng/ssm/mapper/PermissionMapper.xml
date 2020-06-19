@@ -13,8 +13,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Permission" useGeneratedKeys="true" keyProperty="id" >
-        insert into `permission` (id, permissionOperationId, title, `categoryId`, `description`)
-        values (#{id,jdbcType=INTEGER}, #{permissionOperationId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
+        insert into `permission` (permissionOperationId, title, `categoryId`, `description`)
+        values (#{permissionOperationId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR},
         #{categoryId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR})
     </insert>
 

@@ -5,6 +5,7 @@ import com.zeng.ssm.common.Searchable;
 import java.util.List;
 
 public class OutputFrameData extends Searchable {
+    private Integer id;
     private Integer inputFrameDataId;
 //    private InputFrame inputFrame;
     private String collectionDescription;
@@ -12,21 +13,23 @@ public class OutputFrameData extends Searchable {
     private List<OutputPartData> outputPartDataList;
     private List<EnvLoadData> envLoadDataList;
 
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Integer getInputFrameDataId() {
         return inputFrameDataId;
     }
 
-    public void setInputFrameDataId(Integer inputFrameId) {
+    public void setInputFrameDataId(Integer inputFrameDataId) {
         this.inputFrameDataId = inputFrameDataId;
     }
-
-//    public InputFrame getInputFrame() {
-//        return inputFrame;
-//    }
-//
-//    public void setInputFrame(InputFrame inputFrame) {
-//        this.inputFrame = inputFrame;
-//    }
 
     public String getCollectionDescription() {
         return collectionDescription;

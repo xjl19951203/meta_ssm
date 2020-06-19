@@ -29,19 +29,11 @@ public class EnergyData extends AbstractModel {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
 
-//    public Integer getSceneDataId() {
-//        return sceneDataId;
-//    }
-//
-//    public void setSceneDataId(Integer sceneDataId) {
-//        this.sceneDataId = sceneDataId;
-//    }
-
     public Integer getInputFrameDataId() {
         return inputFrameDataId;
     }
 
-    public void setInputFrameDataId(Integer inputFrameId) {
+    public void setInputFrameDataId(Integer inputFrameDataId) {
         this.inputFrameDataId = inputFrameDataId;
     }
 

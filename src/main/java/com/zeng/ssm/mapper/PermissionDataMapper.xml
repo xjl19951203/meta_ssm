@@ -11,8 +11,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.PermissionData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `user_group_permission_data` (id, userGroupId, `permissionId`)
-        values (#{id,jdbcType=INTEGER}, #{userGroupId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER})
+        insert into `user_group_permission_data` (userGroupId, `permissionId`)
+        values (#{userGroupId,jdbcType=INTEGER}, #{permissionId,jdbcType=INTEGER})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

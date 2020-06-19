@@ -22,11 +22,10 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.MaterialData" useGeneratedKeys="true" keyProperty="id" >
-        insert into material_data (id, `inputFrameDataId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
+        insert into material_data (`inputFrameDataId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
         `dataSourceId`, `time`, `reliability`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER},
-        #{materialDataCategoryId, jdbcType=INTEGER}, #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER},
-        #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR})
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, #{materialDataCategoryId, jdbcType=INTEGER},
+        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

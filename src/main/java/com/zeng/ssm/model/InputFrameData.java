@@ -4,6 +4,8 @@ import com.zeng.ssm.common.Searchable;
 import java.util.List;
 
 public class InputFrameData extends Searchable {
+
+    private Integer id;
     private Integer sceneDataId;
     private SceneData sceneData;
 
@@ -13,6 +15,16 @@ public class InputFrameData extends Searchable {
     private List<FunctionUnitData> functionUnitDataList;
     private List<KeyParameterData> keyParameterDataList;
     private List<OutputFrameData> outputFrameDataList;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getSceneDataId() {
         return sceneDataId;
@@ -58,7 +70,7 @@ public class InputFrameData extends Searchable {
         return functionUnitDataList;
     }
 
-    public void setFunctionUnitDataList(List<FunctionUnitData> FunctionUnitDataList) {
+    public void setFunctionUnitDataList(List<FunctionUnitData> functionUnitDataList) {
         this.functionUnitDataList = functionUnitDataList;
     }
 

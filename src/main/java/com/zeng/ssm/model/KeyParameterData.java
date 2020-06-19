@@ -31,19 +31,11 @@ public class KeyParameterData extends AbstractModel{
         this.title = title;
     }
 
-//    public Integer getSceneDataId() {
-//        return sceneDataId;
-//    }
-//
-//    public void setSceneDataId(Integer sceneDataId) {
-//        this.sceneDataId = sceneDataId;
-//    }
-
     public Integer getInputFrameDataId() {
         return inputFrameDataId;
     }
 
-    public void setInputFrameDataId(Integer inputFrameId) {
+    public void setInputFrameDataId(Integer inputFrameDataId) {
         this.inputFrameDataId = inputFrameDataId;
     }
 

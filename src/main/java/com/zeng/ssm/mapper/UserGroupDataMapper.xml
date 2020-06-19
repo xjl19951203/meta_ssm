@@ -11,8 +11,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.UserGroupData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `user_group_data` (id, userId, `userGroupId`)
-        values (#{id,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{userGroupId,jdbcType=INTEGER})
+        insert into `user_group_data` (userId, `userGroupId`)
+        values (#{userId,jdbcType=INTEGER}, #{userGroupId,jdbcType=INTEGER})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

@@ -19,7 +19,6 @@
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.InputFrameData">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="sceneDataId" jdbcType="INTEGER" property="sceneDataId" />
-
         <!--当表中设置外键时，如果表中的一条记录单独对应其他表中的一条记录，就用association属性，property表示返回的对象的实例，
         column表示主表的外键字段，select表示对应xml的namespace + 对应xml中的代码片段的id-->
         <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>

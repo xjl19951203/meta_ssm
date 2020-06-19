@@ -40,10 +40,10 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnvLoadData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `env_load_data` (id, `outputFrameDataId`, `envLoadId`, `value`, `unitId`, `description`, `deviceId`, `collectReasonId`
+        insert into `env_load_data` (`outputFrameDataId`, `envLoadId`, `value`, `unitId`, `description`, `deviceId`, `collectReasonId`
                     , `monitorRangeId`, `frequency`, `location`, `collectMethodId`, `time`, `reliability`, `calculateMethodId`, `treatment`
                     , `monitorMethodId`, `collectProblemId`, `dataSourceId`)
-        values (#{id,jdbcType=INTEGER}, #{outputFrameDataId,jdbcType=INTEGER}, #{envLoadId,jdbcType=INTEGER}, #{value,jdbcType=FLOAT}
+        values (#{outputFrameDataId,jdbcType=INTEGER}, #{envLoadId,jdbcType=INTEGER}, #{value,jdbcType=FLOAT}
                 , #{unitId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR}, #{deviceId,jdbcType=INTEGER}, #{collectReasonId,jdbcType=INTEGER}
                 , #{monitorRangeId,jdbcType=INTEGER},#{frequency,jdbcType=VARCHAR},#{location,jdbcType=VARCHAR},#{collectMethodId,jdbcType=INTEGER}
                 , #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR}, #{calculateMethodId,jdbcType=INTEGER}, #{treatment,jdbcType=VARCHAR}

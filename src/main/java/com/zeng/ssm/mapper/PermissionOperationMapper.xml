@@ -7,8 +7,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.PermissionOperation" useGeneratedKeys="true" keyProperty="record.id" >
-        insert into `permission_operation` (id, title)
-        values (#{record.id,jdbcType=INTEGER}, #{record.title,jdbcType=VARCHAR})
+        insert into `permission_operation` (title)
+        values (#{record.title,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

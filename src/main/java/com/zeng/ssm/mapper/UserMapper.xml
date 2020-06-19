@@ -22,8 +22,8 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.User" useGeneratedKeys="true" keyProperty="id">
-        insert into `user` (id, userName, `email`, `password`)
-        values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+        insert into `user` (userName, `email`, `password`)
+        values (#{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectAll" resultMap="SimpleResultMap">

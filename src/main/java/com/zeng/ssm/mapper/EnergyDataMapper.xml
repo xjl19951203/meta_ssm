@@ -20,9 +20,9 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.EnergyData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy_data` (id, inputFrameDataId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
-        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{dataSourceId=INTEGER},#{deviceId,jdbcType=INTEGER})
+        insert into `energy_data` (inputFrameDataId, `energyId`, `value`, `unitId`,`dataSourceId`, `deviceId`)
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{energyId,jdbcType=INTEGER},
+        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER},#{dataSourceId,jdbcType=INTEGER},#{deviceId,jdbcType=INTEGER})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

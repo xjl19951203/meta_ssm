@@ -9,6 +9,7 @@ import java.util.List;
 
 public class SceneData extends Searchable {
 
+    private Integer id;
     private String title;
     private Integer categoryId;
     private Integer categoryRootId; // 标识分类大类，便于按大类查询
@@ -29,6 +30,16 @@ public class SceneData extends Searchable {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
+
+    @Override
+    public Integer getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     @Override
     public String getTitle() {

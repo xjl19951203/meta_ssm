@@ -14,9 +14,8 @@
     </resultMap>
     
     <insert id="insert" parameterType="com.zeng.ssm.model.DeviceData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `device_data` (id, `inputFrameDataId`, `workTime`, `deviceId`)
-        values (#{id,jdbcType=INTEGER}, #{inputFrameDataId,jdbcType=INTEGER}, #{
-        workTime,jdbcType=FLOAT}, #{deviceId,jdbcType=INTEGER})
+        insert into `device_data` (`inputFrameDataId`, `workTime`, `deviceId`)
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{workTime,jdbcType=FLOAT}, #{deviceId,jdbcType=INTEGER})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
