@@ -8,12 +8,13 @@
         <result column="power" jdbcType="VARCHAR" property="power" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="usage" jdbcType="VARCHAR" property="usage"/>
+        <result column="source" jdbcType="VARCHAR" property="source"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Device" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `device` ( `title`, `type`, `power`, `description`,`usage`)
-        values ( #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
-         #{power,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR},#{usage,jdbcType=VARCHAR})
+        insert into  `device` ( `title`, `type`, `power`, `description`,`usage`,`source`)
+        values ( #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},#{usage,jdbcType=VARCHAR},#{source,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
@@ -43,11 +44,12 @@
           `power` = #{power,jdbcType=VARCHAR},
           `title` = #{title,jdbcType=VARCHAR},
           `description` = #{description,jdbcType=VARCHAR},
-          `usage` = #{usage,jdbcType=VARCHAR}
+          `usage` = #{usage,jdbcType=VARCHAR},
+          `source` = #{source,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-      delete from `device` where id = #{pk,jdbcType=INTEGER}
+      delete from `device` where id = #{pk}
     </delete>
 </mapper>

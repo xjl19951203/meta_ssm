@@ -1,8 +1,5 @@
 package com.zeng.ssm.controller;
 
-import com.zeng.ssm.common.AbstractModel;
-import com.zeng.ssm.common.ModelHandler;
-import com.zeng.ssm.common.ModelImpl;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -36,6 +33,14 @@ public class BatchController {
     EnvLoadDataDao envLoadDataDao;
     @Resource
     OutputPartDataDao outputPartDataDao;
+    @Resource
+    MaterialDao materialDao;
+    @Resource
+    EnergyDao energyDao;
+    @Resource
+    DeviceDao deviceDao;
+    @Resource
+    EnvLoadDao envLoadDao;
 
     @RequestMapping(value="/sceneData", method = RequestMethod.POST)
     public int sceneDataBatch (@RequestBody SceneData record) {
@@ -92,7 +97,7 @@ public class BatchController {
             return 0;
         }
     }
-//    @PathVariable Integer sceneId,
+
     @RequestMapping(value="/sceneDataList", method = RequestMethod.POST)
     public int sceneDataListBatch (@RequestBody List<SceneData> record) {
         try {
@@ -229,10 +234,55 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/baseTable", method = RequestMethod.POST)
-    public int baseTableBatch (@PathVariable String tableName,@RequestBody List<AbstractModel> record) {
+    @RequestMapping(value="/materialList", method = RequestMethod.POST)
+    public int materialBatch (@RequestBody List<Material> materials) {
+        try {
+            for (Material material:materials) {
+                this.materialDao.insert(material);
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
+    @RequestMapping(value="/energyList", method = RequestMethod.POST)
+    public int energyBatch (@RequestBody List<Energy> energys) {
+        try {
+            for (Energy energy:energys) {
+                this.energyDao.insert(energy);
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
 
-        return 0;
+    @RequestMapping(value="/deviceList", method = RequestMethod.POST)
+    public int deviceBatch (@RequestBody List<Device> devices) {
+        try {
+            for (Device device:devices) {
+                this.deviceDao.insert(device);
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @RequestMapping(value="/envLoadList", method = RequestMethod.POST)
+    public int envLoadBatch (@RequestBody List<EnvLoad> envLoads) {
+        try {
+            for (EnvLoad envLoad:envLoads) {
+                this.envLoadDao.insert(envLoad);
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 }

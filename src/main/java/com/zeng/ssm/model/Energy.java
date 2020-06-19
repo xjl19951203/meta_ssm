@@ -4,10 +4,11 @@ import com.zeng.ssm.common.Searchable;
 
 public class Energy extends Searchable{
 
-    private Integer id;
+//    private Integer id;
     private Integer energyCategoryId;
     private EnergyCategory energyCategory;
     private String title;
+    private String source;
 
     public String getTitle() {
         return title;
@@ -36,5 +37,13 @@ public class Energy extends Searchable{
 
     public void setEnergyCategory(EnergyCategory energyCategory) {
         this.energyCategory = energyCategory;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

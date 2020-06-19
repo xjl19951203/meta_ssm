@@ -11,6 +11,7 @@ public class EnvLoad extends Searchable{
     private int safetyId;
     private Safety safety;
     private String treatment;
+    private String source;
 
     public String getTitle() {
         return title;
@@ -71,5 +72,13 @@ public class EnvLoad extends Searchable{
 
     public void setTreatment(String treatment) {
         this.treatment = treatment;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 }

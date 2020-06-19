@@ -5,12 +5,13 @@
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="energyCategoryId" jdbcType="INTEGER" property="energyCategoryId"/>
+        <result column="source" jdbcType="VARCHAR" property="source"/>
         <association property="energyCategory" column="energyCategoryId" select="com.zeng.ssm.dao.EnergyCategoryDao.selectByPrimaryKey"/>
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Energy" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy` ( `title`, `energyCategoryId`)
-        values (#{title,jdbcType=VARCHAR}, #{energyCategoryId,jdbcType=INTEGER})
+        insert into `energy` ( `title`, `energyCategoryId`, `source`)
+        values (#{title,jdbcType=VARCHAR}, #{energyCategoryId,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
@@ -37,7 +38,8 @@
         update `energy`
         set
           `title` = #{title,jdbcType=VARCHAR},
-          `energyCategoryId` = #{energyCategoryId,jdbcType=INTEGER}
+          `energyCategoryId` = #{energyCategoryId,jdbcType=INTEGER},
+          `source` = #{source,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
 

@@ -11,6 +11,7 @@ public class Material extends Searchable{
     private String description;
     private String type;
     private String origin;
+    private String source;
     private List<MaterialLoad> materialLoadList;
 
 
@@ -59,5 +60,11 @@ public class Material extends Searchable{
         this.description = description;
     }
 
+    public String getSource() {
+        return source;
+    }
 
+    public void setSource(String source) {
+        this.source = source;
+    }
 }
