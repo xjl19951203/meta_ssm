@@ -71,8 +71,7 @@
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputFrameData">
         update `output_frame_data`
-        set id = #{id,jdbcType=INTEGER},
-            inputFrameDataId = #{inputFrameDataId,jdbcType=INTEGER},
+        set inputFrameDataId = #{inputFrameDataId,jdbcType=INTEGER},
             collectionDescription = #{collectionDescription,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>

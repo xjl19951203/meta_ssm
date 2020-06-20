@@ -157,7 +157,10 @@ public class BatchController {
     }
 
     @RequestMapping(value="/inputFrameDataList", method = RequestMethod.POST)
-    public int inputFrameDataBatch (@PathVariable Integer sceneDataId, @RequestBody List<InputFrameData> record) {
+    public int inputFrameDataBatch (@RequestParam(defaultValue="-1") Integer sceneDataId, @RequestBody List<InputFrameData> record) {
+        if (sceneDataId==-1) {
+            return 0;
+        }
         try {
             for (InputFrameData inputFrameData :record) {
                 inputFrameData.setSceneDataId(sceneDataId);
@@ -211,10 +214,13 @@ public class BatchController {
     }
 
     @RequestMapping(value="/outputFrameDataList", method = RequestMethod.POST)
-    public int outputFrameDataBatch (@PathVariable Integer inputFrameId, @RequestBody List<OutputFrameData> record) {
+    public int outputFrameDataBatch (@RequestParam(defaultValue="-1") Integer inputFrameDataId, @RequestBody List<OutputFrameData> record) {
+        if (inputFrameDataId==-1) {
+            return 0;
+        }
         try {
             for (OutputFrameData outputFrameData :record) {
-                outputFrameData.setInputFrameDataId(inputFrameId);
+                outputFrameData.setInputFrameDataId(inputFrameDataId);
                 this.outputFrameDataDao.insert(outputFrameData);
                 List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
                 for (EnvLoadData envLoadData:envLoadDataList) {

@@ -14,8 +14,7 @@
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Material" useGeneratedKeys="true" keyProperty="id" >
         insert into material (`title`, `description`, `type`, `origin`, `source`)
-        values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}
-                , #{origin,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR})
+        values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">

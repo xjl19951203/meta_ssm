@@ -102,8 +102,7 @@
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.InputFrameData">
         update `input_frame_data`
-        set id = #{id,jdbcType=INTEGER},
-            sceneDataId = #{sceneDataId,jdbcType=INTEGER}
+        set sceneDataId = #{sceneDataId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
 
