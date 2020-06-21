@@ -18,6 +18,6 @@ public class SearchController {
     @Resource
     SceneDataDao sceneDataDao;
 
-    @RequestMapping(value="")
+//    @RequestMapping(value="")
 
 }

@@ -120,7 +120,7 @@ public class BatchController {
     }
 
     @RequestMapping(value="/sceneDataList", method = RequestMethod.POST)
-    public int sceneDataListBatch (@RequestBody List<SceneData> record) {
+    public List<SceneData> sceneDataListBatch (@RequestBody List<SceneData> record) {
         try {
             if (record!=null) {
                 for (SceneData sceneData:record) {
@@ -191,148 +191,186 @@ public class BatchController {
                         }
                     }
                 }
-                return 1;
+                return record;
             }
-            return 0;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 
     @RequestMapping(value="/inputFrameDataList", method = RequestMethod.POST)
-    public int inputFrameDataBatch (@RequestParam(defaultValue="-1") Integer sceneDataId, @RequestBody List<InputFrameData> record) {
+    public List<InputFrameData> inputFrameDataBatch (@RequestParam(defaultValue="-1") Integer sceneDataId, @RequestBody List<InputFrameData> record) {
         if (sceneDataId==-1) {
-            return 0;
+            return null;
         }
         try {
-            for (InputFrameData inputFrameData :record) {
-                inputFrameData.setSceneDataId(sceneDataId);
-                this.inputFrameDataDao.insert(inputFrameData);
-                List<MaterialData> materialDataList = inputFrameData.getMaterialDataList();
-                for (MaterialData materialData:materialDataList) {
-                    materialData.setInputFrameDataId(inputFrameData.getId());
-                    this.materialDataDao.insert(materialData);
-                }
-                List<EnergyData> energyDataList = inputFrameData.getEnergyDataList();
-                for (EnergyData energyData:energyDataList) {
-                    energyData.setInputFrameDataId(inputFrameData.getId());
-                    this.energyDataDao.insert(energyData);
-                }
-                List<DeviceData> deviceDataList = inputFrameData.getDeviceDataList();
-                for (DeviceData deviceData:deviceDataList) {
-                    deviceData.setInputFrameDataId(inputFrameData.getId());
-                    this.deviceDataDao.insert(deviceData);
-                }
-                List<KeyParameterData> keyParameterDataList = inputFrameData.getKeyParameterDataList();
-                for (KeyParameterData keyParameterData:keyParameterDataList) {
-                    keyParameterData.setInputFrameDataId(inputFrameData.getId());
-                    this.keyParameterDataDao.insert(keyParameterData);
-                }
-                List<FunctionUnitData> functionUnitDataList = inputFrameData.getFunctionUnitDataList();
-                for (FunctionUnitData functionUnitData:functionUnitDataList) {
-                    functionUnitData.setInputFrameDataId(inputFrameData.getId());
-                    this.functionUnitDataDao.insert(functionUnitData);
-                }
-                List<OutputFrameData> outputFrameDataList = inputFrameData.getOutputFrameDataList();
-                for (OutputFrameData outputFrameData:outputFrameDataList) {
-                    outputFrameData.setInputFrameDataId(inputFrameData.getId());
-                    this.outputFrameDataDao.insert(outputFrameData);
-                    List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
-                    for (EnvLoadData envLoadData:envLoadDataList) {
-                        envLoadData.setOutputFrameDataId(outputFrameData.getId());
-                        this.envLoadDataDao.insert(envLoadData);
+            if (record!=null) {
+                for (InputFrameData inputFrameData :record) {
+                    inputFrameData.setSceneDataId(sceneDataId);
+                    this.inputFrameDataDao.insert(inputFrameData);
+                    List<MaterialData> materialDataList = inputFrameData.getMaterialDataList();
+                    if (materialDataList!=null) {
+                        for (MaterialData materialData:materialDataList) {
+                            materialData.setInputFrameDataId(inputFrameData.getId());
+                            this.materialDataDao.insert(materialData);
+                        }
                     }
-                    List<OutputPartData> outputPartDataList = outputFrameData.getOutputPartDataList();
-                    for (OutputPartData outputPartData:outputPartDataList) {
-                        outputPartData.setOutputFrameDataId(outputFrameData.getId());
-                        this.outputPartDataDao.insert(outputPartData);
+                    List<EnergyData> energyDataList = inputFrameData.getEnergyDataList();
+                    if (energyDataList!=null) {
+                        for (EnergyData energyData:energyDataList) {
+                            energyData.setInputFrameDataId(inputFrameData.getId());
+                            this.energyDataDao.insert(energyData);
+                        }
+                    }
+                    List<DeviceData> deviceDataList = inputFrameData.getDeviceDataList();
+                    if (deviceDataList!=null) {
+                        for (DeviceData deviceData : deviceDataList) {
+                            deviceData.setInputFrameDataId(inputFrameData.getId());
+                            this.deviceDataDao.insert(deviceData);
+                        }
+                    }
+                    List<KeyParameterData> keyParameterDataList = inputFrameData.getKeyParameterDataList();
+                    if (keyParameterDataList!=null) {
+                        for (KeyParameterData keyParameterData : keyParameterDataList) {
+                            keyParameterData.setInputFrameDataId(inputFrameData.getId());
+                            this.keyParameterDataDao.insert(keyParameterData);
+                        }
+                    }
+                    List<FunctionUnitData> functionUnitDataList = inputFrameData.getFunctionUnitDataList();
+                    if (functionUnitDataList!=null) {
+                        for (FunctionUnitData functionUnitData : functionUnitDataList) {
+                            functionUnitData.setInputFrameDataId(inputFrameData.getId());
+                            this.functionUnitDataDao.insert(functionUnitData);
+                        }
+                    }
+                    List<OutputFrameData> outputFrameDataList = inputFrameData.getOutputFrameDataList();
+                    if (outputFrameDataList!=null) {
+                        for (OutputFrameData outputFrameData : outputFrameDataList) {
+                            outputFrameData.setInputFrameDataId(inputFrameData.getId());
+                            this.outputFrameDataDao.insert(outputFrameData);
+                            List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
+                            if (envLoadDataList!=null) {
+                                for (EnvLoadData envLoadData : envLoadDataList) {
+                                    envLoadData.setOutputFrameDataId(outputFrameData.getId());
+                                    this.envLoadDataDao.insert(envLoadData);
+                                }
+                            }
+                            List<OutputPartData> outputPartDataList = outputFrameData.getOutputPartDataList();
+                            if (outputPartDataList!=null) {
+                                for (OutputPartData outputPartData : outputPartDataList) {
+                                    outputPartData.setOutputFrameDataId(outputFrameData.getId());
+                                    this.outputPartDataDao.insert(outputPartData);
+                                }
+                            }
+                        }
                     }
                 }
+                return record;
             }
-            return 1;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 
     @RequestMapping(value="/outputFrameDataList", method = RequestMethod.POST)
-    public int outputFrameDataBatch (@RequestParam(defaultValue="-1") Integer inputFrameDataId, @RequestBody List<OutputFrameData> record) {
+    public List<OutputFrameData> outputFrameDataBatch (@RequestParam(defaultValue="-1") Integer inputFrameDataId, @RequestBody List<OutputFrameData> record) {
         if (inputFrameDataId==-1) {
-            return 0;
+            return null;
         }
         try {
-            for (OutputFrameData outputFrameData :record) {
-                outputFrameData.setInputFrameDataId(inputFrameDataId);
-                this.outputFrameDataDao.insert(outputFrameData);
-                List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
-                for (EnvLoadData envLoadData:envLoadDataList) {
-                    envLoadData.setOutputFrameDataId(outputFrameData.getId());
-                    this.envLoadDataDao.insert(envLoadData);
+            if (record!=null) {
+                for (OutputFrameData outputFrameData : record) {
+                    outputFrameData.setInputFrameDataId(inputFrameDataId);
+                    this.outputFrameDataDao.insert(outputFrameData);
+                    List<EnvLoadData> envLoadDataList = outputFrameData.getEnvLoadDataList();
+                    if (envLoadDataList!=null) {
+                        for (EnvLoadData envLoadData : envLoadDataList) {
+                            envLoadData.setOutputFrameDataId(outputFrameData.getId());
+                            this.envLoadDataDao.insert(envLoadData);
+                        }
+                    }
+                    List<OutputPartData> outputPartDataList = outputFrameData.getOutputPartDataList();
+                    if (outputPartDataList!=null) {
+                        for (OutputPartData outputPartData : outputPartDataList) {
+                            outputPartData.setOutputFrameDataId(outputFrameData.getId());
+                            this.outputPartDataDao.insert(outputPartData);
+                        }
+                    }
                 }
-                List<OutputPartData> outputPartDataList = outputFrameData.getOutputPartDataList();
-                for (OutputPartData outputPartData:outputPartDataList) {
-                    outputPartData.setOutputFrameDataId(outputFrameData.getId());
-                    this.outputPartDataDao.insert(outputPartData);
-                }
+                return record;
             }
-            return 1;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 
     @RequestMapping(value="/materialList", method = RequestMethod.POST)
-    public int materialBatch (@RequestBody List<Material> materials) {
+    public List<Material> materialBatch (@RequestBody List<Material> materials) {
         try {
-            for (Material material:materials) {
-                this.materialDao.insert(material);
+            if (materials!=null) {
+                for (Material material:materials) {
+                    this.materialDao.insert(material);
+                }
+                return materials;
             }
-            return 1;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 
     @RequestMapping(value="/energyList", method = RequestMethod.POST)
-    public int energyBatch (@RequestBody List<Energy> energys) {
+    public List<Energy> energyBatch (@RequestBody List<Energy> energys) {
         try {
-            for (Energy energy:energys) {
-                this.energyDao.insert(energy);
+            if (energys!=null) {
+                for (Energy energy:energys) {
+                    this.energyDao.insert(energy);
+                }
+                return energys;
             }
-            return 1;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 
     @RequestMapping(value="/deviceList", method = RequestMethod.POST)
-    public int deviceBatch (@RequestBody List<Device> devices) {
+    public List<Device> deviceBatch (@RequestBody List<Device> devices) {
         try {
-            for (Device device:devices) {
-                this.deviceDao.insert(device);
+            if (devices!=null) {
+                for (Device device:devices) {
+                    this.deviceDao.insert(device);
+                }
+                return devices;
             }
-            return 1;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 
     @RequestMapping(value="/envLoadList", method = RequestMethod.POST)
-    public int envLoadBatch (@RequestBody List<EnvLoad> envLoads) {
+    public List<EnvLoad> envLoadBatch (@RequestBody List<EnvLoad> envLoads) {
         try {
-            for (EnvLoad envLoad:envLoads) {
-                this.envLoadDao.insert(envLoad);
+            if (envLoads!=null) {
+                for (EnvLoad envLoad:envLoads) {
+                    this.envLoadDao.insert(envLoad);
+                }
+                return envLoads;
             }
-            return 1;
+            return null;
         } catch (Exception e) {
             e.printStackTrace();
-            return 0;
+            return null;
         }
     }
 }
