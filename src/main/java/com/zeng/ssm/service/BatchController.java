@@ -110,7 +110,7 @@ public class BatchController {
                         }
                     }
                 }
-                return 1;
+                return sceneData.getId();
             }
             return 0;
         } catch (Exception e) {
