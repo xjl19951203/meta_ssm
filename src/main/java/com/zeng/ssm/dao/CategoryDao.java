@@ -19,5 +19,5 @@ public interface CategoryDao extends ModelDao{
 
     List<Category> selectBySelectivePrimaryKey(Integer pk);
 
-
+    List<Category> selectBySearchPrimaryKey(Integer pk);
 }

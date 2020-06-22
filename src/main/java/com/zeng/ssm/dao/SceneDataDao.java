@@ -16,4 +16,6 @@ public interface SceneDataDao extends ModelDao{
 
     AbstractModel selectSimpleByPrimaryKey(Integer pk);
 
+    List<SceneData> selectBySearch(SceneData scenedata);
+
 }

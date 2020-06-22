@@ -81,6 +81,23 @@
         SELECT * from `scene_data` where categoryId = #{categoryId}
     </select>
 
+    <select id="selectBySearch" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.SceneData">
+        SELECT * from `scene_data` where categoryId = #{categoryId}
+        <if test="title!=null">
+            and title like '%${title}%'
+        </if>
+        <if test="description!=null">
+            and description like '%${description}'
+        </if>
+<!--        <if test="createAt!=null">-->
+<!--            and createAt = #{createAt,jdbcType=TIMESTAMP}-->
+<!--        </if>-->
+<!--        <if test="updateAt!=null">-->
+<!--            and updateAt = #{updateAt,jdbcType=TIMESTAMP}-->
+<!--        </if>-->
+
+    </select>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.SceneData">
         update scene_data
         set id = #{id,jdbcType=INTEGER},

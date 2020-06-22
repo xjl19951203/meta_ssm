@@ -51,9 +51,10 @@
         select * from `category` where id=#{pk} or parentId=#{pk}
     </select>
 
-    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-        select * from category where id = #{pk}
+    <select id="selectBySearchPrimaryKey" parameterType="java.lang.Integer" resultMap="MostSimpleResultMap">
+        select * from category where id = #{pk} or parentId=#{pk}
     </select>
+
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Category">
         insert into category (parentId, `title`)
