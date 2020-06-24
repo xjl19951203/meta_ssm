@@ -30,11 +30,10 @@
 <!--    </select>-->
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * from `material`
         <if test="content != null">
-            where title like '%${content}%'
+            SELECT * from `material` where `title` like '%${content}%' or `description` like '%${content}%' or `type` like '%${content}%'
+            or `origin` like '%${content}%' or `source` like '%${content}%';
         </if>
-        ;
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >

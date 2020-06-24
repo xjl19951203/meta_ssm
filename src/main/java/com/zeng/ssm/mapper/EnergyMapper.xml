@@ -27,11 +27,9 @@
     </select>
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
-        SELECT * from `energy`
         <if test="content != null">
-            where title like '%${content}%'
+            SELECT * from `energy` where title like '%${content}%' or `source` like '%${content}%';
         </if>
-        ;
     </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Energy">

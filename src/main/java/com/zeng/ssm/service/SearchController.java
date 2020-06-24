@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +20,14 @@ public class SearchController {
     SceneDataDao sceneDataDao;
     @Resource
     CategoryDao categoryDao;
+    @Resource
+    MaterialDao materialDao;
+    @Resource
+    EnergyDao energyDao;
+    @Resource
+    DeviceDao deviceDao;
+    @Resource
+    EnvLoadDao envLoadDao;
 
     //页面查询，每个工艺分类中根据名称和描述进行搜索
     @RequestMapping(value="/{categoryId}",method = RequestMethod.GET)
@@ -73,10 +80,20 @@ public class SearchController {
     }
     //模块查询，一框式搜索
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public HashMap<String,ArrayList> allSearch(@RequestBody String record) {
-        ArrayList arrayList = new ArrayList();
-        
-        return null;
+    public HashMap<String,List> allSearch(@RequestBody String record) {
+//        ArrayList arrayList = new ArrayList();
+        HashMap<String,List> hashMap = new HashMap<>();
+        List<AbstractModel> list0 = sceneDataDao.selectByContent(record);
+        hashMap.put("sceneData",list0);
+        List<AbstractModel> list1 = materialDao.selectByContent(record);
+        hashMap.put("material",list1);
+        List<AbstractModel> list2 = energyDao.selectByContent(record);
+        hashMap.put("energy",list2);
+        List<AbstractModel> list3 = deviceDao.selectByContent(record);
+        hashMap.put("device",list3);
+        List<AbstractModel> list4 = envLoadDao.selectByContent(record);
+        hashMap.put("envLoad",list4);
+        return hashMap;
     }
 
 }

@@ -34,7 +34,7 @@
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
         SELECT * from `env_load`
         <if test="content != null">
-            where title like '%${content}%'+
+            where title like '%${content}%' or `description` like '%${content}%' or `treatment` like '%${content}%' or `source` like '%${content}%'
         </if>
         ;
     </select>

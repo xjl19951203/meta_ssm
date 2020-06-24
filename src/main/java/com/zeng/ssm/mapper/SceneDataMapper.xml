@@ -50,9 +50,8 @@
     </insert>
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">
-        SELECT * from `scene_data`
         <if test="content != null">
-            where title like '%${content}%'
+            SELECT * from `scene_data` where title like '%${content}%' or description like '%${content}%'
         </if>
         ;
     </select>
