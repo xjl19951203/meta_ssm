@@ -80,7 +80,7 @@ public class SearchController {
     }
     //模块查询，一框式搜索
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public HashMap<String,List> allSearch(@RequestBody String record) {
+    public HashMap<String,List> allSearch(@RequestParam String record) {
 //        ArrayList arrayList = new ArrayList();
         HashMap<String,List> hashMap = new HashMap<>();
         List<AbstractModel> list0 = sceneDataDao.selectByContent(record);
@@ -95,5 +95,4 @@ public class SearchController {
         hashMap.put("envLoad",list4);
         return hashMap;
     }
-
 }
