@@ -32,11 +32,11 @@
     </resultMap>
 
     <select id="selectAll" resultMap="BaseResultMap">
-        select * from category
+        select * from `category`
     </select>
 
     <select id="selectCategoryTree" resultMap="TreeResultMap">
-      select * from category where `parentId` = 0
+      select * from `category` where `parentId` = 0
     </select>
 
     <select id="selectCategoriesByCategoryId" resultMap="TreeResultMap" parameterType="java.lang.Integer">
@@ -44,7 +44,7 @@
     </select>
 
     <select id="selectSimpleByPrimaryKey" parameterType="java.lang.Integer" resultMap="MostSimpleResultMap">
-        select * from category where id = #{pk}
+        select * from `category` where id = #{pk}
     </select>
 
     <select id="selectBySelectivePrimaryKey" parameterType="java.lang.Integer" resultMap="SimpleResultMap">
@@ -52,12 +52,15 @@
     </select>
 
     <select id="selectBySearchPrimaryKey" parameterType="java.lang.Integer" resultMap="MostSimpleResultMap">
-        select * from category where id = #{pk} or parentId=#{pk}
+        select * from `category` where id = #{pk} or parentId=#{pk}
     </select>
 
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="MostSimpleResultMap">
+        select * from `category` where id = #{pk}
+    </select>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.Category">
-        insert into category (parentId, `title`)
+        insert into `category` (parentId, `title`)
         values (#{parentId,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR})
     </insert>
 
