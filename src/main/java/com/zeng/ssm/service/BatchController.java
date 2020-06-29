@@ -1,11 +1,23 @@
 package com.zeng.ssm.service;
 
+import com.zeng.ssm.common.AbstractModel;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.*;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.xssf.streaming.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -373,4 +385,65 @@ public class BatchController {
             return null;
         }
     }
+
+    @RequestMapping(value="/baseTable/{tableName}", method = RequestMethod.GET)
+    public void downloadFile (@PathVariable String tableName, HttpServletResponse response) throws Exception {
+
+//        System.out.println(filePath);
+//        创建Excel对象
+        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+//        创建Excel中的sheet对象
+        SXSSFSheet sxssfSheet = sxssfWorkbook.createSheet(tableName+"表");
+//        设置sheet中的默认列宽
+        sxssfSheet.setDefaultColumnWidth(15);
+//        创建sheet中的第一行
+        SXSSFRow row = sxssfSheet.createRow(0);
+//        通过传入的表名生成相应的类
+        Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model."+tableName);
+//        System.out.println(cc.toString());
+//        利用构造器获取类的对象
+//        AbstractModel model = cc.getDeclaredConstructor().newInstance();
+//        List<String> list = new ArrayList<>();
+        Field[] fs=cc.getDeclaredFields();
+        //设置私有属性的访问权限
+//        Field.setAccessible(true);
+        int i=0; //单元格计数器
+        for(Field f:fs){
+            //f为单个属性
+//           设置不可见的属性为可见的
+            f.setAccessible(true);
+//           创建单元格
+            Cell cell = row.createCell(i++);
+//            将属性名放到上面创建的单元格中
+            cell.setCellValue(f.getName());//获取属性名
+        }
+//        设定编码格式
+//        response.setCharacterEncoding("utf-8");
+////        编辑导出的表名
+//        String encode = URLEncoder.encode(tableName,"utf-8");
+//        System.out.println(encode);
+////        获得输出流
+//        ServletOutputStream out = response.getOutputStream();
+////        设置下载响应头
+////        response.setHeader("content-Type","attachment/fileName="+encode+".xlsx");
+////        将生成的文件写入输出流,提供下载
+//        sxssfWorkbook.write(out);
+//        System.out.println(sxssfWorkbook);
+        ServletOutputStream out;
+        try {
+            //构造输出流
+            out = response.getOutputStream();
+            //构建文件名
+            String fileName = tableName+".xlsx";
+            response.reset();
+            response.setContentType("application/msexcel");
+            response.setHeader("Content-disposition", "attachment; filename="+fileName);
+            sxssfWorkbook.write(out);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
+
 }
