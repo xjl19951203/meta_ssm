@@ -36,7 +36,7 @@ public class ModelHandler implements ApplicationContextAware {
      * 例如： envLoadData => com.zeng.ssm.model.EnvLoadData
      */
     //substring参数左闭右开，将表名的驼峰命名法修改成类名的所有单词首字母大写的类名
-    synchronized private static String getModelName(String tableName) {
+    synchronized public static String getModelName(String tableName) {
         tableName = tableName.substring(0, 1).toUpperCase().concat(tableName.substring(1));
         return Configuration.modelRoot + tableName;
     }
@@ -59,7 +59,7 @@ public class ModelHandler implements ApplicationContextAware {
      * 通过表名拼接成 Dao完整的名字
      * 例如： envLoadData => com.zeng.ssm.dao.EnvLoadDataDao
      */
-    synchronized private static String getDaoName(String tableName) {
+    synchronized public static String getDaoName(String tableName) {
         tableName = tableName.substring(0, 1).toUpperCase().concat(tableName.substring(1));
         return Configuration.daoRoot + tableName + "Dao";
     }

@@ -1,30 +1,22 @@
 package com.zeng.ssm.service;
 
-import com.zeng.ssm.common.AbstractModel;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.*;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.xssf.streaming.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
 @RestController
 @EnableAutoConfiguration
-@RequestMapping("/api/batch")
-public class BatchController {
+//@RequestMapping("/api/batch")
+@RequestMapping("/api/batch/json")
+public class BatchJsonController {
     @Resource
     SceneDataDao sceneDataDao;
     @Resource
@@ -54,7 +46,8 @@ public class BatchController {
     @Resource
     EnvLoadDao envLoadDao;
 
-    @RequestMapping(value="/in/json/sceneData", method = RequestMethod.POST)
+//    @RequestMapping(value="/sceneData", method = RequestMethod.POST)
+    @RequestMapping(value="/sceneData", method = RequestMethod.POST)
     public int sceneDataBatch (@RequestBody SceneData sceneData) {
         try {
             if (sceneData!=null) {
@@ -131,7 +124,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/sceneDataList", method = RequestMethod.POST)
+//    @RequestMapping(value="/sceneDataList", method = RequestMethod.POST)
+    @RequestMapping(value="/sceneDataList", method = RequestMethod.POST)
     public List<SceneData> sceneDataListBatch (@RequestBody List<SceneData> record) {
         try {
             if (record!=null) {
@@ -212,7 +206,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/inputFrameDataList", method = RequestMethod.POST)
+//    @RequestMapping(value="/inputFrameDataList", method = RequestMethod.POST)
+    @RequestMapping(value="/inputFrameDataList", method = RequestMethod.POST)
     public List<InputFrameData> inputFrameDataBatch (@RequestParam(defaultValue="-1") Integer sceneDataId, @RequestBody List<InputFrameData> record) {
         if (sceneDataId==-1) {
             return null;
@@ -288,7 +283,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/outputFrameDataList", method = RequestMethod.POST)
+//    @RequestMapping(value="/outputFrameDataList", method = RequestMethod.POST)
+    @RequestMapping(value="/outputFrameDataList", method = RequestMethod.POST)
     public List<OutputFrameData> outputFrameDataBatch (@RequestParam(defaultValue="-1") Integer inputFrameDataId, @RequestBody List<OutputFrameData> record) {
         if (inputFrameDataId==-1) {
             return null;
@@ -322,7 +318,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/materialList", method = RequestMethod.POST)
+//    @RequestMapping(value="/materialList", method = RequestMethod.POST)
+    @RequestMapping(value="/materialList", method = RequestMethod.POST)
     public List<Material> materialBatch (@RequestBody List<Material> materials) {
         try {
             if (materials!=null) {
@@ -338,7 +335,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/energyList", method = RequestMethod.POST)
+//    @RequestMapping(value="/energyList", method = RequestMethod.POST)
+    @RequestMapping(value="/energyList", method = RequestMethod.POST)
     public List<Energy> energyBatch (@RequestBody List<Energy> energys) {
         try {
             if (energys!=null) {
@@ -354,7 +352,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/deviceList", method = RequestMethod.POST)
+//    @RequestMapping(value="/deviceList", method = RequestMethod.POST)
+    @RequestMapping(value="/deviceList", method = RequestMethod.POST)
     public List<Device> deviceBatch (@RequestBody List<Device> devices) {
         try {
             if (devices!=null) {
@@ -370,7 +369,8 @@ public class BatchController {
         }
     }
 
-    @RequestMapping(value="/in/json/envLoadList", method = RequestMethod.POST)
+//    @RequestMapping(value="/envLoadList", method = RequestMethod.POST)
+    @RequestMapping(value="/envLoadList", method = RequestMethod.POST)
     public List<EnvLoad> envLoadBatch (@RequestBody List<EnvLoad> envLoads) {
         try {
             if (envLoads!=null) {
@@ -385,93 +385,5 @@ public class BatchController {
             return null;
         }
     }
-
-    @RequestMapping(value="in/excel/material", method = RequestMethod.GET)
-    public void matrialexcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
-
-//        System.out.println(filePath);
-//        创建Excel对象
-        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-//        创建Excel中的sheet对象
-        SXSSFSheet sxssfSheet = sxssfWorkbook.createSheet( tableName+"表");
-//        设置sheet中的默认列宽
-        sxssfSheet.setDefaultColumnWidth(15);
-//        创建sheet中的第一行
-        SXSSFRow row = sxssfSheet.createRow(0);
-
-        int i=0; //单元格计数器
-//        for(Field f:fs){
-//            //f为单个属性
-////           设置不可见的属性为可见的
-//            f.setAccessible(true);
-////           创建单元格
-//            Cell cell = row.createCell(i++);
-////            将属性名放到上面创建的单元格中
-//            cell.setCellValue(f.getName());//获取属性名
-//        }
-        ServletOutputStream out;
-        try {
-            //构造输出流
-            out = response.getOutputStream();
-            //构建文件名
-            String fileName = tableName+".xlsx";
-            response.reset();
-            response.setContentType("application/msexcel");
-            response.setHeader("Content-disposition", "attachment; filename="+fileName);
-            sxssfWorkbook.write(out);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-    }
-
-//    @RequestMapping(value="/baseTable/{tableName}", method = RequestMethod.GET)
-//    public void downloadFile (@PathVariable String tableName, HttpServletResponse response) throws Exception {
-//
-////        System.out.println(filePath);
-////        创建Excel对象
-//        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-////        创建Excel中的sheet对象
-//        SXSSFSheet sxssfSheet = sxssfWorkbook.createSheet(tableName+"表");
-////        设置sheet中的默认列宽
-//        sxssfSheet.setDefaultColumnWidth(15);
-////        创建sheet中的第一行
-//        SXSSFRow row = sxssfSheet.createRow(0);
-////        通过传入的表名生成相应的类
-//        Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model."+tableName);
-////        System.out.println(cc.toString());
-////        利用构造器获取类的对象
-////        AbstractModel model = cc.getDeclaredConstructor().newInstance();
-////        List<String> list = new ArrayList<>();
-//        Field[] fs=cc.getDeclaredFields();
-//        //设置私有属性的访问权限
-////        Field.setAccessible(true);
-//        int i=0; //单元格计数器
-//        for(Field f:fs){
-//            //f为单个属性
-////           设置不可见的属性为可见的
-//            f.setAccessible(true);
-////           创建单元格
-//            Cell cell = row.createCell(i++);
-////            将属性名放到上面创建的单元格中
-//            cell.setCellValue(f.getName());//获取属性名
-//        }
-//        ServletOutputStream out;
-//        try {
-//            //构造输出流
-//            out = response.getOutputStream();
-//            //构建文件名
-//            String fileName = tableName+".xlsx";
-//            response.reset();
-//            response.setContentType("application/msexcel");
-//            response.setHeader("Content-disposition", "attachment; filename="+fileName);
-//            sxssfWorkbook.write(out);
-//        } catch (IOException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//    }
 
 }

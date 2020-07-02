@@ -16,4 +16,8 @@
         select * from information_schema.TABLES where TABLE_SCHEMA=(select database())
     </select>
 
+    <select id="selectColumnsByTableName" resultType="java.lang.String">
+        select COLUMN_COMMENT from information_schema.COLUMNS where TABLE_SCHEMA=(select database()) and TABLE_NAME = #{tableName} and ORDINAL_POSITION != '1'
+    </select>
+
 </mapper>

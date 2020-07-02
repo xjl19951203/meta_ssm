@@ -10,6 +10,7 @@ public class SystemTableData extends AbstractModel {
     private String tableComment;
     private List<SystemColumnData> systemColumnList;
 
+
     public String getTableName() {
         return tableName;
     }

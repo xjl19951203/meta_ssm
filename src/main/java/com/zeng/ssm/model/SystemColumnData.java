@@ -10,7 +10,6 @@ public class SystemColumnData extends AbstractModel {
     private String columnComment;
     private String columnKey;
 
-
     public String getTableName() {
         return tableName;
     }
