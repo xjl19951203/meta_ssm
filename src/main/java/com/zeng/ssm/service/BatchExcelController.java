@@ -5,19 +5,19 @@ import com.zeng.ssm.common.ModelDao;
 import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.SystemColumnData;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -61,7 +61,7 @@ public class BatchExcelController {
     SystemColumnDataDao systemColumnDataDao;
 
     @RequestMapping(value="/base/{tableName}", method = RequestMethod.GET)
-    public void postBaseTablelExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
+    public void getBaseTablelExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
 
         tableName = camel2under(tableName);
         List<SystemColumnData> list = systemColumnDataDao.selectListByTableName(tableName);
@@ -122,10 +122,14 @@ public class BatchExcelController {
     }
 
     public void createSheet (SXSSFWorkbook sxssfWorkbook,SystemColumnData systemColumnData,CellStyle cellStyle) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
+//        获取数据库中表的英文名称（转换成下划线分割的形式）
         String tableName = systemColumnData.getColumnName().substring(0,systemColumnData.getColumnName().length()-2);
         tableName = camel2under(tableName);
+//        获取表的中文名称
         String chineseTableName = systemColumnData.getColumnComment();
+//        根据表名获取表的列字段
         List<SystemColumnData> list = systemColumnDataDao.selectListByTableName(tableName);
+//        给sheet命名为中文
         SXSSFSheet sxssfSheet = sxssfWorkbook.createSheet(chineseTableName);
 //        设置sheet中的默认列宽
         sxssfSheet.setDefaultColumnWidth(30);
@@ -164,6 +168,7 @@ public class BatchExcelController {
             }
 //            定义每个cell的编号，便于为每个字段一个萝卜一个坑
             int k=1;
+//            遍历linkedhashmap将数据填到对应的单元格中去
             Iterator iterator = map.entrySet().iterator();
             while (iterator.hasNext()) {
                 Map.Entry<String,String> entry = (Map.Entry) iterator.next();
@@ -190,6 +195,28 @@ public class BatchExcelController {
         String separator = "_";
         c = c.replaceAll("([a-z])([A-Z])", "$1"+separator+"$2").toLowerCase();
         return c;
+    }
+    @RequestMapping(value="/baseTable/", method = RequestMethod.GET)
+    public int postBaseTablelExcel (@RequestBody MultipartFile excel) throws Exception {
+
+        if (excel==null) {
+            return 0;//未收到文件
+        }
+        String tableName = excel.getName();
+        //获取输入流
+        InputStream inputStream = excel.getInputStream();
+        //创建读取工作簿
+        Workbook workbook = WorkbookFactory.create(inputStream);
+        //获取工作表
+        Sheet sheet = workbook.getSheetAt(0);
+        //获取总行
+        int rows=sheet.getPhysicalNumberOfRows();
+        if(rows>2){
+            //获取单元格
+            for (int i = 2; i < rows; i++) {
+                Row row = sheet.getRow(i);
+
+            }
     }
 //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
@@ -231,4 +258,5 @@ public class BatchExcelController {
 //        }
 //
 //    }
+
 }
