@@ -12,6 +12,6 @@ public interface SystemColumnDataDao extends ModelDao{
     /**
      * 查找tableName所有的列
      */
-    List<SystemColumnData> selectListByTableName (String TABLE_NAME);
+    List<SystemColumnData> selectListByTableName (String tableName);
 
 }

@@ -18,7 +18,7 @@
     </select>
 
     <select id="selectListByTableName" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select * from information_schema.COLUMNS where `TABLE_NAME`=#{TABLE_NAME} and TABLE_SCHEMA=(select database())
+        select * from information_schema.COLUMNS where `TABLE_NAME`=#{tableName} and TABLE_SCHEMA=(select database())
     </select>
 
 </mapper>

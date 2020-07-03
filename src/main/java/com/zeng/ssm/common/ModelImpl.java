@@ -57,6 +57,11 @@ public class ModelImpl implements ModelDao{
     }
 
 //    @Override
+//    public List selectAllUnlimited() {
+//        return ModelHandler.getModelDaoInstance(tableName).selectAllUnlimited();
+//    }
+
+//    @Override
 //    public List<AbstractModel> selectByPage(Integer page,Integer size) {
 //        return ModelHandler.getModelDaoInstance(tableName).selectByPage(page,size);
 //    }

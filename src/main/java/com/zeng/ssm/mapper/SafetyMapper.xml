@@ -15,6 +15,10 @@
         SELECT * from `safety`
     </select>
 
+    <select id="selectAllUnlimited" resultMap="BaseResultMap">
+        SELECT * from `safety`
+    </select>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Safety">
         update `safety`
         set

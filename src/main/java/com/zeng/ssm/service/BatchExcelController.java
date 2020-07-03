@@ -1,5 +1,8 @@
 package com.zeng.ssm.service;
 
+import com.zeng.ssm.common.AbstractModel;
+import com.zeng.ssm.common.ModelDao;
+import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.SystemColumnData;
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,8 +18,11 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URLEncoder;
-import java.util.List;
+import java.util.*;
 
 @CrossOrigin
 @RestController
@@ -52,15 +58,144 @@ public class BatchExcelController {
     @Resource
     EnvLoadDao envLoadDao;
     @Resource
-    SystemTableDataDao systemTableDataDao;
-    @Resource
     SystemColumnDataDao systemColumnDataDao;
 
+    @RequestMapping(value="/base/{tableName}", method = RequestMethod.GET)
+    public void postBaseTablelExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
+
+        tableName = camel2under(tableName);
+        List<SystemColumnData> list = systemColumnDataDao.selectListByTableName(tableName);
+        if (tableName.equals("material")) {
+           tableName = "基础物料表";
+            System.out.println(tableName);
+       }else if (tableName.equals("energy")) {
+           tableName = "基础能源表";
+        }else if (tableName.equals("device")) {
+           tableName = "基础设备表";
+        }else if (tableName.equals("env_load")) {
+           tableName = "基础环境负荷表";
+        }else {
+           return ;
+       }
+//        创建Excel对象
+        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+//        创建一个居中格式
+        CellStyle style = sxssfWorkbook.createCellStyle();
+        style.setAlignment(HorizontalAlignment.CENTER);
+//        创建Excel中的sheet对象
+        SXSSFSheet sxssfSheet1 = sxssfWorkbook.createSheet(tableName);
+//        创建sheet中的第一行
+        SXSSFRow row = sxssfSheet1.createRow(0);
+//        设置sheet中的默认列宽
+        sxssfSheet1.setDefaultColumnWidth(30);
+        int i=0; //单元格计数器
+        for(SystemColumnData systemColumnData:list){
+//           创建单元格
+            Cell cell = row.createCell(i++);
+//           设置单元格格式
+            cell.setCellStyle(style);
+            //如果字段是外键关联，则将其对应的表单独创建一个sheet，以供使用者选择
+            if (systemColumnData.getColumnKey().equals("MUL")) {
+                createSheet(sxssfWorkbook,systemColumnData,style);
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(systemColumnData.getColumnComment()+'\n'+"(请按照sheet中的说明填写编号)");
+            }else {
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
+            }
+
+        }
+        try {
+            response.setCharacterEncoding("UTF-8");
+            //构建文件名
+            String fileName = tableName+".xlsx";
+            fileName= URLEncoder.encode(fileName,"UTF-8");
+            //构造输出流
+            ServletOutputStream out = response.getOutputStream();
+            response.setContentType("application/msexcel;charset=UTF-8");
+            response.setHeader("Content-disposition", "attachment; filename="+fileName);
+            sxssfWorkbook.write(out);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public void createSheet (SXSSFWorkbook sxssfWorkbook,SystemColumnData systemColumnData,CellStyle cellStyle) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
+        String tableName = systemColumnData.getColumnName().substring(0,systemColumnData.getColumnName().length()-2);
+        tableName = camel2under(tableName);
+        String chineseTableName = systemColumnData.getColumnComment();
+        List<SystemColumnData> list = systemColumnDataDao.selectListByTableName(tableName);
+        SXSSFSheet sxssfSheet = sxssfWorkbook.createSheet(chineseTableName);
+//        设置sheet中的默认列宽
+        sxssfSheet.setDefaultColumnWidth(30);
+        SXSSFRow row = sxssfSheet.createRow(0);
+        int j=0;
+        for (SystemColumnData temp :list) {
+            Cell cell = row.createCell(j++);
+//           设置单元格格式
+            cell.setCellStyle(cellStyle);
+            //如果字段是外键关联，则将其对应的表单独创建一个sheet，以供使用者选择
+            if (temp.getColumnKey().equals("MUL")) {
+                createSheet(sxssfWorkbook, temp, cellStyle);
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(temp.getColumnComment()+'\n'+"(请按照sheet查看对应编号的含义)");
+            }else {
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(temp.getColumnComment());
+            }
+        }
+//        根据外键字段找到对应的表然后拿到表中的数据
+        List<AbstractModel> list0 = ModelHandler.getModelDaoInstance(systemColumnData.getColumnName().substring(0,systemColumnData.getColumnName().length()-2)).selectAll();
+//        定义sheet的中每一行的编号
+        int i=1;
+//        对表中的每一组数据，进行创建一行Excel数据操作
+        for (AbstractModel abstractModel:list0) {
+//            创建sheet中的一行
+            SXSSFRow row0 = sxssfSheet.createRow(i);
+            row0.createCell(0).setCellValue(i);
+//            获得一行记录中的所有字段的值，放到hashmap里面
+            LinkedHashMap<String, String> map = new LinkedHashMap<>();
+            Field[] declaredFields = abstractModel.getClass().getDeclaredFields();
+//            System.out.println(declaredFields.length);
+            for (Field field : declaredFields) {
+                field.setAccessible(true);
+                map.put(field.getName(), field.get(abstractModel)!=null?field.get(abstractModel).toString():null);
+            }
+//            定义每个cell的编号，便于为每个字段一个萝卜一个坑
+            int k=1;
+            Iterator iterator = map.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String,String> entry = (Map.Entry) iterator.next();
+                String key = entry.getKey();
+                String value = entry.getValue();
+                Cell cell = row0.createCell(k);
+//                设置单元格格式
+                cell.setCellStyle(cellStyle);
+                if (key.equals(list.get(k).getColumnName())) {
+                    cell.setCellValue(value);
+                }
+                k++;
+            }
+            i++;
+        }
+    }
+
+    /*
+     * 功能：驼峰命名转下划线命名
+     * 小写和大写紧挨一起的地方,加上分隔符,然后全部转小写
+     */
+    public static String camel2under(String c)
+    {
+        String separator = "_";
+        c = c.replaceAll("([a-z])([A-Z])", "$1"+separator+"$2").toLowerCase();
+        return c;
+    }
 //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
 //
 ////        List<String> list = BatchAssist.getRemarksFromBaseTable(tableName);
-//       
+//
 ////        创建Excel对象
 //        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
 ////        创建Excel中的sheet对象
@@ -96,102 +231,4 @@ public class BatchExcelController {
 //        }
 //
 //    }
-
-    @RequestMapping(value="/base/{tableName}", method = RequestMethod.GET)
-    public void postBaseTablelExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
-
-//        List<String> list = systemTableDataDao.selectColumnsByTableName(tableName);
-        List<SystemColumnData> list = systemColumnDataDao.selectListByTableName(tableName);
-        if (tableName.equals("material")) {
-           tableName = "基础物料表";
-       }else if (tableName.equals("energy")) {
-           tableName = "基础能源表";
-        }else if (tableName.equals("device")) {
-           tableName = "基础设备表";
-        }else if (tableName.equals("envLoad")) {
-           tableName = "基础环境负荷表";
-        }else {
-           return ;
-       }
-//        创建Excel对象
-        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-//        创建Excel中的sheet对象
-        SXSSFSheet sxssfSheet1 = sxssfWorkbook.createSheet(tableName);
-//        创建sheet中的第一行
-        SXSSFRow row = sxssfSheet1.createRow(0);
-//        设置sheet中的默认列宽
-        sxssfSheet1.setDefaultColumnWidth(25);
-        CellStyle style = sxssfWorkbook.createCellStyle();
-        style.setAlignment(HorizontalAlignment.CENTER); // 创建一个居中格式
-        int i=0; //单元格计数器
-        for(SystemColumnData systemColumnData:list){
-//           创建单元格
-            Cell cell = row.createCell(i++);
-//           设置单元格格式
-            cell.setCellStyle(style);
-//            将属性名放到上面创建的单元格中
-            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
-            if (systemColumnData.getColumnKey()=="MUL") {
-                String sheetName = systemColumnData.getColumnName();
-                SXSSFSheet sxssfSheet2 = sxssfWorkbook.createSheet(tableName);
-            }
-//            System.out.println(str);
-        }
-        try {
-            response.setCharacterEncoding("UTF-8");
-            //构建文件名
-            String fileName = tableName+".xlsx";
-            fileName= URLEncoder.encode(fileName);
-            System.out.println(fileName);
-            //构造输出流
-            ServletOutputStream out = response.getOutputStream();
-            response.setContentType("application/msexcel;charset=UTF-8");
-            response.setHeader("Content-disposition", "attachment; filename="+fileName);
-            sxssfWorkbook.write(out);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
-    public void postOtherExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
-
-        List<String> list = systemTableDataDao.selectColumnsByTableName(tableName);
-//        创建Excel对象
-//        创建Excel对象
-        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
-//        创建Excel中的sheet对象
-        SXSSFSheet sxssfSheet1 = sxssfWorkbook.createSheet(tableName);
-//        创建sheet中的第一行
-        SXSSFRow row = sxssfSheet1.createRow(0);
-//        设置sheet中的默认列宽
-        sxssfSheet1.setDefaultColumnWidth(25);
-        CellStyle style = sxssfWorkbook.createCellStyle();
-        style.setAlignment(HorizontalAlignment.CENTER); // 创建一个居中格式
-        int i=0; //单元格计数器
-        for(String str:list){
-//           创建单元格
-            Cell cell = row.createCell(i++);
-//           设置单元格格式
-            cell.setCellStyle(style);
-//            将属性名放到上面创建的单元格中
-            cell.setCellValue(str);//获取属性名
-//            System.out.println(str);
-        }
-        try {
-            response.setCharacterEncoding("UTF-8");
-            //构建文件名
-            String fileName = tableName+".xlsx";
-            fileName= URLEncoder.encode(fileName);
-            System.out.println(fileName);
-            //构造输出流
-            ServletOutputStream out = response.getOutputStream();
-            response.setContentType("application/msexcel;charset=UTF-8");
-            response.setHeader("Content-disposition", "attachment; filename="+fileName);
-            sxssfWorkbook.write(out);
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }

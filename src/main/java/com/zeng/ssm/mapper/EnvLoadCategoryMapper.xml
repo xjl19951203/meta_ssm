@@ -19,6 +19,10 @@
         SELECT * from `env_load_category`
     </select>
 
+    <select id="selectAllUnlimited" resultMap="BaseResultMap">
+        SELECT * from `energy_category`
+    </select>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnvLoadCategory">
         update `env_load_category`
         set
