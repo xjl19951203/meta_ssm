@@ -196,13 +196,16 @@ public class BatchExcelController {
         c = c.replaceAll("([a-z])([A-Z])", "$1"+separator+"$2").toLowerCase();
         return c;
     }
-    @RequestMapping(value="/baseTable/", method = RequestMethod.GET)
+    @RequestMapping(value="/baseTable/", method = RequestMethod.POST)
     public int postBaseTablelExcel (@RequestBody MultipartFile excel) throws Exception {
 
         if (excel==null) {
             return 0;//未收到文件
         }
-        String tableName = excel.getName();
+        String tableName = excel.getOriginalFilename();
+        if(!tableName.matches("^.+\\.(?i)((xls)|(xlsx))$")){
+            return 0;
+        }
         //获取输入流
         InputStream inputStream = excel.getInputStream();
         //创建读取工作簿
@@ -211,12 +214,15 @@ public class BatchExcelController {
         Sheet sheet = workbook.getSheetAt(0);
         //获取总行
         int rows=sheet.getPhysicalNumberOfRows();
-        if(rows>2){
+        if(rows>2) {
             //获取单元格
             for (int i = 2; i < rows; i++) {
                 Row row = sheet.getRow(i);
 
             }
+        }
+        return 1;
+
     }
 //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
