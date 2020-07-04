@@ -1,9 +1,10 @@
 package com.zeng.ssm.service;
 
 import com.zeng.ssm.common.AbstractModel;
+import com.zeng.ssm.common.ModelDao;
 import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.dao.*;
-import com.zeng.ssm.model.*;
+import com.zeng.ssm.model.SystemColumnData;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
@@ -29,13 +30,33 @@ import java.util.*;
 @RequestMapping("/api/batch/excel")
 public class BatchExcelController {
     @Resource
-    Material material;
+    SceneDataDao sceneDataDao;
     @Resource
-    Energy energy;
+    InputFrameDataDao inputFrameDataDao;
     @Resource
-    Device device;
+    MaterialDataDao materialDataDao;
     @Resource
-    EnvLoad envLoad;
+    EnergyDataDao energyDataDao;
+    @Resource
+    DeviceDataDao deviceDataDao;
+    @Resource
+    KeyParameterDataDao keyParameterDataDao;
+    @Resource
+    FunctionUnitDataDao functionUnitDataDao;
+    @Resource
+    OutputFrameDataDao outputFrameDataDao;
+    @Resource
+    EnvLoadDataDao envLoadDataDao;
+    @Resource
+    OutputPartDataDao outputPartDataDao;
+    @Resource
+    MaterialDao materialDao;
+    @Resource
+    EnergyDao energyDao;
+    @Resource
+    DeviceDao deviceDao;
+    @Resource
+    EnvLoadDao envLoadDao;
     @Resource
     SystemColumnDataDao systemColumnDataDao;
 
@@ -169,7 +190,8 @@ public class BatchExcelController {
      * 功能：驼峰命名转下划线命名
      * 小写和大写紧挨一起的地方,加上分隔符,然后全部转小写
      */
-    public static String camel2under(String c) {
+    public static String camel2under(String c)
+    {
         String separator = "_";
         c = c.replaceAll("([a-z])([A-Z])", "$1"+separator+"$2").toLowerCase();
         return c;
@@ -181,18 +203,6 @@ public class BatchExcelController {
             return 0;//未收到文件
         }
         String tableName = excel.getName();
-        if (tableName=="基础物料表") {
-            tableName = "Material";
-        }
-//        Class clazz = Class.forName("com.zeng.ssm.model."+tableName);//这里的类名是全名。。有包的话要加上包名
-//        Object obj = clazz.newInstance();
-//        Field[] fields = clazz.getDeclaredFields();
-//        //写数据
-//        for(Field f : fields) {
-//            PropertyDescriptor pd = new PropertyDescriptor(f.getName(), clazz);
-//            Method wM = pd.getWriteMethod();//获得写方法
-//            wM.invoke(obj, 2);//因为知道是int类型的属性，所以传个int过去就是了。。实际情况中需要判断下他的参数类型
-//        }
         //获取输入流
         InputStream inputStream = excel.getInputStream();
         //创建读取工作簿
@@ -201,14 +211,12 @@ public class BatchExcelController {
         Sheet sheet = workbook.getSheetAt(0);
         //获取总行
         int rows=sheet.getPhysicalNumberOfRows();
-        if(rows>2) {
+        if(rows>2){
             //获取单元格
             for (int i = 2; i < rows; i++) {
                 Row row = sheet.getRow(i);
 
             }
-        }
-        return 0;
     }
 //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
