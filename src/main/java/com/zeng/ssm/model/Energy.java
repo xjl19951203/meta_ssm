@@ -5,10 +5,10 @@ import com.zeng.ssm.common.Searchable;
 public class Energy extends Searchable{
 
 //    private Integer id;
-    private Integer energyCategoryId;
-    private EnergyCategory energyCategory;
     private String title;
     private String source;
+    private Integer energyCategoryId;
+    private EnergyCategory energyCategory;
 
     public String getTitle() {
         return title;

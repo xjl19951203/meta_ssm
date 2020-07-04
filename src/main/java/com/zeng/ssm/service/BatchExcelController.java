@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,34 +30,36 @@ import java.util.*;
 @EnableAutoConfiguration
 @RequestMapping("/api/batch/excel")
 public class BatchExcelController {
+//    @Resource
+//    SceneDataDao sceneDataDao;
+//    @Resource
+//    InputFrameDataDao inputFrameDataDao;
+//    @Resource
+//    MaterialDataDao materialDataDao;
+//    @Resource
+//    EnergyDataDao energyDataDao;
+//    @Resource
+//    DeviceDataDao deviceDataDao;
+//    @Resource
+//    KeyParameterDataDao keyParameterDataDao;
+//    @Resource
+//    FunctionUnitDataDao functionUnitDataDao;
+//    @Resource
+//    OutputFrameDataDao outputFrameDataDao;
+//    @Resource
+//    EnvLoadDataDao envLoadDataDao;
+//    @Resource
+//    OutputPartDataDao outputPartDataDao;
+//    @Resource
+//    MaterialDao materialDao;
+//    @Resource
+//    EnergyDao energyDao;
+//    @Resource
+//    DeviceDao deviceDao;
+//    @Resource
+//    EnvLoadDao envLoadDao;
     @Resource
-    SceneDataDao sceneDataDao;
-    @Resource
-    InputFrameDataDao inputFrameDataDao;
-    @Resource
-    MaterialDataDao materialDataDao;
-    @Resource
-    EnergyDataDao energyDataDao;
-    @Resource
-    DeviceDataDao deviceDataDao;
-    @Resource
-    KeyParameterDataDao keyParameterDataDao;
-    @Resource
-    FunctionUnitDataDao functionUnitDataDao;
-    @Resource
-    OutputFrameDataDao outputFrameDataDao;
-    @Resource
-    EnvLoadDataDao envLoadDataDao;
-    @Resource
-    OutputPartDataDao outputPartDataDao;
-    @Resource
-    MaterialDao materialDao;
-    @Resource
-    EnergyDao energyDao;
-    @Resource
-    DeviceDao deviceDao;
-    @Resource
-    EnvLoadDao envLoadDao;
+    ModelDao modelDao;
     @Resource
     SystemColumnDataDao systemColumnDataDao;
 
@@ -196,27 +199,82 @@ public class BatchExcelController {
         c = c.replaceAll("([a-z])([A-Z])", "$1"+separator+"$2").toLowerCase();
         return c;
     }
-    @RequestMapping(value="/baseTable/", method = RequestMethod.GET)
-    public int postBaseTablelExcel (@RequestBody MultipartFile excel) throws Exception {
 
-        if (excel==null) {
-            return 0;//未收到文件
+    @RequestMapping(value="/baseTable", method = RequestMethod.POST)
+    public List<AbstractModel> postBaseTablelExcel (@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
+
+        if (file==null) {
+            return null;//未收到文件
         }
-        String tableName = excel.getName();
+        String tableName = file.getOriginalFilename();
+        if(!tableName.matches("^.+\\.(?i)((xls)|(xlsx))$")){
+            return null;
+        }
+        System.out.println(tableName);
+        if (tableName.contains("基础物料")) {
+            tableName = "Material";
+        }else if(tableName.contains("基础能源")) {
+            tableName = "Energy";
+        }else if(tableName.contains("基础设备")) {
+            tableName = "Device";
+        }else if(tableName.contains("基础环境负荷")) {
+            tableName = "EnvLoad";
+        }else {
+            return null;
+        }
+        List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName(tableName);
         //获取输入流
-        InputStream inputStream = excel.getInputStream();
+        InputStream inputStream = file.getInputStream();
         //创建读取工作簿
         Workbook workbook = WorkbookFactory.create(inputStream);
         //获取工作表
         Sheet sheet = workbook.getSheetAt(0);
         //获取总行
         int rows=sheet.getPhysicalNumberOfRows();
-        if(rows>2){
+        Row row0 = sheet.getRow(0);
+        List<AbstractModel> list = new ArrayList<>();
+        if(rows>2) {
             //获取单元格
-            for (int i = 2; i < rows; i++) {
+            for (int i = 1; i < rows; i++) {
                 Row row = sheet.getRow(i);
-
+                Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model."+tableName);
+                AbstractModel model = cc.newInstance();
+//                Method[] methods = cc.getMethods();
+                int j=1;
+                String fieldName="";
+                String paraType="java.lang.String";
+                System.out.println(row.getLastCellNum());
+                while (j<row.getLastCellNum()) {
+                    for (SystemColumnData systemColumnData:columnDataList) {
+                        if (systemColumnData.getColumnComment().equals(row0.getCell(j).getStringCellValue())) {
+                            fieldName = systemColumnData.getColumnName();
+                            paraType = systemColumnData.getDataType();
+                            break;
+                        }
+                    }
+                    if(paraType.equals("varchar")) {
+                        paraType = "java.lang.String";
+                    }else if (paraType.equals("float")) {
+                        paraType = "java.lang.Float";
+                    }else if (paraType.equals("int")) {
+                        paraType = "java.lang.Integer";
+                    }
+                    String methodName = "set"+fieldName.substring(0,1).toUpperCase()+fieldName.substring(1);
+                    Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
+                    System.out.println(row.getCell(j).getStringCellValue());
+                    m.invoke(model,row.getCell(j).getStringCellValue());
+                    j++;
+                }
+                list.add(model);
             }
+        }
+        tableName = tableName.substring(0,1).toLowerCase()+tableName.substring(1);
+        modelDao = ModelHandler.getModelDaoInstance(tableName);
+        for (AbstractModel temp:list) {
+            this.modelDao.insert(temp);
+        }
+        return list;
+
     }
 //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
