@@ -206,22 +206,29 @@ public class BatchExcelController {
         if (file==null) {
             return null;//未收到文件
         }
-        String tableName = file.getOriginalFilename();
-        if(!tableName.matches("^.+\\.(?i)((xls)|(xlsx))$")){
+        String fileName = file.getOriginalFilename();
+        String tableName = "";
+        String className = "";
+        if(!fileName.matches("^.+\\.(?i)((xls)|(xlsx))$")){
             return null;
         }
-        System.out.println(tableName);
-        if (tableName.contains("基础物料")) {
-            tableName = "Material";
-        }else if(tableName.contains("基础能源")) {
-            tableName = "Energy";
-        }else if(tableName.contains("基础设备")) {
-            tableName = "Device";
-        }else if(tableName.contains("基础环境负荷")) {
-            tableName = "EnvLoad";
+        System.out.println(fileName);
+        if (fileName.contains("基础物料")) {
+            tableName = "material";
+            className = "Material";
+        }else if(fileName.contains("基础能源")) {
+            tableName = "energy";
+            className = "Energy";
+        }else if(fileName.contains("基础设备")) {
+            tableName = "device";
+            className = "Device";
+        }else if(fileName.contains("基础环境负荷")) {
+            tableName = "env_load";
+            className = "EnvLoad";
         }else {
             return null;
         }
+//        根据表名字将表中所含的字段信息获取到
         List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName(tableName);
         //获取输入流
         InputStream inputStream = file.getInputStream();
@@ -231,50 +238,86 @@ public class BatchExcelController {
         Sheet sheet = workbook.getSheetAt(0);
         //获取总行
         int rows=sheet.getPhysicalNumberOfRows();
+//        获取sheet的第一行的表头
         Row row0 = sheet.getRow(0);
+//        定义存放sheet中2-n行的数据的list
         List<AbstractModel> list = new ArrayList<>();
+//        如果sheet中有数据，则开始处理
         if(rows>2) {
             //获取单元格
             for (int i = 1; i < rows; i++) {
+//                获取当前行的数据
                 Row row = sheet.getRow(i);
-                Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model."+tableName);
+//                根据反射获取当前数据代表的model类
+                Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model."+className);
+//                根据类生成一个类的实例
                 AbstractModel model = cc.newInstance();
 //                Method[] methods = cc.getMethods();
+//                j是每一行的列编号，编号从一开始应为model中并没有定义id这个属性，但是数据表中有这个字段
                 int j=1;
+//                定义属性名称，以便后面构建方法
                 String fieldName="";
+//                定义参数类型，以便构建方法的参数
                 String paraType="java.lang.String";
-                System.out.println(row.getLastCellNum());
-                while (j<row.getLastCellNum()) {
+//                System.out.println(row.getLastCellNum());
+//                对每一列数据进行处理
+                while (j<row0.getLastCellNum()) {
+                    /*确保某个单元格的数据与字段信息能够对应上*/
+                    String tempField = row0.getCell(j).getStringCellValue();
+                    if (tempField.contains("(")) {
+                        int a = tempField.indexOf("(");
+                        tempField = tempField.substring(0,a-1);
+                    }
                     for (SystemColumnData systemColumnData:columnDataList) {
-                        if (systemColumnData.getColumnComment().equals(row0.getCell(j).getStringCellValue())) {
+                        if (systemColumnData.getColumnComment().equals(tempField)) {
                             fieldName = systemColumnData.getColumnName();
                             paraType = systemColumnData.getDataType();
                             break;
                         }
                     }
+//                    根据属性名称构建方法名称,这里主要是set方法
+                    String methodName = "set"+fieldName.substring(0,1).toUpperCase()+fieldName.substring(1);
+//                    将获取的数据库字段类型,将其转换成相应的Java数据类型
                     if(paraType.equals("varchar")) {
                         paraType = "java.lang.String";
+//                    利用反射根据方法名称和方法的参数类型获取类的方法
+                        Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
+//                    对model对象执行该方法,将cell中的值赋给model的属性
+                        m.invoke(model,row.getCell(j)!=null?row.getCell(j).getStringCellValue():"");
                     }else if (paraType.equals("float")) {
                         paraType = "java.lang.Float";
+//                    利用反射根据方法名称和方法的参数类型获取类的方法
+                        Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
+//                    对model对象执行该方法,将cell中的值赋给model的属性
+                        m.invoke(model,(float)row.getCell(j).getNumericCellValue());
                     }else if (paraType.equals("int")) {
                         paraType = "java.lang.Integer";
+//                    利用反射根据方法名称和方法的参数类型获取类的方法
+                        Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
+//                    对model对象执行该方法,将cell中的值赋给model的属性
+                        m.invoke(model,(int)row.getCell(j).getNumericCellValue());
                     }
-                    String methodName = "set"+fieldName.substring(0,1).toUpperCase()+fieldName.substring(1);
-                    Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
-                    System.out.println(row.getCell(j).getStringCellValue());
-                    m.invoke(model,row.getCell(j).getStringCellValue());
+//                    利用反射根据方法名称和方法的参数类型获取类的方法
+//                    Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
+////                    System.out.println(row.getCell(j).getStringCellValue());
+////                    对model对象执行该方法,将cell中的值赋给model的属性
+//                    m.invoke(model,row.getCell(j).getStringCellValue());
                     j++;
                 }
+//                返回输入的Excel的数据所构造的对象集合
                 list.add(model);
             }
         }
-        tableName = tableName.substring(0,1).toLowerCase()+tableName.substring(1);
+        //根据类名获得表名
+        tableName = className.substring(0,1).toLowerCase()+className.substring(1);
+//        根据类名获得相应的dao
         modelDao = ModelHandler.getModelDaoInstance(tableName);
+//        向数据库中插入数据
         for (AbstractModel temp:list) {
             this.modelDao.insert(temp);
         }
+        //返回插入的对象集合
         return list;
-
     }
 //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {

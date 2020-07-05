@@ -5,20 +5,36 @@ import com.zeng.ssm.common.Searchable;
 public class EnvLoad extends Searchable{
 
     private String title;
-    private int envLoadCategoryId;
+    private Integer envLoadCategoryId;
     private EnvLoadCategory envLoadCategory;
     private String description;
-    private int safetyId;
+    private Integer safetyId;
     private Safety safety;
     private String treatment;
     private String source;
 
+
+    @Override
+    public String getModelType() {
+        return "env_load";
+    }
+
+    @Override
     public String getTitle() {
         return title;
     }
 
+    @Override
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public Integer getEnvLoadCategoryId() {
+        return envLoadCategoryId;
+    }
+
+    public void setEnvLoadCategoryId(Integer envLoadCategoryId) {
+        this.envLoadCategoryId = envLoadCategoryId;
     }
 
     public EnvLoadCategory getEnvLoadCategory() {
@@ -29,19 +45,6 @@ public class EnvLoad extends Searchable{
         this.envLoadCategory = envLoadCategory;
     }
 
-    @Override
-    public String getModelType() {
-        return "env_load";
-    }
-
-    public int getEnvLoadCategoryId() {
-        return envLoadCategoryId;
-    }
-
-    public void setEnvLoadCategoryId(int envLoadCategoryId) {
-        this.envLoadCategoryId = envLoadCategoryId;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -50,11 +53,11 @@ public class EnvLoad extends Searchable{
         this.description = description;
     }
 
-    public int getSafetyId() {
+    public Integer getSafetyId() {
         return safetyId;
     }
 
-    public void setSafetyId(int safetyId) {
+    public void setSafetyId(Integer safetyId) {
         this.safetyId = safetyId;
     }
 
