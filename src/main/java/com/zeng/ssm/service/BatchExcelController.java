@@ -174,6 +174,9 @@ public class BatchExcelController {
     }
     @RequestMapping(value="/sceneDataExcel", method = RequestMethod.GET)
     public void getSceneDataExcel (HttpServletResponse response) throws Exception {
+        /*
+        创建第一个sheet，存放工艺场景的基本信息
+         */
         //定义Excel表名
         String tableName = "工艺场景表";
         //创建Excel文件
@@ -184,10 +187,83 @@ public class BatchExcelController {
         style.setAlignment(HorizontalAlignment.CENTER);
 //        创建Excel中的sheet对象
         SXSSFSheet sxssfSheet1 = sxssfWorkbook.createSheet(tableName);
-//        创建sheet中的第一行
-        SXSSFRow row = sxssfSheet1.createRow(0);
+//        创建sheet中的第1行
+        SXSSFRow row10 = sxssfSheet1.createRow(0);
 //        设置sheet中的默认列宽
         sxssfSheet1.setDefaultColumnWidth(30);
+        List<SystemColumnData> list1 = systemColumnDataDao.selectListByTableName("scene_data");
+        int i=0;
+        for (SystemColumnData systemColumnData:list1) {
+//            创建单元格
+            Cell cell = row10.createCell(i++);
+//           设置单元格格式
+            cell.setCellStyle(style);
+            //如果字段是创建者则要求批量导入者填入自己的用户名
+            if (systemColumnData.getColumnComment().equals("创建者")) {
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(systemColumnData.getColumnComment()+'\n'+"(请填写您在系统中注册的用户名)");
+            }else {
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
+            }
+        }
+
+        /*
+        模板上只创建一个输入帧
+         */
+//        创建第2个sheet的第1行
+        SXSSFSheet sxssfSheet2 = sxssfWorkbook.createSheet("输入帧");
+        SXSSFRow row20 = sxssfSheet2.createRow(0);
+        SXSSFRow row21 = sxssfSheet2.createRow(1);
+        List<SystemColumnData> list2 = systemColumnDataDao.selectListByTableName("material_data");
+        int j=0;
+        for (SystemColumnData systemColumnData:list2) {
+//           创建单元格
+            Cell cell = row21.createCell(i++);
+//           设置单元格格式
+            cell.setCellStyle(style);
+//           将属性名放到上面创建的单元格中
+            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
+
+        }
+
+        List<SystemColumnData> list3 = systemColumnDataDao.selectListByTableName("energy_data");
+        for (SystemColumnData systemColumnData:list3) {
+//           创建单元格
+            Cell cell = row21.createCell(j++);
+//           设置单元格格式
+            cell.setCellStyle(style);
+//           将属性名放到上面创建的单元格中
+            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
+
+        }
+
+        List<SystemColumnData> list4 = systemColumnDataDao.selectListByTableName("device_data");
+        for (SystemColumnData systemColumnData:list4) {
+//           创建单元格
+            Cell cell = row21.createCell(j++);
+//           设置单元格格式
+            cell.setCellStyle(style);
+//           将属性名放到上面创建的单元格中
+            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
+
+        }
+
+        try {
+            response.setCharacterEncoding("UTF-8");
+            //构建文件名
+            String fileName = tableName+".xlsx";
+            fileName= URLEncoder.encode(fileName,"UTF-8");
+            //构造输出流
+            ServletOutputStream out = response.getOutputStream();
+            response.setContentType("application/msexcel;charset=UTF-8");
+            response.setHeader("Content-disposition", "attachment; filename="+fileName);
+            sxssfWorkbook.write(out);
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
     }
 
     @RequestMapping(value="/baseTable", method = RequestMethod.POST)
