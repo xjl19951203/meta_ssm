@@ -30,40 +30,13 @@ import java.util.*;
 @EnableAutoConfiguration
 @RequestMapping("/api/batch/excel")
 public class BatchExcelController {
-//    @Resource
-//    SceneDataDao sceneDataDao;
-//    @Resource
-//    InputFrameDataDao inputFrameDataDao;
-//    @Resource
-//    MaterialDataDao materialDataDao;
-//    @Resource
-//    EnergyDataDao energyDataDao;
-//    @Resource
-//    DeviceDataDao deviceDataDao;
-//    @Resource
-//    KeyParameterDataDao keyParameterDataDao;
-//    @Resource
-//    FunctionUnitDataDao functionUnitDataDao;
-//    @Resource
-//    OutputFrameDataDao outputFrameDataDao;
-//    @Resource
-//    EnvLoadDataDao envLoadDataDao;
-//    @Resource
-//    OutputPartDataDao outputPartDataDao;
-//    @Resource
-//    MaterialDao materialDao;
-//    @Resource
-//    EnergyDao energyDao;
-//    @Resource
-//    DeviceDao deviceDao;
-//    @Resource
-//    EnvLoadDao envLoadDao;
+
     @Resource
     ModelDao modelDao;
     @Resource
     SystemColumnDataDao systemColumnDataDao;
 
-    @RequestMapping(value="/base/{tableName}", method = RequestMethod.GET)
+    @RequestMapping(value="/baseExcel/{tableName}", method = RequestMethod.GET)
     public void getBaseTablelExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
 
         tableName = camel2under(tableName);
@@ -199,6 +172,23 @@ public class BatchExcelController {
         c = c.replaceAll("([a-z])([A-Z])", "$1"+separator+"$2").toLowerCase();
         return c;
     }
+    @RequestMapping(value="/sceneDataExcel", method = RequestMethod.GET)
+    public void getSceneDataExcel (HttpServletResponse response) throws Exception {
+        //定义Excel表名
+        String tableName = "工艺场景表";
+        //创建Excel文件
+        SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
+        //创建单元格格式
+        CellStyle style = sxssfWorkbook.createCellStyle();
+        //设置单元格居中
+        style.setAlignment(HorizontalAlignment.CENTER);
+//        创建Excel中的sheet对象
+        SXSSFSheet sxssfSheet1 = sxssfWorkbook.createSheet(tableName);
+//        创建sheet中的第一行
+        SXSSFRow row = sxssfSheet1.createRow(0);
+//        设置sheet中的默认列宽
+        sxssfSheet1.setDefaultColumnWidth(30);
+    }
 
     @RequestMapping(value="/baseTable", method = RequestMethod.POST)
     public List<AbstractModel> postBaseTablelExcel (@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
@@ -297,18 +287,18 @@ public class BatchExcelController {
 //                    对model对象执行该方法,将cell中的值赋给model的属性
                         m.invoke(model,(int)row.getCell(j).getNumericCellValue());
                     }
-//                    利用反射根据方法名称和方法的参数类型获取类的方法
-//                    Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
+////                    利用反射根据方法名称和方法的参数类型获取类的方法
+////                   Method m = cc.getDeclaredMethod(methodName,Class.forName(paraType));
 ////                    System.out.println(row.getCell(j).getStringCellValue());
 ////                    对model对象执行该方法,将cell中的值赋给model的属性
-//                    m.invoke(model,row.getCell(j).getStringCellValue());
+////                    m.invoke(model,row.getCell(j).getStringCellValue());
                     j++;
                 }
 //                返回输入的Excel的数据所构造的对象集合
                 list.add(model);
             }
         }
-        //根据类名获得表名
+//        根据类名获得表名
         tableName = className.substring(0,1).toLowerCase()+className.substring(1);
 //        根据类名获得相应的dao
         modelDao = ModelHandler.getModelDaoInstance(tableName);
@@ -316,10 +306,16 @@ public class BatchExcelController {
         for (AbstractModel temp:list) {
             this.modelDao.insert(temp);
         }
-        //返回插入的对象集合
+//        返回插入的对象集合
         return list;
     }
-//    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
+
+    @RequestMapping(value="/sceneData", method = RequestMethod.POST)
+    public List<AbstractModel> postSceneDataExcel () {
+        return null;
+    }
+
+    //    @RequestMapping(value="/{tableName}", method = RequestMethod.GET)
 //    public void getMatrialExcel (@PathVariable String tableName, HttpServletResponse response) throws Exception {
 //
 ////        List<String> list = BatchAssist.getRemarksFromBaseTable(tableName);
