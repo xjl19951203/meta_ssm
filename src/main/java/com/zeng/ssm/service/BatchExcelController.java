@@ -75,13 +75,11 @@ public class BatchExcelController {
 //           设置单元格格式
             cell.setCellStyle(style);
             //如果字段是外键关联，则将其对应的表单独创建一个sheet，以供使用者选择
-            if (systemColumnData.getColumnKey().equals("MUL")&&!systemColumnData.getColumnName().equals("categoryRootId")) {
+            if (systemColumnData.getColumnKey().equals("MUL")) {
                 createSheet(sxssfWorkbook, systemColumnData, style);
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照sheet中的说明填写编号)");
-            }else if (systemColumnData.getColumnName().equals("categoryRootId")) {
-                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照工艺类别中的工艺大类填写编号)");
-            } else {
+            }else {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
             }
@@ -214,6 +212,7 @@ public class BatchExcelController {
             Cell cell = row10.createCell(i++);
 //           设置单元格格式
             cell.setCellStyle(style);
+//            &&!systemColumnData.getColumnName().equals("categoryRootId")
             //如果字段是创建者则要求批量导入者填入自己的用户名
             if (systemColumnData.getColumnComment().equals("创建者")) {
 //            将属性名放到上面创建的单元格中
@@ -222,6 +221,8 @@ public class BatchExcelController {
                 createSheet(sxssfWorkbook, systemColumnData, style);
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照sheet中的说明填写编号)");
+            }else if (systemColumnData.getColumnName().equals("categoryRootId")) {
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照工艺类别中的工艺大类填写编号)");
             } else {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
@@ -233,7 +234,7 @@ public class BatchExcelController {
          */
 //        创建第2个sheet的第1行
         int k = 0;
-        SXSSFSheet sxssfSheet2 = sxssfWorkbook.createSheet("输入帧");
+        SXSSFSheet sxssfSheet2 = sxssfWorkbook.createSheet("输入帧1");
         sxssfSheet2.setDefaultColumnWidth(30);
         /*
         物料数据表
@@ -303,10 +304,12 @@ public class BatchExcelController {
         sxssfRowtitle6.createCell(0);
 //        sxssfRowtitle6.getCell(0).setCellStyle(style);
         sxssfRowtitle6.getCell(0).setCellValue("输出部件");
-        CellRangeAddress region6 = new CellRangeAddress(k, k, 0, list6.size() - 5);
+        CellRangeAddress region6 = new CellRangeAddress(k, k, 0, list6.size() - 4);
         sxssfSheet2.addMergedRegion(region6);
         k++;
         k = createRow(sxssfWorkbook, sxssfSheet2, list6, style, k);
+        int a1 = sxssfSheet2.getRow(k-4).getLastCellNum();
+        sxssfSheet2.getRow(k-4).createCell(a1).setCellValue("采集描述");
         /*
         环境负荷数据表
         */
@@ -315,10 +318,12 @@ public class BatchExcelController {
         sxssfRowtitle7.createCell(0);
 //        sxssfRowtitle7.getCell(0).setCellStyle(style);
         sxssfRowtitle7.getCell(0).setCellValue("环境负荷");
-        CellRangeAddress region7 = new CellRangeAddress(k, k, 0, list7.size() - 5);
+        CellRangeAddress region7 = new CellRangeAddress(k, k, 0, list7.size() - 4);
         sxssfSheet2.addMergedRegion(region7);
         k++;
         k = createRow(sxssfWorkbook, sxssfSheet2, list7, style, k);
+        int a2 = sxssfSheet2.getRow(k-4).getLastCellNum();
+        sxssfSheet2.getRow(k-4).createCell(a2).setCellValue("采集描述");
         try {
             response.setCharacterEncoding("UTF-8");
             //构建文件名
@@ -360,7 +365,7 @@ public class BatchExcelController {
             }
         }
         s += 3;
-        sxssfSheet.createRow(s);
+//        sxssfSheet.createRow(s);
         return s;
     }
 
