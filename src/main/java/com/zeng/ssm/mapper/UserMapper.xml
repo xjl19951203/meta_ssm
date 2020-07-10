@@ -43,6 +43,10 @@
         SELECT * from `user` where id = #{pk}
     </select>
 
+    <select id="selectByUserName" parameterType = "java.lang.String" resultMap="SimpleResultMap">
+        SELECT * from `user` where userName = #{userName}
+    </select>
+
 
     <!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">-->
 <!--        SELECT * from `user`-->

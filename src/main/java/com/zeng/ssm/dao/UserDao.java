@@ -18,4 +18,6 @@ public interface UserDao extends ModelDao {
     int insert(User record);
 
     User selectByPrimaryKey(Integer pk);
+
+    User selectByUserName(String userName);
 }
