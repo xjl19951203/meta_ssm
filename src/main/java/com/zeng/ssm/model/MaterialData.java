@@ -14,15 +14,15 @@ public class MaterialData extends AbstractModel {
 //    private InputFrameData inputFrameData;
     private Integer materialId;
     private Material material;
-    private String value;
+    private Integer materialDataCategoryId;
+    private MaterialDataCategory materialDataCategory;
+    private float value;
     private Integer unitId;
     private Unit unit;
     private Integer dataSourceId;
     private DataSource dataSource;
     private String time;
     private String reliability;
-    private Integer materialDataCategoryId;
-    private MaterialDataCategory materialDataCategory;
 
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd")
@@ -30,38 +30,6 @@ public class MaterialData extends AbstractModel {
     @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date updatedAt;
-
-//    public SceneData getSceneData() {
-//        return sceneData;
-//    }
-//
-//    public void setSceneData(SceneData sceneData) {
-//        this.sceneData = sceneData;
-//    }
-
-//    public Integer getSceneDataId() {
-//        return sceneDataId;
-//    }
-//
-//    public void setSceneDataId(Integer sceneDataId) {
-//        this.sceneDataId = sceneDataId;
-//    }
-
-//    public Integer getSceneDataFrameId() {
-//        return sceneDataFrameId;
-//    }
-//
-//    public void setSceneDataFrameId(Integer sceneDataFrameId) {
-//        this.sceneDataFrameId = sceneDataFrameId;
-//    }
-//
-//    public SceneDataFrame getSceneDataFrame() {
-//        return sceneDataFrame;
-//    }
-//
-//    public void setSceneDataFrame(SceneDataFrame sceneDataFrame) {
-//        this.sceneDataFrame = sceneDataFrame;
-//    }
 
     public Integer getInputFrameDataId() {
         return inputFrameDataId;
@@ -87,11 +55,27 @@ public class MaterialData extends AbstractModel {
         this.material = material;
     }
 
-    public String getValue() {
+    public Integer getMaterialDataCategoryId() {
+        return materialDataCategoryId;
+    }
+
+    public void setMaterialDataCategoryId(Integer materialDataCategoryId) {
+        this.materialDataCategoryId = materialDataCategoryId;
+    }
+
+    public MaterialDataCategory getMaterialDataCategory() {
+        return materialDataCategory;
+    }
+
+    public void setMaterialDataCategory(MaterialDataCategory materialDataCategory) {
+        this.materialDataCategory = materialDataCategory;
+    }
+
+    public float getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(float value) {
         this.value = value;
     }
 
@@ -143,22 +127,6 @@ public class MaterialData extends AbstractModel {
         this.reliability = reliability;
     }
 
-    public Integer getMaterialDataCategoryId() {
-        return materialDataCategoryId;
-    }
-
-    public void setMaterialDataCategoryId(Integer materialDataCategoryId) {
-        this.materialDataCategoryId = materialDataCategoryId;
-    }
-
-    public MaterialDataCategory getMaterialDataCategory() {
-        return materialDataCategory;
-    }
-
-    public void setMaterialDataCategory(MaterialDataCategory materialDataCategory) {
-        this.materialDataCategory = materialDataCategory;
-    }
-
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -174,5 +142,4 @@ public class MaterialData extends AbstractModel {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
-
 }

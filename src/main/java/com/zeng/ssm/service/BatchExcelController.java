@@ -6,6 +6,7 @@ import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.SystemColumnData;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -31,6 +32,7 @@ import java.util.*;
 @RequestMapping("/api/batch/excel")
 public class BatchExcelController {
 
+    //    private static SystemColumnDataDao systemColumnDataDao;
     @Resource
     ModelDao modelDao;
     @Resource
@@ -44,7 +46,7 @@ public class BatchExcelController {
         if (tableName.equals("material")) {
            tableName = "基础物料表";
             System.out.println(tableName);
-       }else if (tableName.equals("energy")) {
+        }else if (tableName.equals("energy")) {
            tableName = "基础能源表";
         }else if (tableName.equals("device")) {
            tableName = "基础设备表";
@@ -97,7 +99,7 @@ public class BatchExcelController {
         }
     }
 
-    public void createSheet (SXSSFWorkbook sxssfWorkbook,SystemColumnData systemColumnData,CellStyle cellStyle) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
+    public void createSheet(SXSSFWorkbook sxssfWorkbook, SystemColumnData systemColumnData, CellStyle cellStyle) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
 //        获取数据库中表的英文名称（转换成下划线分割的形式）
         String tableName = systemColumnData.getColumnName().substring(0,systemColumnData.getColumnName().length()-2);
         tableName = camel2under(tableName);
@@ -138,8 +140,18 @@ public class BatchExcelController {
             LinkedHashMap<String, String> map = new LinkedHashMap<>();
             Field[] declaredFields = abstractModel.getClass().getDeclaredFields();
 //            System.out.println(declaredFields.length);
+            List<String> verifyList = new ArrayList<>();
             for (Field field : declaredFields) {
                 field.setAccessible(true);
+                /*
+                验证一下方法返回的是否是引用类型，如果是引用类型则直接跳过，因为迭代的过程中已经将引用类型的对象新建了表，在当前方法中只需要在建立的表中
+                 */
+                String childName = field.getName();
+                if (childName.contains("Id")) {
+                    verifyList.add(childName.substring(0,childName.length()-2));
+                }else if (verifyList.contains(childName)) {
+                    continue;
+                }
                 map.put(field.getName(), field.get(abstractModel)!=null?field.get(abstractModel).toString():null);
             }
 //            定义每个cell的编号，便于为每个字段一个萝卜一个坑
@@ -187,13 +199,13 @@ public class BatchExcelController {
         style.setAlignment(HorizontalAlignment.CENTER);
 //        创建Excel中的sheet对象
         SXSSFSheet sxssfSheet1 = sxssfWorkbook.createSheet(tableName);
-//        创建sheet中的第1行
-        SXSSFRow row10 = sxssfSheet1.createRow(0);
 //        设置sheet中的默认列宽
         sxssfSheet1.setDefaultColumnWidth(30);
-        List<SystemColumnData> list1 = systemColumnDataDao.selectListByTableName("scene_data");
+//        创建sheet中的第1行
+        SXSSFRow row10 = sxssfSheet1.createRow(0);
+        List<SystemColumnData> list = systemColumnDataDao.selectListByTableName("scene_data");
         int i=0;
-        for (SystemColumnData systemColumnData:list1) {
+        for (SystemColumnData systemColumnData:list) {
 //            创建单元格
             Cell cell = row10.createCell(i++);
 //           设置单元格格式
@@ -212,43 +224,93 @@ public class BatchExcelController {
         模板上只创建一个输入帧
          */
 //        创建第2个sheet的第1行
+        int k=0;
         SXSSFSheet sxssfSheet2 = sxssfWorkbook.createSheet("输入帧");
-        SXSSFRow row20 = sxssfSheet2.createRow(0);
-        SXSSFRow row21 = sxssfSheet2.createRow(1);
-        List<SystemColumnData> list2 = systemColumnDataDao.selectListByTableName("material_data");
-        int j=0;
-        for (SystemColumnData systemColumnData:list2) {
-//           创建单元格
-            Cell cell = row21.createCell(i++);
-//           设置单元格格式
-            cell.setCellStyle(style);
-//           将属性名放到上面创建的单元格中
-            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
-
-        }
-
+        sxssfSheet2.setDefaultColumnWidth(30);
+        /*
+        物料数据表
+         */
+        SXSSFRow sxssfRowtitle1 = sxssfSheet2.createRow(k);
+        List<SystemColumnData> list1 = systemColumnDataDao.selectListByTableName("material_data");
+        sxssfRowtitle1.createCell(0);
+//        sxssfRowtitle1.getCell(0).setCellStyle(style);
+        sxssfRowtitle1.getCell(0).setCellValue("物料");
+        CellRangeAddress region1 = new CellRangeAddress(k, k, 0, list1.size()-5);
+        sxssfSheet2.addMergedRegion(region1);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list1,style,k);
+        /*
+        设备数据表
+        */
+        SXSSFRow sxssfRowtitle2 = sxssfSheet2.createRow(k);
+        List<SystemColumnData> list2 = systemColumnDataDao.selectListByTableName("device_data");
+        sxssfRowtitle2.createCell(0);
+//        sxssfRowtitle2.getCell(0).setCellStyle(style);
+        sxssfRowtitle2.getCell(0).setCellValue("设备");
+        CellRangeAddress region2 = new CellRangeAddress(k, k, 0, list2.size()-5);
+        sxssfSheet2.addMergedRegion(region2);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list2,style,k);
+        /*
+        能源数据表
+        */
+        SXSSFRow sxssfRowtitle3 = sxssfSheet2.createRow(k);
         List<SystemColumnData> list3 = systemColumnDataDao.selectListByTableName("energy_data");
-        for (SystemColumnData systemColumnData:list3) {
-//           创建单元格
-            Cell cell = row21.createCell(j++);
-//           设置单元格格式
-            cell.setCellStyle(style);
-//           将属性名放到上面创建的单元格中
-            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
-
-        }
-
-        List<SystemColumnData> list4 = systemColumnDataDao.selectListByTableName("device_data");
-        for (SystemColumnData systemColumnData:list4) {
-//           创建单元格
-            Cell cell = row21.createCell(j++);
-//           设置单元格格式
-            cell.setCellStyle(style);
-//           将属性名放到上面创建的单元格中
-            cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
-
-        }
-
+        sxssfRowtitle3.createCell(0);
+//        sxssfRowtitle3.getCell(0).setCellStyle(style);
+        sxssfRowtitle3.getCell(0).setCellValue("能源");
+        CellRangeAddress region3 = new CellRangeAddress(k, k, 0, list3.size()-5);
+        sxssfSheet2.addMergedRegion(region3);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list3,style,k);
+        /*
+        关键工艺参数数据表
+        */
+        SXSSFRow sxssfRowtitle4 = sxssfSheet2.createRow(k);
+        List<SystemColumnData> list4 = systemColumnDataDao.selectListByTableName("key_parameter_data");
+        sxssfRowtitle4.createCell(0);
+//        sxssfRowtitle4.getCell(0).setCellStyle(style);
+        sxssfRowtitle4.getCell(0).setCellValue("关键工艺参数");
+        CellRangeAddress region4 = new CellRangeAddress(k, k, 0, list4.size()-5);
+        sxssfSheet2.addMergedRegion(region4);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list4,style,k);
+        /*
+        功能单位数据表
+        */
+        SXSSFRow sxssfRowtitle5 = sxssfSheet2.createRow(k);
+        List<SystemColumnData> list5 = systemColumnDataDao.selectListByTableName("function_unit_data");
+        sxssfRowtitle5.createCell(0);
+//        sxssfRowtitle5.getCell(0).setCellStyle(style);
+        sxssfRowtitle5.getCell(0).setCellValue("功能单位");
+        CellRangeAddress region5 = new CellRangeAddress(k, k, 0, list5.size()-5);
+        sxssfSheet2.addMergedRegion(region5);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list5,style,k);
+        /*
+        输出部件数据表
+        */
+        SXSSFRow sxssfRowtitle6 = sxssfSheet2.createRow(k);
+        List<SystemColumnData> list6 = systemColumnDataDao.selectListByTableName("output_part_data");
+        sxssfRowtitle6.createCell(0);
+//        sxssfRowtitle6.getCell(0).setCellStyle(style);
+        sxssfRowtitle6.getCell(0).setCellValue("输出部件");
+        CellRangeAddress region6 = new CellRangeAddress(k, k, 0, list6.size()-5);
+        sxssfSheet2.addMergedRegion(region6);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list6,style,k);
+        /*
+        环境负荷数据表
+        */
+        SXSSFRow sxssfRowtitle7 = sxssfSheet2.createRow(k);
+        List<SystemColumnData> list7 = systemColumnDataDao.selectListByTableName("env_load_data");
+        sxssfRowtitle7.createCell(0);
+//        sxssfRowtitle7.getCell(0).setCellStyle(style);
+        sxssfRowtitle7.getCell(0).setCellValue("环境负荷");
+        CellRangeAddress region7 = new CellRangeAddress(k, k, 0, list7.size()-5);
+        sxssfSheet2.addMergedRegion(region7);
+        k++;
+        k = createRow(sxssfWorkbook,sxssfSheet2,list7,style,k);
         try {
             response.setCharacterEncoding("UTF-8");
             //构建文件名
@@ -264,6 +326,35 @@ public class BatchExcelController {
             e.printStackTrace();
         }
 
+    }
+
+    public int createRow (SXSSFWorkbook sxssfWorkbook,SXSSFSheet sxssfSheet,List<SystemColumnData> list,CellStyle style,int s) throws NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException, InvocationTargetException, ClassNotFoundException {
+        SXSSFRow sxssfRow = sxssfSheet.createRow(s++);
+        int j=0;
+        for (SystemColumnData systemColumnData:list) {
+            if (systemColumnData.getColumnName().equals("sceneDataId")||systemColumnData.getColumnName().contains("FrameDataId")
+                    ||systemColumnData.getColumnName().equals("createdAt")||systemColumnData.getColumnName().equals("updatedAt")) {
+                continue;
+            }
+//           创建单元格
+            Cell cell = sxssfRow.createCell(j++);
+//           设置单元格格式
+            cell.setCellStyle(style);
+            if (systemColumnData.getColumnKey().equals("MUL")&&sxssfWorkbook.getSheet(systemColumnData.getColumnComment())==null&&
+                    !systemColumnData.getColumnName().contains("material")&&!systemColumnData.getColumnName().contains("energy")&&
+                    !systemColumnData.getColumnName().contains("device")&&!systemColumnData.getColumnName().contains("envLoad"))
+            {
+                createSheet(sxssfWorkbook,systemColumnData,style);
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(systemColumnData.getColumnComment()+'\n'+"(请按照其他sheet中的说明填写编号)");
+            }else {
+//            将属性名放到上面创建的单元格中
+                cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
+            }
+        }
+        s += 3;
+        sxssfSheet.createRow(s);
+        return s;
     }
 
     @RequestMapping(value="/baseTable", method = RequestMethod.POST)

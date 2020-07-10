@@ -2,7 +2,7 @@ package com.zeng.ssm.model;
 
 import com.zeng.ssm.common.AbstractModel;
 
-public class EnvLoadCategory extends  AbstractModel {
+public class EnvLoadCategory extends AbstractModel {
     private String title;
 
     public String getTitle() {

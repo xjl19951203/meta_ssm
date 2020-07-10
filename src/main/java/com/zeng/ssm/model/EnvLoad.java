@@ -13,7 +13,6 @@ public class EnvLoad extends Searchable{
     private String treatment;
     private String source;
 
-
     @Override
     public String getModelType() {
         return "env_load";
