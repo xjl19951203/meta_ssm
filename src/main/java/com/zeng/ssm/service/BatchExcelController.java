@@ -505,7 +505,7 @@ public class BatchExcelController {
 //        获取第二行的数据
         Row row = sheet.getRow(1);
 //        根据反射获取当前数据代表的model类
-        Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model.sceneData");
+        Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model.SceneData");
         AbstractModel model = cc.newInstance();
 //        j是每一行的列编号，编号从一开始应为model中并没有定义id这个属性，但是数据表中有这个字段
         int j = 1;
