@@ -65,7 +65,12 @@ public class BatchExcelController {
     @Resource
     OutputFrameDataDao outputFrameDataDao;
     @Resource
+    OutputPartDataDao outputPartDataDao;
+    @Resource
+    EnvLoadDataDao envLoadDataDao;
+    @Resource
     SceneData sceneData;
+
 
 
     @RequestMapping(value = "/baseTableExcel/{tableName}", method = RequestMethod.GET)
@@ -531,7 +536,7 @@ public class BatchExcelController {
     }
 
     @RequestMapping(value = "/sceneData", method = RequestMethod.POST)
-    public List<AbstractModel> postSceneDataExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
+    public AbstractModel postSceneDataExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
 
         //获取输入流
         InputStream inputStream = file.getInputStream();
@@ -682,20 +687,54 @@ public class BatchExcelController {
                 outputFrameData.setInputFrameDataId(inputFrameDataId);
                 outputFrameData.setCollectionDescription(key);
                 outputFrameDataDao.insert(outputFrameData);
-                OutputPartData outputPartData = new OutputPartData();
-                outputPartData.setOutputFrameDataId(outputFrameData.getId());
                 for (int k=x+2;k<n;k++) {
+                    OutputPartData outputPartData = new OutputPartData();
+                    outputPartData.setOutputFrameDataId(outputFrameData.getId());
                     Row tempOutputPartData = tempSheet.getRow(k);
+                    int count=1;
                     if (tempOutputPartData.getCell(tempOutputPartData.getLastCellNum()).getStringCellValue().equals(key)){
-                        outputPartData.setTitle(tempOutputPartData.getCell(k).getStringCellValue());
-                        outputPartData.setCategory((boolean)tempOutputPartData.getCell(k).getNumericCellValue());
+                        outputPartData.setTitle(tempOutputPartData.getCell(count++).getStringCellValue());
+                        boolean flag = true;
+                        if ((int)tempOutputPartData.getCell(count++).getNumericCellValue()==0) {
+                            flag = false;
+                        }
+                        outputPartData.setCategory(flag);
+                        outputPartData.setYieldRate((float)tempOutputPartData.getCell(count++).getNumericCellValue());
+                        outputPartData.setDescription(tempOutputPartData.getCell(count++).getStringCellValue());
+                        outputPartDataDao.insert(outputPartData);
+                    }
+                }
+                for (int k=n+2;k<sheet.getLastRowNum();k++) {
+                    EnvLoadData envLoadData = new EnvLoadData();
+                    envLoadData.setOutputFrameDataId(outputFrameData.getId());
+                    Row tempEnvLoadData = tempSheet.getRow(k);
+                    int count=1;
+                    if (tempEnvLoadData.getCell(tempEnvLoadData.getLastCellNum()).getStringCellValue().equals(key)) {
+                        envLoadData.setTitle(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setValue((float)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setUnitId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setDescription(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setDeviceId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setCollectReasonId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setMonitorRangeId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setFrequency(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setLocation(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setCollectMethodId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setTime(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setReliability(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setCalculateMethodId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setTreatment(tempEnvLoadData.getCell(count++).getStringCellValue());
+                        envLoadData.setMonitorMethodId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setCollectProblemId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadData.setDataSourceId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
+                        envLoadDataDao.insert(envLoadData);
                     }
                 }
             }
 
             index++;
         }
-        return null;
+        return this.sceneDataDao.selectByPrimaryKey(sceneDataId);
 //        根据表名字将表中所含的字段信息获取到
 //        List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName("scene_data");
 //        根据反射获取当前数据代表的model类
