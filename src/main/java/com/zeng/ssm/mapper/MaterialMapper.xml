@@ -25,6 +25,10 @@
         SELECT * from `material`
     </select>
 
+    <select id="selectByMaterialName" resultMap="BaseResultMap">
+        SELECT * from `material` where title = #{materialName};
+    </select>
+
 <!--    <select id="selectByPage" parameterType="int" resultMap="BaseResultMap">-->
 <!--        SELECT * from `material` limit #{page},#{size}-->
 <!--    </select>-->

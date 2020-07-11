@@ -15,6 +15,10 @@
         SELECT * from `material_data_category`
     </select>
 
+    <select id="selectByMaterialCategoryName" resultType="com.zeng.ssm.model.MaterialDataCategory">
+        SELECT * from `material_data_category` where title = #{materialCategoryName}
+    </select>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialDataCategory">
         update `material_data_category`
         set

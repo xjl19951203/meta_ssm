@@ -3,10 +3,11 @@ package com.zeng.ssm.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.zeng.ssm.common.Searchable;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
-
+@Component
 public class SceneData extends Searchable {
 
     private Integer id;
@@ -14,6 +15,8 @@ public class SceneData extends Searchable {
     private Integer categoryId;
     private Integer categoryRootId; // 标识分类大类，便于按大类查询
     private Category category;
+    private Integer userId;
+    private User user;
     private String description;
 
     private List<InputFrameData> inputFrameDataList;
@@ -73,6 +76,22 @@ public class SceneData extends Searchable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getDescription() {

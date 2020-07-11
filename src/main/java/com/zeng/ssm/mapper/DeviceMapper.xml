@@ -35,6 +35,9 @@
             or `usage` like '%${content}%' or `source` like '%${content}%';
         </if>
     </select>
+    <select id="selectByDeviceName" resultType="com.zeng.ssm.model.Device">
+        select * from `device` where title = #{deviceName}
+    </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Device">
         update `device`

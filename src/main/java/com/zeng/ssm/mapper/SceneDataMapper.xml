@@ -6,10 +6,12 @@
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
         <result column="categoryRootId" jdbcType="INTEGER" property="categoryRootId" />
+        <result column="userId" jdbcType="INTEGER" property="userId" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
         <association property="category" column="categoryId" select="com.zeng.ssm.dao.CategoryDao.selectSimpleByPrimaryKey"/>
+        <association property="user" column="userId" select="com.zeng.ssm.dao.UserDao.selectByPrimaryKey"/>
     </resultMap>
 
     <resultMap id="BaseResultMap" type="com.zeng.ssm.model.SceneData">
@@ -17,6 +19,7 @@
         <result column="title" jdbcType="VARCHAR" property="title" />
         <result column="categoryId" jdbcType="INTEGER" property="categoryId" />
         <result column="categoryRootId" jdbcType="INTEGER" property="categoryRootId" />
+        <result column="userId" jdbcType="INTEGER" property="userId" />
         <result column="description" jdbcType="VARCHAR" property="description" />
         <result column="createdAt" jdbcType="TIMESTAMP" property="createdAt" />
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
@@ -25,6 +28,7 @@
         <association property="category" column="categoryId" select="com.zeng.ssm.dao.CategoryDao.selectSimpleByPrimaryKey"/>
         <!--当表中设置外键时，如果表中的一条记录单独对应其他表中的多条记录，就用collection属性，select表示对应xml的namespace + 对应xml中的代码片段的id,
 		column作为select语句的参数传入,如果只传一个参数id可以简写: column="id" -->
+        <association property="user" column="userId" select="com.zeng.ssm.dao.UserDao.selectByPrimaryKey"/>
         <collection column="id" property="inputFrameDataList" ofType="com.zeng.ssm.model.InputFrameData"
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.InputFrameDataDao.selectInputFrameDataListBySceneDataId"/>
 <!--        <collection column="id" property="outputFrameDataList" ofType="com.zeng.ssm.model.OutputFrameData"-->
@@ -44,9 +48,9 @@
     </resultMap>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.SceneData" useGeneratedKeys="true" keyProperty="id" >
-        insert into scene_data (`title`, `categoryId`,`categoryRootId`, `description`)
+        insert into scene_data (`title`, `categoryId`,`categoryRootId`,`userId`, `description`)
         values (#{title,jdbcType=VARCHAR},#{categoryId,jdbcType=INTEGER},#{categoryRootId,jdbcType=INTEGER},
-        #{description,jdbcType=VARCHAR})
+        #{userId,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
     </insert>
 
     <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">
@@ -100,8 +104,9 @@
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.SceneData">
         update scene_data
         set id = #{id,jdbcType=INTEGER},
-          categoryId = #{categoryId,jdbcType=INTEGER},
-          categoryRootId = #{categoryRootId,jdbcType=INTEGER},
+          `categoryId` = #{categoryId,jdbcType=INTEGER},
+          `categoryRootId` = #{categoryRootId,jdbcType=INTEGER},
+          `userId` = #{userId,jdbcType=INTEGER},
           `title` = #{title,jdbcType=VARCHAR},
           `description` = #{description,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}

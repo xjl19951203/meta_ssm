@@ -4,7 +4,7 @@ import com.zeng.ssm.common.AbstractModel;
 import com.zeng.ssm.common.ModelDao;
 import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.dao.*;
-import com.zeng.ssm.model.SystemColumnData;
+import com.zeng.ssm.model.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFRow;
@@ -32,15 +32,40 @@ import java.util.*;
 @RequestMapping("/api/batch/excel")
 public class BatchExcelController {
 
-    //    private static SystemColumnDataDao systemColumnDataDao;
+
     @Resource
     ModelDao modelDao;
     @Resource
     SystemColumnDataDao systemColumnDataDao;
     @Resource
     UserDao userDao;
+    @Resource
+    SceneDataDao sceneDataDao;
+    @Resource
+    InputFrameDataDao inputFrameDataDao;
+    @Resource
+    MaterialDao materialDao;
+    @Resource
+    MaterialDataCategoryDao materialDataCategoryDao;
+    @Resource
+    MaterialDataDao materialDataDao;
+    @Resource
+    DeviceDao deviceDao;
+    @Resource
+    DeviceDataDao deviceDataDao;
+    @Resource
+    EnergyDao energyDao;
+    @Resource
+    EnergyDataDao energyDataDao;
+    @Resource
+    KeyParameterDataDao keyParameterDataDao;
+    @Resource
+    FunctionUnitDataDao functionUnitDataDao;
+    @Resource
+    SceneData sceneData;
 
-    @RequestMapping(value = "/baseTable/{tableName}", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/baseTableExcel/{tableName}", method = RequestMethod.GET)
     public void getBaseTablelExcel(@PathVariable String tableName, HttpServletResponse response) throws Exception {
 
         tableName = camel2under(tableName);
@@ -101,7 +126,7 @@ public class BatchExcelController {
         }
     }
 
-    public void createSheet(SXSSFWorkbook sxssfWorkbook, SystemColumnData systemColumnData, CellStyle cellStyle) throws ClassNotFoundException, NoSuchMethodException, InvocationTargetException, IllegalAccessException, InstantiationException, NoSuchFieldException {
+    public void createSheet(SXSSFWorkbook sxssfWorkbook, SystemColumnData systemColumnData, CellStyle cellStyle) throws Exception {
 //        获取数据库中表的英文名称（转换成下划线分割的形式）
         String tableName = systemColumnData.getColumnName().substring(0, systemColumnData.getColumnName().length() - 2);
         tableName = camel2under(tableName);
@@ -140,6 +165,7 @@ public class BatchExcelController {
             row0.createCell(0).setCellValue(i);
 //            获得一行记录中的所有字段的值，放到hashmap里面
             LinkedHashMap<String, String> map = new LinkedHashMap<>();
+//            获得当前AbstractModel的所有方法
             Field[] declaredFields = abstractModel.getClass().getDeclaredFields();
 //            System.out.println(declaredFields.length);
             List<String> verifyList = new ArrayList<>();
@@ -223,7 +249,10 @@ public class BatchExcelController {
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照sheet中的说明填写编号)");
             }else if (systemColumnData.getColumnName().equals("categoryRootId")) {
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照工艺类别中的工艺大类填写编号)");
-            } else {
+            }else if (systemColumnData.getColumnName().equals("createdAt")||systemColumnData.getColumnName().equals("updatedAt")) {
+                continue;
+            }
+            else {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
             }
@@ -341,10 +370,11 @@ public class BatchExcelController {
 
     }
 
-    public int createRow(SXSSFWorkbook sxssfWorkbook, SXSSFSheet sxssfSheet, List<SystemColumnData> list, CellStyle style, int s) throws NoSuchMethodException, IllegalAccessException, InstantiationException, NoSuchFieldException, InvocationTargetException, ClassNotFoundException {
+    public int createRow(SXSSFWorkbook sxssfWorkbook, SXSSFSheet sxssfSheet, List<SystemColumnData> list, CellStyle style, int s) throws Exception {
         SXSSFRow sxssfRow = sxssfSheet.createRow(s++);
         int j = 0;
         for (SystemColumnData systemColumnData : list) {
+//            如果字段是sceneDataId，inputFrameDataId，outputFrameDataId，createdAt，updatedAt五种中的一种，就不创建单元格
             if (systemColumnData.getColumnName().equals("sceneDataId") || systemColumnData.getColumnName().contains("FrameDataId")
                     || systemColumnData.getColumnName().equals("createdAt") || systemColumnData.getColumnName().equals("updatedAt")) {
                 continue;
@@ -353,13 +383,21 @@ public class BatchExcelController {
             Cell cell = sxssfRow.createCell(j++);
 //           设置单元格格式
             cell.setCellStyle(style);
+//            字段名包含material，energy，device，envLoad则不重新建sheet，避免出现基础数据暴露的问题
             if (systemColumnData.getColumnKey().equals("MUL") && sxssfWorkbook.getSheet(systemColumnData.getColumnComment()) == null &&
                     !systemColumnData.getColumnName().contains("material") && !systemColumnData.getColumnName().contains("energy") &&
                     !systemColumnData.getColumnName().contains("device") && !systemColumnData.getColumnName().contains("envLoad")) {
                 createSheet(sxssfWorkbook, systemColumnData, style);
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照其他sheet中的说明填写编号)");
-            } else {
+//                如果是物料数据类型字段，限定只能填写两种类型。
+            }else if (systemColumnData.getColumnName().equals("materialDataCategoryId")){
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写“主料”或者“辅料”)");
+            }else if (systemColumnData.getColumnName().equals("functionUnit")){
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写中文单位，如公斤，件等)");
+            }else if (systemColumnData.getColumnName().equals("reliability")) {
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写用~表示的范围)");
+            }else {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
             }
@@ -490,74 +528,210 @@ public class BatchExcelController {
     }
 
     @RequestMapping(value = "/sceneData", method = RequestMethod.POST)
-    public List<AbstractModel> postSceneDataExcel(@RequestParam("file") MultipartFile file) throws Exception {
-//        String chineseTableName = "工艺场景表";
-//        根据表名字将表中所含的字段信息获取到
-        List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName("scene_data");
+    public List<AbstractModel> postSceneDataExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
+
         //获取输入流
         InputStream inputStream = file.getInputStream();
         //创建读取工作簿
         Workbook workbook = WorkbookFactory.create(inputStream);
         //获取工艺场景基本信息表
         Sheet sheet = workbook.getSheetAt(0);
-//        获取sheet的第一行的表头
-        Row row0 = sheet.getRow(0);
 //        获取第二行的数据
         Row row = sheet.getRow(1);
-//        根据反射获取当前数据代表的model类
-        Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model.SceneData");
-        AbstractModel model = cc.newInstance();
-//        j是每一行的列编号，编号从一开始应为model中并没有定义id这个属性，但是数据表中有这个字段
-        int j = 1;
-//        定义属性名称，以便后面构建方法
-        String fieldName = "";
-//        定义参数类型，以便构建方法的参数
-        String paraType = "java.lang.String";
-        while (j < row0.getLastCellNum()) {
-            /*确保某个单元格的数据与字段信息能够对应上*/
-            String tempField = row0.getCell(j).getStringCellValue();
-            if (tempField.contains("(")) {
-                int a = tempField.indexOf("(");
-                tempField = tempField.substring(0, a - 1);
+        int j=1;
+//        插入工艺场景基本信息
+        sceneData.setTitle(row.getCell(j++).getStringCellValue());
+        sceneData.setCategoryId((int)row.getCell(j++).getNumericCellValue());
+        sceneData.setCategoryRootId((int)row.getCell(j++).getNumericCellValue());
+        String userName = row.getCell(j++).getStringCellValue();
+        sceneData.setUserId(this.userDao.selectByUserName(userName).getId());
+        sceneData.setDescription(row.getCell(j++).getStringCellValue());
+        this.sceneDataDao.insert(sceneData);
+        int sceneDataId = sceneData.getId();
+        int i=0;
+        String regex = "输入帧\\d*$";
+        while (workbook.getSheetAt(i+2).getSheetName().matches(regex)) {
+            i++;
+        }
+        int index = 2;
+//        对每个sheet中的输入帧进行处理
+        while (index<=i+1) {
+            InputFrameData tempInputFrame = new InputFrameData();
+//            对当前帧的工艺场景编号进行赋值
+            tempInputFrame.setSceneDataId(sceneDataId);
+//            将当前帧插入输入帧表中
+            inputFrameDataDao.insert(tempInputFrame);
+//            获取当前帧的编号
+            int inputFrameDataId = tempInputFrame.getId();
+//            开始读取当前帧对应的sheet中的数据
+            Sheet tempSheet = workbook.getSheetAt(index);
+//            获取所有sheet中的合并单元格所在的行数,注意最后一个合并单元格获取时入参为0!!
+            int f = tempSheet.getMergedRegion(1).getFirstRow();
+            int s = tempSheet.getMergedRegion(2).getFirstRow();
+            int t = tempSheet.getMergedRegion(3).getFirstRow();
+            int r = tempSheet.getMergedRegion(4).getFirstRow();
+            int e = tempSheet.getMergedRegion(5).getFirstRow();
+            int x = tempSheet.getMergedRegion(6).getFirstRow();
+            int n = tempSheet.getMergedRegion(0).getFirstRow();
+            /*
+            根据Excel表结构开始处理各种数据
+             */
+//            处理当前输入帧所有的物料数据
+            for (int k=f+2;k<s;k++) {
+                MaterialData materialData = new MaterialData();
+                materialData.setInputFrameDataId(inputFrameDataId);
+                Row tempMaterialData = tempSheet.getRow(k);
+                int count = 1;
+//                所用物料
+                String materialName = tempMaterialData.getCell(count++).getStringCellValue();
+                materialData.setMaterialId(materialDao.selectByMaterialName(materialName).getId());
+//                物料数据分类
+                String materialCategoryName = tempMaterialData.getCell(count++).getStringCellValue();
+                materialData.setMaterialDataCategoryId(materialDataCategoryDao.selectByMaterialCategoryName(materialCategoryName).getId());
+//                物料用量
+                materialData.setValue((float)tempMaterialData.getCell(count++).getNumericCellValue());
+//                计量单位
+                materialData.setUnitId((int)tempMaterialData.getCell(count++).getNumericCellValue());
+//                数据来源
+                materialData.setDataSourceId((int)tempMaterialData.getCell(count++).getNumericCellValue());
+//                数据代表年份
+                materialData.setTime(tempMaterialData.getCell(count++).getStringCellValue());
+//                数据置信区间
+                materialData.setReliability(tempMaterialData.getCell(count++).getStringCellValue());
+                materialDataDao.insert(materialData);
             }
-            for (SystemColumnData systemColumnData : columnDataList) {
-                if (systemColumnData.getColumnComment().equals(tempField)) {
-                    fieldName = systemColumnData.getColumnName();
-                    paraType = systemColumnData.getDataType();
-                    break;
-                }
+//            处理当前输入帧所有的设备数据
+            for (int k=s+2;k<t;k++) {
+                DeviceData deviceData = new DeviceData();
+                deviceData.setInputFrameDataId(inputFrameDataId);
+                Row tempDeviceData = tempSheet.getRow(k);
+                int count = 1;
+//                设备名称
+                String deviceName = tempDeviceData.getCell(count++).getStringCellValue();
+                deviceData.setDeviceId(deviceDao.selectByDeviceName(deviceName).getId());
+//                使用时长
+                deviceData.setWorkTime((float)tempDeviceData.getCell(count++).getNumericCellValue());
+                deviceDataDao.insert(deviceData);
             }
-//           根据属性名称构建方法名称,这里主要是set方法
-            String methodName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
-//           将获取的数据库字段类型,将其转换成相应的Java数据类型
-            if (paraType.equals("varchar")) {
-                paraType = "java.lang.String";
-//           利用反射根据方法名称和方法的参数类型获取类的方法
-                Method m = cc.getDeclaredMethod(methodName, Class.forName(paraType));
-//           对model对象执行该方法,将cell中的值赋给model的属性
-                m.invoke(model, row.getCell(j) != null ? row.getCell(j).getStringCellValue() : "");
-            } else if (paraType.equals("float")) {
-                paraType = "java.lang.Float";
-//           利用反射根据方法名称和方法的参数类型获取类的方法
-                Method m = cc.getDeclaredMethod(methodName, Class.forName(paraType));
-//           对model对象执行该方法,将cell中的值赋给model的属性
-                m.invoke(model, (float) row.getCell(j).getNumericCellValue());
-            } else if (paraType.equals("int")) {
-                paraType = "java.lang.Integer";
-//           利用反射根据方法名称和方法的参数类型获取类的方法
-                Method m = cc.getDeclaredMethod(methodName, Class.forName(paraType));
-                if (fieldName.equals("userId")) {
-                    String userName = row.getCell(j).getStringCellValue();
-                    int userId = userDao.selectByUserName(userName).getId();
-//           对model对象执行该方法,将cell中的值赋给model的属性
-                    m.invoke(model, userId);
-                }else {
-//           对model对象执行该方法,将cell中的值赋给model的属性
-                    m.invoke(model, (int) row.getCell(j).getNumericCellValue());
-                }
+//            处理当前输入帧所有的能源数据
+            for (int k=t+2;k<r;k++) {
+                EnergyData energyData = new EnergyData();
+                energyData.setInputFrameDataId(inputFrameDataId);
+                Row tempEnergyData = tempSheet.getRow(k);
+                int count = 1;
+//                所用能源
+                String energyName = tempEnergyData.getCell(count++).getStringCellValue();
+                energyData.setEnergyId(energyDao.selectByEnergyName(energyName).getId());
+//                能源用量
+                energyData.setValue((float)tempEnergyData.getCell(count++).getNumericCellValue());
+//                计量单位
+                energyData.setUnitId((int)tempEnergyData.getCell(count++).getNumericCellValue());
+//                数据来源
+                energyData.setDataSourceId((int)tempEnergyData.getCell(count++).getNumericCellValue());
+//                采集设备
+                energyData.setDeviceId((int)tempEnergyData.getCell(count++).getNumericCellValue());
+                energyDataDao.insert(energyData);
             }
+//            处理当前输入帧所有的关键工艺参数数据
+            for (int k=r+2;k<e;k++) {
+                KeyParameterData keyParameterData = new KeyParameterData();
+                keyParameterData.setInputFrameDataId(inputFrameDataId);
+                Row tempKeyParameterData = tempSheet.getRow(k);
+                int count = 1;
+//                关键工艺参数名称
+                keyParameterData.setTitle(tempKeyParameterData.getCell(count++).getStringCellValue());
+//                关键工艺参数描述
+                keyParameterData.setDescription(tempKeyParameterData.getCell(count++).getStringCellValue());
+                keyParameterDataDao.insert(keyParameterData);
+            }
+//            处理当前输入帧所有的功能单位数据
+            for (int k=e+2;k<x;k++) {
+                FunctionUnitData functionUnitData = new FunctionUnitData();
+                functionUnitData.setInputFrameDataId(inputFrameDataId);
+                Row tempFunctionUnitData = tempSheet.getRow(k);
+                int count = 1;
+//                功能单位值
+                functionUnitData.setFunctionValue((float)tempFunctionUnitData.getCell(count++).getNumericCellValue());
+//                值对应的单位
+                functionUnitData.setFunctionUnit(tempFunctionUnitData.getCell(count++).getStringCellValue());
+//                功能单位描述
+                functionUnitData.setFunctionDescription(tempFunctionUnitData.getCell(count++).getStringCellValue());
+                functionUnitDataDao.insert(functionUnitData);
+            }
+//            处理当前输入帧所有的输出帧
+            HashMap<String,Integer> hashMap = new HashMap<>();
+            for (int k=x+2;k<n;k++) {
+                Row temp = tempSheet.getRow(k);
+                int last = temp.getLastCellNum();
+//                if (temp.getCell(last).getStringCellValue())
+                
+            }
+            index++;
         }
         return null;
+//        根据表名字将表中所含的字段信息获取到
+//        List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName("scene_data");
+//        根据反射获取当前数据代表的model类
+//        Class<AbstractModel> cc = (Class<AbstractModel>) Class.forName("com.zeng.ssm.model.SceneData");
+//        AbstractModel model = cc.newInstance();
+////        j是每一行的列编号，编号从一开始应为model中并没有定义id这个属性，但是数据表中有这个字段
+//        int j = 1;
+////        定义属性名称，以便后面构建方法
+//        String fieldName = "";
+////        定义参数类型，以便构建方法的参数
+//        String paraType = "java.lang.String";
+//        while (j < row0.getLastCellNum()) {
+//            /*确保某个单元格的数据与字段信息能够对应上*/
+//            String tempField = row0.getCell(j).getStringCellValue();
+//            if (tempField.contains("(")) {
+//                int a = tempField.indexOf("(");
+//                tempField = tempField.substring(0, a - 1);
+//            }
+//            for (SystemColumnData systemColumnData : columnDataList) {
+//                if (systemColumnData.getColumnComment().equals(tempField)) {
+//                    fieldName = systemColumnData.getColumnName();
+//                    paraType = systemColumnData.getDataType();
+//                    break;
+//                }
+//            }
+//            System.out.println(2);
+////           根据属性名称构建方法名称,这里主要是set方法
+//            String methodName = "set" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+////           将获取的数据库字段类型,将其转换成相应的Java数据类型
+//            if (paraType.equals("varchar")) {
+//                paraType = "java.lang.String";
+////           利用反射根据方法名称和方法的参数类型获取类的方法
+//                Method m = cc.getDeclaredMethod(methodName, Class.forName(paraType));
+////           对model对象执行该方法,将cell中的值赋给model的属性
+//                m.invoke(model, row.getCell(j) != null ? row.getCell(j).getStringCellValue() : "");
+//            } else if (paraType.equals("float")) {
+//                paraType = "java.lang.Float";
+////           利用反射根据方法名称和方法的参数类型获取类的方法
+//                Method m = cc.getDeclaredMethod(methodName, Class.forName(paraType));
+////           对model对象执行该方法,将cell中的值赋给model的属性
+//                m.invoke(model, (float) row.getCell(j).getNumericCellValue());
+//            } else if (paraType.equals("int")) {
+//                paraType = "java.lang.Integer";
+////           利用反射根据方法名称和方法的参数类型获取类的方法
+//                Method m = cc.getDeclaredMethod(methodName, Class.forName(paraType));
+//                if (fieldName.equals("userId")) {
+//                    String userName = row.getCell(j).getStringCellValue();
+//                    int userId = userDao.selectByUserName(userName).getId();
+////           对model对象执行该方法,将cell中的值赋给model的属性
+//                    m.invoke(model, userId);
+//                }else {
+////           对model对象执行该方法,将cell中的值赋给model的属性
+//                    m.invoke(model, (int) row.getCell(j).getNumericCellValue());
+//                }
+//            }
+//            j++;
+//        }
+//        //将model中的数据插入scene_data数据表中
+//        modelDao = ModelHandler.getModelDaoInstance("sceneData");
+//        //获取刚刚插入的工艺场景的ID号
+//        int sceneDataId = this.modelDao.insert(model);
+//        System.out.println(sceneDataId);
+
     }
 }
 

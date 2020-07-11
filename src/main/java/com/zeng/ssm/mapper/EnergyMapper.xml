@@ -31,6 +31,9 @@
             SELECT * from `energy` where title like '%${content}%' or `source` like '%${content}%';
         </if>
     </select>
+    <select id="selectByEnergyName" resultType="com.zeng.ssm.model.Energy">
+        select * from `energy` where title = #{energyName}
+    </select>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Energy">
         update `energy`
