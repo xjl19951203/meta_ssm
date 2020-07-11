@@ -26,6 +26,7 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.*;
 
+
 @CrossOrigin
 @RestController
 @EnableAutoConfiguration
@@ -61,6 +62,8 @@ public class BatchExcelController {
     KeyParameterDataDao keyParameterDataDao;
     @Resource
     FunctionUnitDataDao functionUnitDataDao;
+    @Resource
+    OutputFrameDataDao outputFrameDataDao;
     @Resource
     SceneData sceneData;
 
@@ -659,13 +662,37 @@ public class BatchExcelController {
                 functionUnitDataDao.insert(functionUnitData);
             }
 //            处理当前输入帧所有的输出帧
-            HashMap<String,Integer> hashMap = new HashMap<>();
+            LinkedHashMap<String,Integer> linkedhashMap = new LinkedHashMap<>();
             for (int k=x+2;k<n;k++) {
                 Row temp = tempSheet.getRow(k);
                 int last = temp.getLastCellNum();
-//                if (temp.getCell(last).getStringCellValue())
-                
+                if (linkedhashMap.containsKey(temp.getCell(last).getStringCellValue())) {
+//                    linkedhashMap.replace(temp.getCell(last).getStringCellValue(),linkedhashMap.get(temp.getCell(last).getStringCellValue())+1);
+                    continue;
+                }else {
+                    linkedhashMap.put(temp.getCell(last).getStringCellValue(),1);
+                }
             }
+            Iterator iterator = linkedhashMap.entrySet().iterator();
+            while (iterator.hasNext()) {
+                Map.Entry<String, String> entry = (Map.Entry) iterator.next();
+                String key = entry.getKey();
+//                String value = entry.getValue();
+                OutputFrameData outputFrameData =new OutputFrameData();
+                outputFrameData.setInputFrameDataId(inputFrameDataId);
+                outputFrameData.setCollectionDescription(key);
+                outputFrameDataDao.insert(outputFrameData);
+                OutputPartData outputPartData = new OutputPartData();
+                outputPartData.setOutputFrameDataId(outputFrameData.getId());
+                for (int k=x+2;k<n;k++) {
+                    Row tempOutputPartData = tempSheet.getRow(k);
+                    if (tempOutputPartData.getCell(tempOutputPartData.getLastCellNum()).getStringCellValue().equals(key)){
+                        outputPartData.setTitle(tempOutputPartData.getCell(k).getStringCellValue());
+                        outputPartData.setCategory((boolean)tempOutputPartData.getCell(k).getNumericCellValue());
+                    }
+                }
+            }
+
             index++;
         }
         return null;
