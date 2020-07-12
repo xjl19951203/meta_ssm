@@ -6,6 +6,7 @@ import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.*;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellAddress;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.streaming.SXSSFRow;
 import org.apache.poi.xssf.streaming.SXSSFSheet;
@@ -573,19 +574,21 @@ public class BatchExcelController {
             int inputFrameDataId = tempInputFrame.getId();
 //            开始读取当前帧对应的sheet中的数据
             Sheet tempSheet = workbook.getSheetAt(index);
-//            获取所有sheet中的合并单元格所在的行数,注意最后一个合并单元格获取时入参为0!!
-            int f = tempSheet.getMergedRegion(1).getFirstRow();
-            int s = tempSheet.getMergedRegion(2).getFirstRow();
-            int t = tempSheet.getMergedRegion(3).getFirstRow();
-            int r = tempSheet.getMergedRegion(4).getFirstRow();
-            int e = tempSheet.getMergedRegion(5).getFirstRow();
-            int x = tempSheet.getMergedRegion(6).getFirstRow();
-            int n = tempSheet.getMergedRegion(0).getFirstRow();
+//            获取所有sheet中的合并单元格所在的行数,注意获取之后要进行升序排序!!
+            int[] array = new int[7];
+            array[0] = tempSheet.getMergedRegion(0).getFirstRow();
+            array[1] = tempSheet.getMergedRegion(1).getFirstRow();
+            array[2] = tempSheet.getMergedRegion(2).getFirstRow();
+            array[3] = tempSheet.getMergedRegion(3).getFirstRow();
+            array[4] = tempSheet.getMergedRegion(4).getFirstRow();
+            array[5] = tempSheet.getMergedRegion(5).getFirstRow();
+            array[6] = tempSheet.getMergedRegion(6).getFirstRow();
+            Arrays.sort(array);
             /*
             根据Excel表结构开始处理各种数据
              */
 //            处理当前输入帧所有的物料数据
-            for (int k=f+2;k<s;k++) {
+            for (int k=array[0]+2;k<array[1];k++) {
                 MaterialData materialData = new MaterialData();
                 materialData.setInputFrameDataId(inputFrameDataId);
                 Row tempMaterialData = tempSheet.getRow(k);
@@ -609,7 +612,7 @@ public class BatchExcelController {
                 materialDataDao.insert(materialData);
             }
 //            处理当前输入帧所有的设备数据
-            for (int k=s+2;k<t;k++) {
+            for (int k=array[1]+2;k<array[2];k++) {
                 DeviceData deviceData = new DeviceData();
                 deviceData.setInputFrameDataId(inputFrameDataId);
                 Row tempDeviceData = tempSheet.getRow(k);
@@ -622,7 +625,7 @@ public class BatchExcelController {
                 deviceDataDao.insert(deviceData);
             }
 //            处理当前输入帧所有的能源数据
-            for (int k=t+2;k<r;k++) {
+            for (int k=array[2]+2;k<array[3];k++) {
                 EnergyData energyData = new EnergyData();
                 energyData.setInputFrameDataId(inputFrameDataId);
                 Row tempEnergyData = tempSheet.getRow(k);
@@ -641,7 +644,7 @@ public class BatchExcelController {
                 energyDataDao.insert(energyData);
             }
 //            处理当前输入帧所有的关键工艺参数数据
-            for (int k=r+2;k<e;k++) {
+            for (int k=array[3]+2;k<array[4];k++) {
                 KeyParameterData keyParameterData = new KeyParameterData();
                 keyParameterData.setInputFrameDataId(inputFrameDataId);
                 Row tempKeyParameterData = tempSheet.getRow(k);
@@ -653,7 +656,7 @@ public class BatchExcelController {
                 keyParameterDataDao.insert(keyParameterData);
             }
 //            处理当前输入帧所有的功能单位数据
-            for (int k=e+2;k<x;k++) {
+            for (int k=array[4]+2;k<array[5];k++) {
                 FunctionUnitData functionUnitData = new FunctionUnitData();
                 functionUnitData.setInputFrameDataId(inputFrameDataId);
                 Row tempFunctionUnitData = tempSheet.getRow(k);
@@ -668,9 +671,9 @@ public class BatchExcelController {
             }
 //            处理当前输入帧所有的输出帧
             LinkedHashMap<String,Integer> linkedhashMap = new LinkedHashMap<>();
-            for (int k=x+2;k<n;k++) {
+            for (int k=array[5]+2;k<array[6];k++) {
                 Row temp = tempSheet.getRow(k);
-                int last = temp.getLastCellNum();
+                int last = temp.getLastCellNum()-1;
                 if (linkedhashMap.containsKey(temp.getCell(last).getStringCellValue())) {
 //                    linkedhashMap.replace(temp.getCell(last).getStringCellValue(),linkedhashMap.get(temp.getCell(last).getStringCellValue())+1);
                     continue;
@@ -678,21 +681,23 @@ public class BatchExcelController {
                     linkedhashMap.put(temp.getCell(last).getStringCellValue(),1);
                 }
             }
+//            遍历所有的采集描述所构成的hashMap
             Iterator iterator = linkedhashMap.entrySet().iterator();
             while (iterator.hasNext()) {
-                Map.Entry<String, String> entry = (Map.Entry) iterator.next();
+                Map.Entry<String, Integer> entry = (Map.Entry) iterator.next();
                 String key = entry.getKey();
-//                String value = entry.getValue();
+//                Integer value = entry.getValue();
                 OutputFrameData outputFrameData =new OutputFrameData();
+//                将每次构造的输出帧赋值当前输入帧编号
                 outputFrameData.setInputFrameDataId(inputFrameDataId);
                 outputFrameData.setCollectionDescription(key);
                 outputFrameDataDao.insert(outputFrameData);
-                for (int k=x+2;k<n;k++) {
+                for (int k=array[5]+2;k<array[6];k++) {
                     OutputPartData outputPartData = new OutputPartData();
                     outputPartData.setOutputFrameDataId(outputFrameData.getId());
                     Row tempOutputPartData = tempSheet.getRow(k);
                     int count=1;
-                    if (tempOutputPartData.getCell(tempOutputPartData.getLastCellNum()).getStringCellValue().equals(key)){
+                    if (tempOutputPartData.getCell(tempOutputPartData.getLastCellNum()-1).getStringCellValue().equals(key)){
                         outputPartData.setTitle(tempOutputPartData.getCell(count++).getStringCellValue());
                         boolean flag = true;
                         if ((int)tempOutputPartData.getCell(count++).getNumericCellValue()==0) {
@@ -704,12 +709,22 @@ public class BatchExcelController {
                         outputPartDataDao.insert(outputPartData);
                     }
                 }
-                for (int k=n+2;k<sheet.getLastRowNum();k++) {
+//                int lastRow = 0;
+//                CellAddress cellAddress = new CellAddress(lastRow,1);
+//                while (!sheet.getCellComment(cellAddress).equals("")) {
+//                    lastRow++;
+//                }
+                for (int k=array[6]+2;;k++) {
+                    Row tempRow = tempSheet.getRow(k);
+                    if (tempRow==null) {
+                        break;
+                    }
+                    System.out.println(1);
                     EnvLoadData envLoadData = new EnvLoadData();
                     envLoadData.setOutputFrameDataId(outputFrameData.getId());
                     Row tempEnvLoadData = tempSheet.getRow(k);
                     int count=1;
-                    if (tempEnvLoadData.getCell(tempEnvLoadData.getLastCellNum()).getStringCellValue().equals(key)) {
+                    if (tempEnvLoadData.getCell(tempEnvLoadData.getLastCellNum()-1).getStringCellValue().equals(key)) {
                         envLoadData.setTitle(tempEnvLoadData.getCell(count++).getStringCellValue());
                         envLoadData.setValue((float)tempEnvLoadData.getCell(count++).getNumericCellValue());
                         envLoadData.setUnitId((int)tempEnvLoadData.getCell(count++).getNumericCellValue());
@@ -731,7 +746,6 @@ public class BatchExcelController {
                     }
                 }
             }
-
             index++;
         }
         return this.sceneDataDao.selectByPrimaryKey(sceneDataId);
