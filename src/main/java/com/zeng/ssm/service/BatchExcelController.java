@@ -72,8 +72,6 @@ public class BatchExcelController {
     @Resource
     SceneData sceneData;
 
-
-
     @RequestMapping(value = "/baseTableExcel/{tableName}", method = RequestMethod.GET)
     public void getBaseTablelExcel(@PathVariable String tableName, HttpServletResponse response) throws Exception {
 
@@ -400,6 +398,8 @@ public class BatchExcelController {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照其他sheet中的说明填写编号)");
 //                如果是物料数据类型字段，限定只能填写两种类型。
+            }else if (systemColumnData.getColumnKey().equals("MUL") &&sxssfWorkbook.getSheet(systemColumnData.getColumnComment()) == null) {
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照其他sheet中的说明填写编号)");
             }else if (systemColumnData.getColumnName().equals("materialDataCategoryId")){
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写“主料”或者“辅料”)");
             }else if (systemColumnData.getColumnName().equals("functionUnit")){
@@ -719,7 +719,6 @@ public class BatchExcelController {
                     if (tempRow==null) {
                         break;
                     }
-                    System.out.println(1);
                     EnvLoadData envLoadData = new EnvLoadData();
                     envLoadData.setOutputFrameDataId(outputFrameData.getId());
                     Row tempEnvLoadData = tempSheet.getRow(k);
