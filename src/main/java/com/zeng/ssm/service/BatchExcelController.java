@@ -398,7 +398,9 @@ public class BatchExcelController {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照其他sheet中的说明填写编号)");
 //                如果是物料数据类型字段，限定只能填写两种类型。
-            }else if (systemColumnData.getColumnKey().equals("MUL") &&sxssfWorkbook.getSheet(systemColumnData.getColumnComment()) == null) {
+            }else if (systemColumnData.getColumnKey().equals("MUL") &&sxssfWorkbook.getSheet(systemColumnData.getColumnComment()) != null&&
+                    !systemColumnData.getColumnName().contains("material") && !systemColumnData.getColumnName().contains("energy") &&
+                    !systemColumnData.getColumnName().contains("device") && !systemColumnData.getColumnName().contains("envLoad")) {
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请按照其他sheet中的说明填写编号)");
             }else if (systemColumnData.getColumnName().equals("materialDataCategoryId")){
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写“主料”或者“辅料”)");
@@ -406,6 +408,10 @@ public class BatchExcelController {
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写中文单位，如公斤，件等)");
             }else if (systemColumnData.getColumnName().equals("reliability")) {
                 cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请填写用~表示的范围)");
+            }else if (systemColumnData.getColumnComment().contains("值")||systemColumnData.getColumnComment().contains("用量")) {
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请仅填写数值)");
+            }else if (systemColumnData.getColumnComment().equals("使用时长")) {
+                cell.setCellValue(systemColumnData.getColumnComment() + '\n' + "(请仅填写数值，默认单位为小时h)");
             }else {
 //            将属性名放到上面创建的单元格中
                 cell.setCellValue(systemColumnData.getColumnComment());//获取属性名
