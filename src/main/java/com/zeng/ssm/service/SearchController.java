@@ -83,6 +83,7 @@ public class SearchController {
     public HashMap<String,List> allSearch(@RequestParam String record) {
 //        ArrayList arrayList = new ArrayList();
         HashMap<String,List> hashMap = new HashMap<>();
+
         List<AbstractModel> list0 = sceneDataDao.selectByContent(record);
         hashMap.put("sceneData",list0);
         List<AbstractModel> list1 = materialDao.selectByContent(record);
