@@ -79,7 +79,6 @@ public class BatchExcelController {
         List<SystemColumnData> list = systemColumnDataDao.selectListByTableName(tableName);
         if (tableName.equals("material")) {
             tableName = "基础物料表";
-            System.out.println(tableName);
         } else if (tableName.equals("energy")) {
             tableName = "基础能源表";
         } else if (tableName.equals("device")) {
