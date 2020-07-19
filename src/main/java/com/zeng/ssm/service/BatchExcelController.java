@@ -27,13 +27,11 @@ import java.lang.reflect.Method;
 import java.net.URLEncoder;
 import java.util.*;
 
-
 @CrossOrigin
 @RestController
 @EnableAutoConfiguration
 @RequestMapping("/api/batch/excel")
 public class BatchExcelController {
-
 
     @Resource
     ModelDao modelDao;
@@ -449,7 +447,6 @@ public class BatchExcelController {
         } else {
             return null;
         }
-        System.out.println(1);
 //        根据表名字将表中所含的字段信息获取到
         List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName(tableName);
         //获取输入流
