@@ -80,20 +80,56 @@ public class SearchController {
     }
     //模块查询，一框式搜索
     @RequestMapping(value = "",method = RequestMethod.GET)
-    public HashMap<String,List> allSearch(@RequestParam String record) {
+    public HashMap<String,List> allSearch(@RequestParam(defaultValue="null") String content, @RequestParam(defaultValue="null") String searchType, @RequestParam(defaultValue="null") String dataType) {
 //        ArrayList arrayList = new ArrayList();
         HashMap<String,List> hashMap = new HashMap<>();
-
-        List<AbstractModel> list0 = sceneDataDao.selectByContent(record);
-        hashMap.put("sceneData",list0);
-        List<AbstractModel> list1 = materialDao.selectByContent(record);
-        hashMap.put("material",list1);
-        List<AbstractModel> list2 = energyDao.selectByContent(record);
-        hashMap.put("energy",list2);
-        List<AbstractModel> list3 = deviceDao.selectByContent(record);
-        hashMap.put("device",list3);
-        List<AbstractModel> list4 = envLoadDao.selectByContent(record);
-        hashMap.put("envLoad",list4);
-        return hashMap;
+        System.out.println(1);
+        if (!content.equals("null")&&searchType.equals("null")&&dataType.equals("null")) {
+            System.out.println(2);
+            List<AbstractModel> list0 = sceneDataDao.selectByContent(content);
+            hashMap.put("sceneData",list0);
+            List<AbstractModel> list1 = materialDao.selectByContent(content);
+            hashMap.put("material",list1);
+            List<AbstractModel> list2 = energyDao.selectByContent(content);
+            hashMap.put("energy",list2);
+            List<AbstractModel> list3 = deviceDao.selectByContent(content);
+            hashMap.put("device",list3);
+            List<AbstractModel> list4 = envLoadDao.selectByContent(content);
+            hashMap.put("envLoad",list4);
+            return hashMap;
+        }else if (searchType.equals("sceneData")&&dataType.equals("sceneData")) {
+            List<AbstractModel> list0 = sceneDataDao.selectByContent(content);
+            hashMap.put("sceneData",list0);
+            return hashMap;
+        }else if (searchType.equals("baseData")&&dataType.equals("null")) {
+            List<AbstractModel> list1 = materialDao.selectByContent(content);
+            hashMap.put("material",list1);
+            List<AbstractModel> list2 = energyDao.selectByContent(content);
+            hashMap.put("energy",list2);
+            List<AbstractModel> list3 = deviceDao.selectByContent(content);
+            hashMap.put("device",list3);
+            List<AbstractModel> list4 = envLoadDao.selectByContent(content);
+            hashMap.put("envLoad",list4);
+            return hashMap;
+        }else if (searchType.equals("baseData")&&dataType.equals("material")) {
+            List<AbstractModel> list1 = materialDao.selectByContent(content);
+            hashMap.put("material",list1);
+            return hashMap;
+        }else if (searchType.equals("baseData")&&dataType.equals("energy")) {
+            List<AbstractModel> list2 = energyDao.selectByContent(content);
+            hashMap.put("energy",list2);
+            return hashMap;
+        }else if (searchType.equals("baseData")&&dataType.equals("device")) {
+            List<AbstractModel> list3 = deviceDao.selectByContent(content);
+            hashMap.put("device",list3);
+            return hashMap;
+        }else if (searchType.equals("baseData")&&dataType.equals("envLoad")) {
+            List<AbstractModel> list4 = envLoadDao.selectByContent(content);
+            hashMap.put("envLoad",list4);
+            return hashMap;
+        }else {
+            System.out.println(3);
+            return null;
+        }
     }
 }

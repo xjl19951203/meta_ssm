@@ -19,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -84,7 +85,7 @@ public class BatchExcelController {
         } else if (tableName.equals("env_load")) {
             tableName = "基础环境负荷表";
         } else {
-            return;
+            return ;
         }
 //        创建Excel对象
         SXSSFWorkbook sxssfWorkbook = new SXSSFWorkbook();
@@ -422,8 +423,12 @@ public class BatchExcelController {
     @RequestMapping(value = "/baseTable", method = RequestMethod.POST)
     public List<AbstractModel> postBaseTablelExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
 
-        if (file == null) {
-            return null;//未收到文件
+//        if (file == null) {
+//            return null;//未收到文件
+//        }
+        if(file == null) {     //判断文件是否存在
+            // 文件不存在，则抛出文件不存在异常
+            throw new FileNotFoundException("未收到文件");
         }
         String fileName = file.getOriginalFilename();
         String tableName = "";
@@ -445,7 +450,7 @@ public class BatchExcelController {
             tableName = "env_load";
             className = "EnvLoad";
         } else {
-            return null;
+            throw new Exception("文件类型错误！");
         }
 //        根据表名字将表中所含的字段信息获取到
         List<SystemColumnData> columnDataList = systemColumnDataDao.selectListByTableName(tableName);
@@ -542,6 +547,9 @@ public class BatchExcelController {
     @RequestMapping(value = "/sceneData", method = RequestMethod.POST)
     public AbstractModel postSceneDataExcel(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws Exception {
 
+        if (!file.getOriginalFilename().contains("工艺场景")) {
+            throw new Exception("文件类型错误！");
+        }
         //获取输入流
         InputStream inputStream = file.getInputStream();
         //创建读取工作簿
