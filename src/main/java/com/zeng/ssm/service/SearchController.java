@@ -107,11 +107,6 @@ public class SearchController {
                 continue;
             }
         }
-        for (String string:strings) {
-            if (!hashMap.keySet().contains(string)) {
-                hashMap.put(string,null);
-            }
-        }
         return hashMap;
     }
 //    public HashMap<String,List> allSearch(@RequestParam(defaultValue="null") String content, @RequestParam(defaultValue="null") String searchType, @RequestParam(defaultValue="null") String dataType) {
