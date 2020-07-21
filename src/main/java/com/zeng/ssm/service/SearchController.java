@@ -85,33 +85,36 @@ public class SearchController {
         HashMap<String,List> hashMap = new HashMap<>();
         String[] strings = tableType.split(",");
         for (String str:strings) {
-            System.out.println(str);
             if (str.equals("sceneData")) {
                 List<AbstractModel> list0 = sceneDataDao.selectByContent(content);
                 hashMap.put("sceneData",list0);
-                System.out.println(str);
+                continue;
             }else if (str.equals("material")) {
                 List<AbstractModel> list1 = materialDao.selectByContent(content);
                 hashMap.put("material",list1);
-                System.out.println(str);
+                continue;
             }else if (str.equals("energy")) {
                 List<AbstractModel> list2 = energyDao.selectByContent(content);
                 hashMap.put("energy",list2);
-                System.out.println(str);
+                continue;
             }else if (str.equals("device")) {
                 List<AbstractModel> list3 = deviceDao.selectByContent(content);
                 hashMap.put("device",list3);
-                System.out.println(str);
+                continue;
             }else if (str.equals("envLoad")) {
                 List<AbstractModel> list4 = envLoadDao.selectByContent(content);
                 hashMap.put("envLoad",list4);
-                System.out.println(str);
+                continue;
+            }
+        }
+        for (String string:strings) {
+            if (!hashMap.keySet().contains(string)) {
+                hashMap.put(string,null);
             }
         }
         return hashMap;
     }
 //    public HashMap<String,List> allSearch(@RequestParam(defaultValue="null") String content, @RequestParam(defaultValue="null") String searchType, @RequestParam(defaultValue="null") String dataType) {
-////        ArrayList arrayList = new ArrayList();
 //        HashMap<String,List> hashMap = new HashMap<>();
 //        System.out.println(1);
 //        if (!content.equals("null")&&searchType.equals("null")&&dataType.equals("null")) {
