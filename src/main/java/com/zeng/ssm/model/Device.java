@@ -21,6 +21,11 @@ public class Device extends Searchable{
         this.title = title;
     }
 
+    @Override
+    public String getModelType() {
+        return "device";
+    }
+
     public String getType() {
         return type;
     }
