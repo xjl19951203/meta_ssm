@@ -53,7 +53,7 @@
         #{userId,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
     </insert>
 
-    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">
+    <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
         <if test="content != null">
             SELECT * from `scene_data` where title like '%${content}%' or description like '%${content}%'
         </if>
