@@ -82,6 +82,9 @@ public class SearchController {
     @RequestMapping(value = "",method = RequestMethod.GET)
     public HashMap<String,List> allSearch(@RequestParam(defaultValue="null") String content, @RequestParam(defaultValue="null") String tableType ) {
 
+        if (content==null || tableType==null) {
+            return null;
+        }
         HashMap<String,List> hashMap = new HashMap<>();
         content = content.trim();
         String[] strings = tableType.split(",");
