@@ -82,11 +82,11 @@ public class SearchController {
     @RequestMapping(value = "",method = RequestMethod.GET)
     public HashMap<String,List> allSearch(@RequestParam(defaultValue="null") String content, @RequestParam(defaultValue="null") String tableType ) {
 
+        content = content.trim();
         if (content==null || tableType==null) {
             return null;
         }
         HashMap<String,List> hashMap = new HashMap<>();
-        content = content.trim();
         String[] strings = tableType.split(",");
         for (String str:strings) {
             if (str.equals("sceneData")) {
