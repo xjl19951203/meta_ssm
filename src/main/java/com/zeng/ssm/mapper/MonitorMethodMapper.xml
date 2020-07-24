@@ -14,17 +14,17 @@
         SELECT * from `monitor_method`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.MonitorMethod" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `monitor_method` ( `title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MonitorMethod">
         update `monitor_method`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.MonitorMethod" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `monitor_method` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `monitor_method` where id = #{pk,jdbcType=INTEGER}

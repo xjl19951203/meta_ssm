@@ -65,9 +65,9 @@
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Category">
-        update category
+        update `category`
         set
-          parentId = #{parentId,jdbcType=INTEGER},
+          `parentId` = #{parentId,jdbcType=INTEGER},
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>

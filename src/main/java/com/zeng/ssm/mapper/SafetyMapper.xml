@@ -15,9 +15,14 @@
         SELECT * from `safety`
     </select>
 
-    <select id="selectAllUnlimited" resultMap="BaseResultMap">
-        SELECT * from `safety`
-    </select>
+<!--    <select id="selectAllUnlimited" resultMap="BaseResultMap">-->
+<!--        SELECT * from `safety`-->
+<!--    </select>-->
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.Safety" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `safety` ( `title`,`description`)
+        values (#{title,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Safety">
         update `safety`
@@ -26,11 +31,6 @@
           `description` = #{description,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.Safety" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `safety` ( `title`,`description`)
-        values (#{title,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `safety` where id = #{pk,jdbcType=INTEGER}

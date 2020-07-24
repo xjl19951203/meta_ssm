@@ -14,12 +14,6 @@
 <!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.OutputPartData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `output_part_data` (`title`, `outputFrameDataId`, `category`, `yieldRate`, `description`)
-        values (#{title, jdbcType=VARCHAR}, #{outputFrameDataId,jdbcType=INTEGER},
-        #{category, jdbcType=TINYINT}, #{yieldRate,jdbcType=FLOAT}, #{description, jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `output_part_data` where id = #{pk}
     </select>
@@ -31,6 +25,12 @@
     <select id="selectOutputPartDataListByOutputFrameDataId" resultMap="BaseResultMap">
         select * from `output_part_data` where outputFrameDataId = #{pk}
     </select>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.OutputPartData" useGeneratedKeys="true" keyProperty="id" >
+        insert into `output_part_data` (`title`, `outputFrameDataId`, `category`, `yieldRate`, `description`)
+        values (#{title, jdbcType=VARCHAR}, #{outputFrameDataId,jdbcType=INTEGER},
+        #{category, jdbcType=TINYINT}, #{yieldRate,jdbcType=FLOAT}, #{description, jdbcType=VARCHAR})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputPartData">
         update `output_part_data`

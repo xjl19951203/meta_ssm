@@ -9,11 +9,6 @@
         <association property="energyCategory" column="energyCategoryId" select="com.zeng.ssm.dao.EnergyCategoryDao.selectByPrimaryKey"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.Energy" useGeneratedKeys="true" keyProperty="id" >
-        insert into `energy` ( `title`, `energyCategoryId`, `source`)
-        values (#{title,jdbcType=VARCHAR}, #{energyCategoryId,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap">
         SELECT * from `energy` where id = #{pk}
     </select>
@@ -31,9 +26,15 @@
             SELECT * from `energy` where title like '%${content}%' or `source` like '%${content}%';
         </if>
     </select>
+
     <select id="selectByEnergyName" resultType="com.zeng.ssm.model.Energy">
         select * from `energy` where title = #{energyName}
     </select>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.Energy" useGeneratedKeys="true" keyProperty="id" >
+        insert into `energy` ( `title`, `energyCategoryId`, `source`)
+        values (#{title,jdbcType=VARCHAR}, #{energyCategoryId,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Energy">
         update `energy`

@@ -6,11 +6,6 @@
         <result column="title" jdbcType="VARCHAR" property="title" />
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.EnvLoadCategory" useGeneratedKeys="true" keyProperty="id" >
-        insert into `env_load_category` (`title`)
-        values (#{title,jdbcType=INTEGER}
-    </insert>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `env_load_category` where id = #{pk}
     </select>
@@ -19,9 +14,14 @@
         SELECT * from `env_load_category`
     </select>
 
-    <select id="selectAllUnlimited" resultMap="BaseResultMap">
-        SELECT * from `energy_category`
-    </select>
+<!--    <select id="selectAllUnlimited" resultMap="BaseResultMap">-->
+<!--        SELECT * from `energy_category`-->
+<!--    </select>-->
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.EnvLoadCategory" useGeneratedKeys="true" keyProperty="id" >
+        insert into `env_load_category` (`title`)
+        values (#{title,jdbcType=INTEGER}
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnvLoadCategory">
         update `env_load_category`

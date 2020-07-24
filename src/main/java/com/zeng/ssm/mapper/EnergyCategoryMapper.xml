@@ -14,17 +14,17 @@
         SELECT * from `energy_category`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.EnergyCategory" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `energy_category` ( `title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.EnergyCategory">
         update `energy_category`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.EnergyCategory" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `energy_category` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `energy_category` where id = #{pk,jdbcType=INTEGER}

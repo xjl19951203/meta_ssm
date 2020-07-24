@@ -14,17 +14,17 @@
         SELECT * from `collect_problem`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.CollectProblem" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `collect_problem` (`title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.CollectProblem">
         update `collect_problem`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.CollectProblem" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `collect_problem` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `collect_problem` where id = #{pk,jdbcType=INTEGER}

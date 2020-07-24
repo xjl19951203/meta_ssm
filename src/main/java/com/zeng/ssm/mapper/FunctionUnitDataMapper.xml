@@ -11,12 +11,6 @@
         <result column="updatedAt" jdbcType="TIMESTAMP" property="updatedAt" />
 <!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
-    
-    <insert id="insert" parameterType="com.zeng.ssm.model.FunctionUnitData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `function_unit_data` (`inputFrameDataId`, `functionValue`, `functionUnit`, `functionDescription`)
-        values (#{inputFrameDataId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
-        #{functionUnit,jdbcType=VARCHAR}, #{functionDescription,jdbcType=VARCHAR})
-    </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `function_unit_data` where id = #{pk}
@@ -29,6 +23,12 @@
     <select id="selectFunctionUnitDataListByInputFrameDataId" resultMap="BaseResultMap">
         select * from `function_unit_data` where inputFrameDataId = #{pk}
     </select>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.FunctionUnitData" useGeneratedKeys="true" keyProperty="id" >
+        insert into `function_unit_data` (`inputFrameDataId`, `functionValue`, `functionUnit`, `functionDescription`)
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{functionValue,jdbcType=FLOAT},
+        #{functionUnit,jdbcType=VARCHAR}, #{functionDescription,jdbcType=VARCHAR})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.FunctionUnitData">
         update `function_unit_data`

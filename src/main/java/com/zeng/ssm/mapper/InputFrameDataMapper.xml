@@ -61,11 +61,6 @@
 <!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputFrameDataDao.selectOutputFrameDataListByInputFrameDataId"/>-->
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.InputFrameData" useGeneratedKeys="true" keyProperty="id" >
-        insert into input_frame_data (`sceneDataId`)
-        values (#{sceneDataId,jdbcType=INTEGER})
-    </insert>
-
 <!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">-->
 <!--        SELECT * from `scene_data`-->
 <!--        <if test="content != null">-->
@@ -100,10 +95,19 @@
 <!--        (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}));-->
 <!--    </select>-->
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.InputFrameData" useGeneratedKeys="true" keyProperty="id" >
+        insert into input_frame_data (`sceneDataId`)
+        values (#{sceneDataId,jdbcType=INTEGER})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.InputFrameData">
         update `input_frame_data`
         set sceneDataId = #{sceneDataId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+      delete from `input_frame_data` where id = #{pk,jdbcType=INTEGER}
+    </delete>
 
 </mapper>

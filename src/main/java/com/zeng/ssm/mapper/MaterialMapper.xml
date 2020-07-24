@@ -12,11 +12,6 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.MaterialLoadDao.selectMaterialLoadListByMaterialId"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.Material" useGeneratedKeys="true" keyProperty="id" >
-        insert into material (`title`, `description`, `type`, `origin`, `source`)
-        values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `material` where id = #{pk}
     </select>
@@ -40,6 +35,22 @@
         </if>
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.Material" useGeneratedKeys="true" keyProperty="id" >
+        insert into material (`title`, `description`, `type`, `origin`, `source`)
+        values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Material">
+        update `material`
+        set
+          `title` = #{title,jdbcType=VARCHAR},
+          `description` = #{description,jdbcType=VARCHAR},
+          `type` = #{type,jdbcType=VARCHAR},
+          `origin` = #{origin,jdbcType=VARCHAR},
+          `source` = #{source,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `material` where id = #{pk,jdbcType=INTEGER}
     </delete>

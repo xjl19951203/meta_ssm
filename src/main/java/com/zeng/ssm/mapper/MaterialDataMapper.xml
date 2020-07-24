@@ -21,13 +21,6 @@
 <!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.MaterialData" useGeneratedKeys="true" keyProperty="id" >
-        insert into material_data (`inputFrameDataId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
-        `dataSourceId`, `time`, `reliability`)
-        values (#{inputFrameDataId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, #{materialDataCategoryId, jdbcType=INTEGER},
-        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `material_data` where id = #{pk}
     </select>
@@ -39,6 +32,13 @@
     <select id="selectMaterialDataListByInputFrameDataId" resultMap="BaseResultMap">
         select * from `material_data` where inputFrameDataId = #{pk}
     </select>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.MaterialData" useGeneratedKeys="true" keyProperty="id" >
+        insert into material_data (`inputFrameDataId`, `materialId`, `materialDataCategoryId`, `value`, `unitId`,
+        `dataSourceId`, `time`, `reliability`)
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{materialId,jdbcType=INTEGER}, #{materialDataCategoryId, jdbcType=INTEGER},
+        #{value, jdbcType=FLOAT}, #{unitId,jdbcType=INTEGER}, #{dataSourceId,jdbcType=INTEGER}, #{time,jdbcType=VARCHAR}, #{reliability,jdbcType=VARCHAR})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialData">
         update `material_data`
@@ -53,4 +53,8 @@
           `reliability` = #{reliability,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+      delete from `material_data` where id = #{pk,jdbcType=INTEGER}
+    </delete>
 </mapper>

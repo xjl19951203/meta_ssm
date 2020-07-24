@@ -14,17 +14,17 @@
         SELECT * from `collect_reason`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.CollectReason" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `collect_reason` (`title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.CollectReason">
         update `collect_reason`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.CollectReason" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `collect_reason` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `collect_reason` where id = #{pk,jdbcType=INTEGER}

@@ -14,17 +14,17 @@
         SELECT * from `calculate_method`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.CalculateMethod" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `calculate_method` ( `title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.CalculateMethod">
         update `calculate_method`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.CalculateMethod" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `calculate_method` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `calculate_method` where id = #{pk,jdbcType=INTEGER}

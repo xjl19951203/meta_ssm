@@ -47,12 +47,6 @@
 <!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.OutputPartDataDao.selectOutputPartDataListBySceneDataId"/>-->
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.SceneData" useGeneratedKeys="true" keyProperty="id" >
-        insert into scene_data (`title`, `categoryId`,`categoryRootId`,`userId`, `description`)
-        values (#{title,jdbcType=VARCHAR},#{categoryId,jdbcType=INTEGER},#{categoryRootId,jdbcType=INTEGER},
-        #{userId,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">
         <if test="content != null">
             SELECT * from `scene_data` where title like '%${content}%' or description like '%${content}%'
@@ -101,8 +95,14 @@
 
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.SceneData" useGeneratedKeys="true" keyProperty="id" >
+        insert into scene_data (`title`, `categoryId`,`categoryRootId`,`userId`, `description`)
+        values (#{title,jdbcType=VARCHAR},#{categoryId,jdbcType=INTEGER},#{categoryRootId,jdbcType=INTEGER},
+        #{userId,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.SceneData">
-        update scene_data
+        update `scene_data`
         set id = #{id,jdbcType=INTEGER},
           `categoryId` = #{categoryId,jdbcType=INTEGER},
           `categoryRootId` = #{categoryRootId,jdbcType=INTEGER},
@@ -112,4 +112,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+<!--    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >-->
+<!--      delete from `scene_data` where id = #{pk,jdbcType=INTEGER}-->
+<!--    </delete>-->
 </mapper>

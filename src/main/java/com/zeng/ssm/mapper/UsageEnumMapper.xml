@@ -6,10 +6,6 @@
         <result column="title" jdbcType="VARCHAR" property="title" />
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.UsageEnum" useGeneratedKeys="true" keyProperty="id" >
-        insert into usage_enum (`title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT * from `usage_enum`
@@ -19,8 +15,13 @@
         SELECT * from `usage_enum` where id = #{pk}
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.UsageEnum" useGeneratedKeys="true" keyProperty="id" >
+        insert into `usage_enum` (`title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.UsageEnum">
-        update usage_enum
+        update `usage_enum`
         set id = #{id,jdbcType=INTEGER},
           title = #{title,jdbcType=VARCHAR},
         where id = #{id,jdbcType=INTEGER}

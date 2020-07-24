@@ -14,4 +14,19 @@
         SELECT * from `monitor_range`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.MonitorRange" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `monitor_range` ( `title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MonitorRange">
+        update `monitor_range`
+        set
+          `title` = #{title,jdbcType=VARCHAR}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+      delete from `monitor_range` where id = #{pk,jdbcType=INTEGER}
+    </delete>
 </mapper>

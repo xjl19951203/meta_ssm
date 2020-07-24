@@ -16,6 +16,11 @@
         SELECT * from `unit`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.Unit" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `unit` ( `title`,`unitCategoryId`)
+        values (#{title,jdbcType=VARCHAR},#{unitCategoryId,jdbcType=INTEGER})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Unit">
         update `unit`
         set
@@ -23,11 +28,6 @@
           `unitCategoryId` = #{unitCategoryId,jdbcType=INTEGER}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.Unit" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `unit` ( `title`,`unitCategoryId`)
-        values (#{title,jdbcType=VARCHAR},#{unitCategoryId,jdbcType=INTEGER})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `unit` where id = #{pk,jdbcType=INTEGER}

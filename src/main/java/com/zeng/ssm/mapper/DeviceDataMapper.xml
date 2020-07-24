@@ -12,11 +12,6 @@
         <association property="device" column="deviceId" select="com.zeng.ssm.dao.DeviceDao.selectByPrimaryKey"/>
 <!--        <association property="sceneData" column="sceneDataId" select="com.zeng.ssm.dao.SceneDataDao.selectSimpleByPrimaryKey"/>-->
     </resultMap>
-    
-    <insert id="insert" parameterType="com.zeng.ssm.model.DeviceData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `device_data` (`inputFrameDataId`, `workTime`, `deviceId`)
-        values (#{inputFrameDataId,jdbcType=INTEGER}, #{workTime,jdbcType=FLOAT}, #{deviceId,jdbcType=INTEGER})
-    </insert>
 
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `device_data` where id = #{pk}
@@ -29,6 +24,11 @@
     <select id="selectDeviceDataListByInputFrameDataId" resultMap="BaseResultMap">
         select * from `device_data` where inputFrameDataId = #{pk}
     </select>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.DeviceData" useGeneratedKeys="true" keyProperty="id" >
+        insert into `device_data` (`inputFrameDataId`, `workTime`, `deviceId`)
+        values (#{inputFrameDataId,jdbcType=INTEGER}, #{workTime,jdbcType=FLOAT}, #{deviceId,jdbcType=INTEGER})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DeviceData">
         update `device_data`

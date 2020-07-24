@@ -14,17 +14,17 @@
         SELECT * from `data_source`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.DataSource" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `data_source` (`title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.DataSource">
         update `data_source`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.DataSource" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `data_source` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `data_source` where id = #{pk,jdbcType=INTEGER}

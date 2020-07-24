@@ -27,11 +27,6 @@
                     javaType="java.util.ArrayList" select="com.zeng.ssm.dao.EnvLoadDataDao.selectEnvLoadDataListByOutputFrameDataId"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.OutputFrameData" useGeneratedKeys="true" keyProperty="id" >
-        insert into `output_frame_data` (`inputFrameDataId`,`collectionDescription` )
-        values (#{inputFrameDataId,jdbcType=INTEGER},#{collectionDescription,jdbcType=VARCHAR} )
-    </insert>
-
 <!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="BaseResultMap">-->
 <!--        SELECT * from `scene_data`-->
 <!--        <if test="content != null">-->
@@ -56,18 +51,10 @@
         SELECT * from `output_frame_data` where inputFrameDataId = #{pk}
     </select>
 
-<!--    <select id="selectSimpleSceneDataFrameListBySceneDataId" resultMap="SimpleResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `scene_data_frame` where sceneDataId = #{pk}-->
-<!--    </select>-->
-
-<!--    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `input_frame` where sceneDataId = #{pk}-->
-<!--    </select>-->
-
-<!--    <select id="selectListByCategoryId" resultMap="BaseResultMap" parameterType="java.lang.Integer">-->
-<!--        SELECT * from `scene_data` where categoryId in-->
-<!--        (select id from `category` where (parentId = #{categoryId} or id =  #{categoryId}))-->
-<!--    </select>-->
+    <insert id="insert" parameterType="com.zeng.ssm.model.OutputFrameData" useGeneratedKeys="true" keyProperty="id" >
+        insert into `output_frame_data` (`inputFrameDataId`,`collectionDescription` )
+        values (#{inputFrameDataId,jdbcType=INTEGER},#{collectionDescription,jdbcType=VARCHAR} )
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.OutputFrameData">
         update `output_frame_data`
@@ -76,4 +63,7 @@
         where id = #{id,jdbcType=INTEGER}
     </update>
 
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+      delete from `output_frame_data` where id = #{pk,jdbcType=INTEGER}
+    </delete>
 </mapper>

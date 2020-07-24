@@ -14,17 +14,17 @@
         SELECT * from `unit_category`
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.UnitCategory" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `unit_category` ( `title`)
+        values (#{title,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.UnitCategory">
         update `unit_category`
         set
           `title` = #{title,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.UnitCategory" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `unit_category` ( `title`)
-        values (#{title,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `unit_category` where id = #{pk,jdbcType=INTEGER}

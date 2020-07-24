@@ -19,6 +19,11 @@
         SELECT * from `material_data_category` where title = #{materialCategoryName}
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.MaterialDataCategory" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `material_data_category` ( `title`,`type`)
+        values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
+    </insert>
+
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.MaterialDataCategory">
         update `material_data_category`
         set
@@ -26,11 +31,6 @@
           `type` = #{type,jdbcType=VARCHAR}
         where id = #{id,jdbcType=INTEGER}
     </update>
-
-    <insert id="insert" parameterType="com.zeng.ssm.model.MaterialDataCategory" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `material_data_category` ( `title`,`type`)
-        values (#{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR})
-    </insert>
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
       delete from `material_data_category` where id = #{pk,jdbcType=INTEGER}

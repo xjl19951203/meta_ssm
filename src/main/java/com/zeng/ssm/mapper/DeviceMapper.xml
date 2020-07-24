@@ -11,12 +11,6 @@
         <result column="source" jdbcType="VARCHAR" property="source"/>
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.Device" useGeneratedKeys="true" keyProperty="id" >
-        insert into  `device` ( `title`, `type`, `power`, `description`,`usage`,`source`)
-        values ( #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR},
-        #{description,jdbcType=VARCHAR},#{usage,jdbcType=VARCHAR},#{source,jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         SELECT * from `device` where id = #{pk}
     </select>
@@ -38,6 +32,12 @@
     <select id="selectByDeviceName" resultType="com.zeng.ssm.model.Device">
         select * from `device` where title = #{deviceName}
     </select>
+
+    <insert id="insert" parameterType="com.zeng.ssm.model.Device" useGeneratedKeys="true" keyProperty="id" >
+        insert into  `device` ( `title`, `type`, `power`, `description`,`usage`,`source`)
+        values ( #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR},
+        #{description,jdbcType=VARCHAR},#{usage,jdbcType=VARCHAR},#{source,jdbcType=VARCHAR})
+    </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.Device">
         update `device`

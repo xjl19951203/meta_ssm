@@ -21,11 +21,6 @@
 <!--                    javaType="java.util.ArrayList" select="com.zeng.ssm.dao.UserGroupDataDao.selectListByUserId"/>-->
     </resultMap>
 
-    <insert id="insert" parameterType="com.zeng.ssm.model.User" useGeneratedKeys="true" keyProperty="id">
-        insert into `user` (userName, `email`, `password`)
-        values (#{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
-    </insert>
-
     <select id="selectAll" resultMap="SimpleResultMap">
         SELECT * from `user`
     </select>
@@ -47,8 +42,18 @@
         SELECT * from `user` where userName = #{userName}
     </select>
 
+    <insert id="insert" parameterType="com.zeng.ssm.model.User" useGeneratedKeys="true" keyProperty="id">
+        insert into `user` (userName, `email`, `password`)
+        values (#{userName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})
+    </insert>
 
-    <!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">-->
+    <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.User">
+        update `user`
+        set id = #{id,jdbcType=INTEGER},
+          title = #{title,jdbcType=VARCHAR},
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+<!--    <select id="selectByContent" parameterType="java.lang.String" resultMap="SimpleResultMap">-->
 <!--        SELECT * from `user`-->
 <!--        <if test="content != null">-->
 <!--            where username like '%${content}%' or email like '%${content}%'-->
