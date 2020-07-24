@@ -23,14 +23,15 @@ public class CategoryController {
     @Resource
     CategoryDao categoryDao;
 
-    @RequestMapping(value = "/{pk}", method = RequestMethod.GET)
-    public CategoryPageResult get(@PathVariable Integer pk, @RequestParam(defaultValue="1") Integer currentPage, @RequestParam(defaultValue="5") Integer pageSize) {
+    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public CategoryPageResult get(@PathVariable Integer pk, @RequestParam(defaultValue="1") Integer currentPage, @RequestParam(defaultValue="5") Integer pageSize) {
+    public CategoryPageResult get(@RequestParam(defaultValue="1") Integer categoryId, @RequestParam(defaultValue="1") Integer currentPage, @RequestParam(defaultValue="5") Integer pageSize) {
 
         CategoryPageResult categoryPageResult = new CategoryPageResult();
-        categoryPageResult.setCategory((Category)this.categoryDao.selectByPrimaryKey(pk));
+        categoryPageResult.setCategory((Category)this.categoryDao.selectByPrimaryKey(categoryId));
         List<Category> lists;
         List<SceneData> list = new ArrayList<>();
-        if (pk==1) {
+        if (categoryId==1) {
             lists = this.categoryDao.selectBySelectivePrimaryKey(2);
             for (Category temp:lists) {
                 list.addAll(temp.getSceneDataList());
@@ -48,7 +49,7 @@ public class CategoryController {
                 list.addAll(temp.getSceneDataList());
             }
         }else {
-            lists = this.categoryDao.selectBySelectivePrimaryKey(pk);
+            lists = this.categoryDao.selectBySelectivePrimaryKey(categoryId);
             for (Category temp:lists) {
                 list.addAll(temp.getSceneDataList());
             }
@@ -83,8 +84,8 @@ public class CategoryController {
         return categoryPageResult;
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
-    public List<AbstractModel> getLists() {
-        return this.categoryDao.selectAll();
-    }
+//    @RequestMapping(value = "", method = RequestMethod.GET)
+//    public List<AbstractModel> getLists() {
+//        return this.categoryDao.selectAll();
+//    }
 }
