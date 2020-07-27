@@ -437,16 +437,16 @@ public class BatchExcelController {
             return null;
         }
         System.out.println(fileName);
-        if (fileName.contains("基础物料")) {
+        if (fileName.contains("物料")) {
             tableName = "material";
             className = "Material";
-        } else if (fileName.contains("基础能源")) {
+        } else if (fileName.contains("能源")) {
             tableName = "energy";
             className = "Energy";
-        } else if (fileName.contains("基础设备")) {
+        } else if (fileName.contains("设备")) {
             tableName = "device";
             className = "Device";
-        } else if (fileName.contains("基础环境负荷")) {
+        } else if (fileName.contains("环境负荷")) {
             tableName = "env_load";
             className = "EnvLoad";
         } else {
