@@ -31,6 +31,10 @@
         select * from `energy` where title = #{energyName}
     </select>
 
+    <select id="selectRepeatItem" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.Energy">
+        SELECT * from `energy` where title = #{title} and energyCategoryId = #{energyCategoryId}
+    </select>
+
     <insert id="insert" parameterType="com.zeng.ssm.model.Energy" useGeneratedKeys="true" keyProperty="id" >
         insert into `energy` ( `title`, `energyCategoryId`, `source`)
         values (#{title,jdbcType=VARCHAR}, #{energyCategoryId,jdbcType=INTEGER}, #{source,jdbcType=VARCHAR})

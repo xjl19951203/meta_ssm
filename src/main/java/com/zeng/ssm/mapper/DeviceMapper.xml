@@ -33,6 +33,10 @@
         select * from `device` where title = #{deviceName}
     </select>
 
+    <select id="selectRepeatItem" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.Device">
+        SELECT * from `device` where title = #{title} and type = #{type} and power = #{power} and description = #{description} and usage = #{usage}
+    </select>
+
     <insert id="insert" parameterType="com.zeng.ssm.model.Device" useGeneratedKeys="true" keyProperty="id" >
         insert into  `device` ( `title`, `type`, `power`, `description`,`usage`,`source`)
         values ( #{title,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{power,jdbcType=VARCHAR},

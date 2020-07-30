@@ -78,6 +78,10 @@
         SELECT * from `scene_data` where categoryId = #{categoryId}
     </select>
 
+    <select id="selectRepeatItem" resultMap="SimpleResultMap" parameterType="com.zeng.ssm.model.SceneData">
+        SELECT * from `scene_data` where title like '%${title}%' and categoryId = #{categoryId}
+    </select>
+
     <select id="selectBySearch" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.SceneData">
         SELECT * from `scene_data` where categoryId = #{categoryId}
         <if test="title!=null">
@@ -96,9 +100,8 @@
     </select>
 
     <insert id="insert" parameterType="com.zeng.ssm.model.SceneData" useGeneratedKeys="true" keyProperty="id" >
-        insert into scene_data (`title`, `categoryId`,`categoryRootId`,`userId`, `description`)
-        values (#{title,jdbcType=VARCHAR},#{categoryId,jdbcType=INTEGER},#{categoryRootId,jdbcType=INTEGER},
-        #{userId,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
+        insert into `scene_data` (`title`, `categoryId`,`categoryRootId`,`userId`, `description`)
+        values (#{title,jdbcType=VARCHAR},#{categoryId,jdbcType=INTEGER},#{categoryRootId,jdbcType=INTEGER},#{userId,jdbcType=INTEGER},#{description,jdbcType=VARCHAR})
     </insert>
 
     <update id="updateByPrimaryKey" parameterType="com.zeng.ssm.model.SceneData">

@@ -14,6 +14,8 @@ public interface SceneDataDao extends ModelDao{
 
     List<SceneData> selectListByCategoryId(Integer categoryId);
 
+//    AbstractModel selectRepeatItem(SceneData sceneData);
+
     AbstractModel selectSimpleByPrimaryKey(Integer pk);
 
     List<SceneData> selectBySearch(SceneData scenedata);

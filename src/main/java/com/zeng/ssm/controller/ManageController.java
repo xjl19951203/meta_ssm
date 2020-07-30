@@ -1,13 +1,17 @@
 package com.zeng.ssm.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.zeng.ssm.common.*;
-import com.zeng.ssm.model.PageResult;
+import com.zeng.ssm.dao.*;
+import com.zeng.ssm.model.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -18,6 +22,14 @@ public class ManageController{
 
     @Resource
     ModelDao modelDao;
+    @Resource
+    SceneDataDao sceneDataDao;
+    @Resource
+    InputFrameDataDao inputFrameDataDao;
+    @Resource
+    MaterialDataDao materialDataDao;
+    @Resource
+    DeviceDataDao deviceDataDao;
 
    /*
    查询的时候就只查询单页数据，不查询其他数据
@@ -77,14 +89,75 @@ public class ManageController{
         return this.modelDao.selectByPrimaryKey(pk);
     }
 
-
-
     @RequestMapping(value = "", method = RequestMethod.POST)
     public int post(@PathVariable String tableName, @RequestBody String record){
-        ModelImpl.setTableName(tableName);
-        AbstractModel model = ModelHandler.newModelInstance(tableName, record);
-        return this.modelDao.insert(model);
+        if (tableName.equals("sceneData")) {
+            //将数据表单
+            JSONObject jsonObject= JSON.parseObject(record);
+            String sceneData = jsonObject.getString("sceneData");
+            SceneData scene = (SceneData)ModelHandler.newModelInstance("sceneData", sceneData);
+            AbstractModel repeatScene = this.sceneDataDao.selectRepeatItem(scene);
+            if (repeatScene!=null) {
+                List<InputFrameData> inputFrameDataList =this.inputFrameDataDao.selectInputFrameDataListBySceneDataId(repeatScene.getId());
+                List<MaterialData> materialDataList = this.materialDataDao.selectMaterialDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
+                String materialDataIdList = jsonObject.getString("materialDataList");
+                materialDataIdList = materialDataIdList.substring(1,materialDataIdList.length()-1);
+                String[] temp = materialDataIdList.split(",");
+                List<Integer> tempList = new ArrayList<>();
+                for (String t:temp) {
+                    tempList.add(Integer.parseInt(t));
+                }
+                if (materialDataList.size()==tempList.size()) {
+                    for (MaterialData e:materialDataList) {
+                        if (tempList.contains(e.getMaterialId())) {
+                            continue;
+                        } else {
+                            return this.sceneDataDao.insert(scene);
+                        }
+                    }
+                }
+                List<DeviceData> deviceDataList = this.deviceDataDao.selectDeviceDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
+                String deviceDataIdList = jsonObject.getString("deviceDataList");
+                deviceDataIdList = deviceDataIdList.substring(1,deviceDataIdList.length()-1);
+                String[] temp1 = deviceDataIdList.split(",");
+                List<Integer> tempList1 = new ArrayList<>();
+                for (String t:temp1) {
+                    tempList.add(Integer.parseInt(t));
+                }
+                if (deviceDataList.size()==tempList1.size()) {
+                    for (DeviceData e:deviceDataList) {
+                        if (tempList1.contains(e.getDeviceId())) {
+                            continue;
+                        } else {
+                            return this.sceneDataDao.insert(scene);
+                        }
+                    }
+                }
+                return repeatScene.getId();
+            } else {
+                return this.sceneDataDao.insert(scene);
+            }
+        } else {
+            ModelImpl.setTableName(tableName);
+            AbstractModel model = ModelHandler.newModelInstance(tableName, record);
+            AbstractModel repeatModel = this.modelDao.selectRepeatItem(model);
+            if (repeatModel != null) {
+                return 0;
+            } else {
+                return this.modelDao.insert(model);
+            }
+//            ModelImpl.setTableName(tableName);
+//            AbstractModel model = ModelHandler.newModelInstance(tableName, record);
+//            return this.modelDao.insert(model);
+        }
     }
+
+//    @RequestMapping(value = "", method = RequestMethod.POST)
+//    public int post(@PathVariable String tableName, @RequestBody String record){
+//        ModelImpl.setTableName(tableName);
+//        AbstractModel model = ModelHandler.newModelInstance(tableName, record);
+//        return this.modelDao.insert(model);
+//    }
 
     @RequestMapping(value = "", method = RequestMethod.PUT)
     public int put(@PathVariable String tableName, @RequestBody String record){

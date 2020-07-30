@@ -33,6 +33,11 @@
         ;
     </select>
 
+    <select id="selectRepeatItem" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.EnvLoad">
+        SELECT * from `env_load` where title = #{title} and envLoadCategoryId = #{envLoadCategoryId}
+        and description = #{description} and safetyId = #{safetyId} and treatment = #{treatment}
+    </select>
+
     <insert id="insert" parameterType="com.zeng.ssm.model.EnvLoad" useGeneratedKeys="true" keyProperty="id" >
         insert into `env_load` (`title`,`envLoadCategoryId`, `description`,`safetyId`,`treatment`,`source`)
         values (#{title,jdbcType=VARCHAR}, #{envLoadCategoryId,jdbcType=INTEGER}, #{description,jdbcType=VARCHAR},

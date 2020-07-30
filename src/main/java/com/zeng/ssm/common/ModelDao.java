@@ -25,6 +25,8 @@ public interface ModelDao {
 
     AbstractModel selectByPrimaryKey(Integer pk);
 
+    AbstractModel selectRepeatItem(AbstractModel model);
+
     int updateByPrimaryKeySelective(AbstractModel record);
 
     int updateByPrimaryKey(AbstractModel record);

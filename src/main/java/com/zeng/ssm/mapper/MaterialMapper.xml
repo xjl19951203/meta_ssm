@@ -35,6 +35,10 @@
         </if>
     </select>
 
+    <select id="selectRepeatItem" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.Material">
+        SELECT * from `material` where title = #{title} and description = #{description} and type = #{type} and origin = #{origin}
+    </select>
+
     <insert id="insert" parameterType="com.zeng.ssm.model.Material" useGeneratedKeys="true" keyProperty="id" >
         insert into material (`title`, `description`, `type`, `origin`, `source`)
         values (#{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{origin,jdbcType=VARCHAR}, #{source,jdbcType=VARCHAR})
