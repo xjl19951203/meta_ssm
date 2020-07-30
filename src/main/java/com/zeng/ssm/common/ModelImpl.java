@@ -72,6 +72,12 @@ public class ModelImpl implements ModelDao{
         return ModelHandler.getModelDaoInstance(tableName).selectByPrimaryKey(pk);
     }
 
+    //根据传进来的对象查询表中的重复对象
+    @Override
+    public AbstractModel selectRepeatItem(AbstractModel model) {
+        return ModelHandler.getModelDaoInstance(tableName).selectRepeatItem(model);
+    }
+
     //根据选中的id号更新数据
     @Override
     public int updateByPrimaryKeySelective(AbstractModel record) {
