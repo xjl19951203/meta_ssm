@@ -78,7 +78,7 @@
         SELECT * from `scene_data` where categoryId = #{categoryId}
     </select>
 
-    <select id="selectRepeatItem" resultMap="SimpleResultMap" parameterType="com.zeng.ssm.model.SceneData">
+    <select id="selectRepeatItem" resultMap="BaseResultMap" parameterType="com.zeng.ssm.model.SceneData">
         SELECT * from `scene_data` where title like '%${title}%' and categoryId = #{categoryId}
     </select>
 
