@@ -95,45 +95,59 @@ public class ManageController{
             //将数据表单
             JSONObject jsonObject= JSON.parseObject(record);
             String sceneData = jsonObject.getString("sceneData");
+            String materialDataIdList = jsonObject.getString("materialDataList").substring(1,jsonObject.getString("materialDataList").length()-1);
+            String[] temp = materialDataIdList.split(",");
+            String deviceDataIdList = jsonObject.getString("deviceDataList").substring(1,jsonObject.getString("deviceDataList").length()-1);
+            String[] temp1 = deviceDataIdList.split(",");
             SceneData scene = (SceneData)ModelHandler.newModelInstance("sceneData", sceneData);
             AbstractModel repeatScene = this.sceneDataDao.selectRepeatItem(scene);
             if (repeatScene!=null) {
                 List<InputFrameData> inputFrameDataList =this.inputFrameDataDao.selectInputFrameDataListBySceneDataId(repeatScene.getId());
-                List<MaterialData> materialDataList = this.materialDataDao.selectMaterialDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
-                String materialDataIdList = jsonObject.getString("materialDataList");
-                materialDataIdList = materialDataIdList.substring(1,materialDataIdList.length()-1);
-                String[] temp = materialDataIdList.split(",");
-                List<Integer> tempList = new ArrayList<>();
-                for (String t:temp) {
-                    tempList.add(Integer.parseInt(t));
-                }
-                if (materialDataList.size()==tempList.size()) {
-                    for (MaterialData e:materialDataList) {
-                        if (tempList.contains(e.getMaterialId())) {
-                            continue;
-                        } else {
-                            return this.sceneDataDao.insert(scene);
+                if (inputFrameDataList.size()==0) {
+                    if (materialDataIdList.equals("")&&deviceDataIdList.equals("")) {
+                        return repeatScene.getId();
+                    } else {
+                        return this.sceneDataDao.insert(scene);
+                    }
+                } else {
+                    List<MaterialData> materialDataList = this.materialDataDao.selectMaterialDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
+                    if ((materialDataList.size()==0&&temp.length==1&&temp[0].equals(""))||(materialDataList.size()!=0&&materialDataList.size()==temp.length)) {
+                        if (materialDataList.size()!=0) {
+                            List<Integer> tempList = new ArrayList<>();
+                            for (String t:temp) {
+                                tempList.add(Integer.parseInt(t));
+                            }
+                            for (MaterialData e:materialDataList) {
+                                if (tempList.contains(e.getMaterialId())) {
+                                    continue;
+                                } else {
+                                    return this.sceneDataDao.insert(scene);
+                                }
+                            }
                         }
+                    } else {
+                        return this.sceneDataDao.insert(scene);
+                    }
+                    List<DeviceData> deviceDataList = this.deviceDataDao.selectDeviceDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
+                    if ((deviceDataList.size()==0&&temp1.length==1&&temp1[0].equals(""))||(deviceDataList.size()!=0&&deviceDataList.size()==temp1.length)) {
+                        if (deviceDataList.size()!=0) {
+                            List<Integer> tempList1 = new ArrayList<>();
+                            for (String t:temp1) {
+                                tempList1.add(Integer.parseInt(t));
+                            }
+                            for (DeviceData e:deviceDataList) {
+                                if (tempList1.contains(e.getDeviceId())) {
+                                    continue;
+                                } else {
+                                    return this.sceneDataDao.insert(scene);
+                                }
+                            }
+                        }
+                        return repeatScene.getId();
+                    } else {
+                        return this.sceneDataDao.insert(scene);
                     }
                 }
-                List<DeviceData> deviceDataList = this.deviceDataDao.selectDeviceDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
-                String deviceDataIdList = jsonObject.getString("deviceDataList");
-                deviceDataIdList = deviceDataIdList.substring(1,deviceDataIdList.length()-1);
-                String[] temp1 = deviceDataIdList.split(",");
-                List<Integer> tempList1 = new ArrayList<>();
-                for (String t:temp1) {
-                    tempList.add(Integer.parseInt(t));
-                }
-                if (deviceDataList.size()==tempList1.size()) {
-                    for (DeviceData e:deviceDataList) {
-                        if (tempList1.contains(e.getDeviceId())) {
-                            continue;
-                        } else {
-                            return this.sceneDataDao.insert(scene);
-                        }
-                    }
-                }
-                return repeatScene.getId();
             } else {
                 return this.sceneDataDao.insert(scene);
             }
