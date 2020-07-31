@@ -74,7 +74,7 @@ public class ModelImpl implements ModelDao{
 
     //根据传进来的对象查询表中的重复对象
     @Override
-    public AbstractModel selectRepeatItem(AbstractModel model) {
+    public List<AbstractModel> selectRepeatItem(AbstractModel model) {
         return ModelHandler.getModelDaoInstance(tableName).selectRepeatItem(model);
     }
 

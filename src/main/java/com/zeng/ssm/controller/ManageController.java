@@ -172,17 +172,18 @@ public class ManageController{
 //                this.sceneDataDao.insert(scene);
 //                return scene.getId();
 //            }
-            AbstractModel repeatScene = this.sceneDataDao.selectRepeatItem(scene);
-            if (repeatScene!=null) {
-                System.out.println(repeatScene.getId());
+            List<AbstractModel> repeatSceneList = this.sceneDataDao.selectRepeatItem(scene);
+            if (repeatSceneList.size()==0) {
+                this.sceneDataDao.insert(scene);
+                return scene.getId();
+            }
+            for (AbstractModel repeatScene: repeatSceneList) {
                 List<InputFrameData> inputFrameDataList =this.inputFrameDataDao.selectInputFrameDataListBySceneDataId(repeatScene.getId());
                 if (inputFrameDataList.size()==0) {
                     if (materialDataIdList.equals("")&&deviceDataIdList.equals("")) {
                         return repeatScene.getId();
                     } else {
-                        System.out.println(1);
-                        this.sceneDataDao.insert(scene);
-                        return scene.getId();
+                        continue;
                     }
                 } else {
                     List<MaterialData> materialDataList = this.materialDataDao.selectMaterialDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
@@ -192,20 +193,21 @@ public class ManageController{
                             for (String t:temp) {
                                 tempList.add(Integer.parseInt(t));
                             }
+                            boolean material = true;
                             for (MaterialData e:materialDataList) {
                                 if (tempList.contains(e.getMaterialId())) {
                                     continue;
                                 } else {
-                                    System.out.println(2);
-                                    this.sceneDataDao.insert(scene);
-                                    return scene.getId();
+                                    material = false;
+                                    break;
                                 }
+                            }
+                            if (!material) {
+                                continue;
                             }
                         }
                     } else {
-                        System.out.println(3);
-                        this.sceneDataDao.insert(scene);
-                        return scene.getId();
+                        continue;
                     }
                     List<DeviceData> deviceDataList = this.deviceDataDao.selectDeviceDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
                     if ((deviceDataList.size()==0&&temp1.length==1&&temp1[0].equals(""))||(deviceDataList.size()!=0&&deviceDataList.size()==temp1.length)) {
@@ -214,43 +216,40 @@ public class ManageController{
                             for (String t:temp1) {
                                 tempList1.add(Integer.parseInt(t));
                             }
+                            boolean device = true;
                             for (DeviceData e:deviceDataList) {
                                 if (tempList1.contains(e.getDeviceId())) {
                                     continue;
                                 } else {
-                                    System.out.println(4);
-                                    this.sceneDataDao.insert(scene);
-                                    return scene.getId();
+                                    device = false;
                                 }
                             }
+                            if (!device) {
+                                continue;
+                            }
                         }
-                        System.out.println(5);
-                        return repeatScene.getId();
                     } else {
-                        System.out.println(6);
-                        this.sceneDataDao.insert(scene);
-                        return scene.getId();
+                        continue;
                     }
+                    return repeatScene.getId();
                 }
-            } else {
-                System.out.println(7);
-                this.sceneDataDao.insert(scene);
-                return scene.getId();
             }
+            this.sceneDataDao.insert(scene);
+            return scene.getId();
         } else {
             ModelImpl.setTableName(tableName);
             AbstractModel model = ModelHandler.newModelInstance(tableName, record);
-            AbstractModel repeatModel = this.modelDao.selectRepeatItem(model);
-            if (repeatModel != null) {
-                return repeatModel.getId();
-            } else {
-                System.out.println(8);
-                this.modelDao.insert(model);
-                return model.getId();
-            }
+//            AbstractModel repeatModel = this.modelDao.selectRepeatItem(model);
+//            if (repeatModel != null) {
+//                return repeatModel.getId();
+//            } else {
+//                System.out.println(8);
+//                this.modelDao.insert(model);
+//                return model.getId();
+//            }
 //            ModelImpl.setTableName(tableName);
 //            AbstractModel model = ModelHandler.newModelInstance(tableName, record);
-//            return this.modelDao.insert(model);
+            return this.modelDao.insert(model);
         }
     }
 
