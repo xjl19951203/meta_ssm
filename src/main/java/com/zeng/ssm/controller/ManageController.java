@@ -8,10 +8,7 @@ import com.zeng.ssm.common.AbstractModel;
 import com.zeng.ssm.common.ModelDao;
 import com.zeng.ssm.common.ModelHandler;
 import com.zeng.ssm.common.ModelImpl;
-import com.zeng.ssm.dao.DeviceDataDao;
-import com.zeng.ssm.dao.InputFrameDataDao;
-import com.zeng.ssm.dao.MaterialDataDao;
-import com.zeng.ssm.dao.SceneDataDao;
+import com.zeng.ssm.dao.*;
 import com.zeng.ssm.model.*;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +33,8 @@ public class ManageController{
     MaterialDataDao materialDataDao;
     @Resource
     DeviceDataDao deviceDataDao;
+    @Resource
+    KeyParameterDataDao keyParameterDataDao;
 
    /*
    查询的时候就只查询单页数据，不查询其他数据
@@ -106,6 +105,8 @@ public class ManageController{
             String[] temp = materialDataIdList.split(",");
             String deviceDataIdList = jsonObject.getString("deviceDataList").substring(1,jsonObject.getString("deviceDataList").length()-1);
             String[] temp1 = deviceDataIdList.split(",");
+            String keyParameterDataList = jsonObject.getString("keyParameterDataList").substring(1,jsonObject.getString("keyParameterDataList").length()-1);
+            String[] temp2 = keyParameterDataList.split(",");
             SceneData scene = (SceneData)ModelHandler.newModelInstance("sceneData", sceneData);
 //            AbstractModel repeatScene = this.sceneDataDao.selectRepeatItem(scene);
 //            if (repeatScene!=null) {
@@ -174,7 +175,36 @@ public class ManageController{
 //            }
             List<AbstractModel> repeatSceneList = this.sceneDataDao.selectRepeatItem(scene);
             if (repeatSceneList.size()==0) {
-                this.sceneDataDao.insert(scene);
+//                this.sceneDataDao.insert(scene);
+//                InputFrameData inputFrameData = new InputFrameData();
+//                inputFrameData.setSceneDataId(scene.getId());
+//                this.inputFrameDataDao.insert(inputFrameData);
+//                int[] materialNumber = new int[temp.length];
+//                for (int i=0;i<materialNumber.length;i++) {
+//                    materialNumber[i] = Integer.parseInt(temp[i]);
+//                }
+//                for (int i=0;i<materialNumber.length;i++) {
+//                    MaterialData materialData = new MaterialData();
+//                    materialData.setInputFrameDataId(inputFrameData.getId());
+//                    materialData.setMaterialId(materialNumber[i]);
+//                    this.materialDataDao.insert(materialData);
+//                }
+//                int[] deviceNumber = new int[temp1.length];
+//                for (int i=0;i<deviceNumber.length;i++) {
+//                    deviceNumber[i] = Integer.parseInt(temp1[i]);
+//                }
+//                for (int i=0;i<deviceNumber.length;i++) {
+//                    DeviceData deviceData = new DeviceData();
+//                    deviceData.setInputFrameDataId(inputFrameData.getId());
+//                    deviceData.setDeviceId(deviceNumber[i]);
+//                    this.deviceDataDao.insert(deviceData);
+//                }
+//                for (String keyParam :temp2) {
+//                    KeyParameterData keyParameterData = new KeyParameterData();
+//                    keyParameterData.setInputFrameDataId(inputFrameData.getId());
+//                    keyParameterData.setTitle(keyParam);
+//                }
+                this.insertData(scene, temp, temp1, temp2);
                 return scene.getId();
             }
             for (AbstractModel repeatScene: repeatSceneList) {
@@ -234,7 +264,8 @@ public class ManageController{
                     return repeatScene.getId();
                 }
             }
-            this.sceneDataDao.insert(scene);
+//            this.sceneDataDao.insert(scene);
+            this.insertData(scene, temp, temp1, temp2);
             return scene.getId();
         } else {
             ModelImpl.setTableName(tableName);
@@ -253,6 +284,42 @@ public class ManageController{
         }
     }
 
+    public void insertData (SceneData scene, String[] materialList, String[] DeviceList, String[] keyParameterList) {
+        this.sceneDataDao.insert(scene);
+        InputFrameData inputFrameData = new InputFrameData();
+        inputFrameData.setSceneDataId(scene.getId());
+        this.inputFrameDataDao.insert(inputFrameData);
+        int[] materialNumber = new int[materialList.length];
+        for (int i=0;i<materialNumber.length;i++) {
+            materialNumber[i] = Integer.parseInt(materialList[i]);
+            System.out.println(materialNumber[i]);
+        }
+        for (int i=0;i<materialNumber.length;i++) {
+            MaterialData materialData = new MaterialData();
+            materialData.setInputFrameDataId(inputFrameData.getId());
+            materialData.setMaterialId(materialNumber[i]);
+            System.out.println(1);
+            this.materialDataDao.insert(materialData);
+        }
+        int[] deviceNumber = new int[DeviceList.length];
+        for (int i=0;i<deviceNumber.length;i++) {
+            deviceNumber[i] = Integer.parseInt(DeviceList[i]);
+        }
+        for (int i=0;i<deviceNumber.length;i++) {
+            DeviceData deviceData = new DeviceData();
+            deviceData.setInputFrameDataId(inputFrameData.getId());
+            deviceData.setDeviceId(deviceNumber[i]);
+            System.out.println(2);
+            this.deviceDataDao.insert(deviceData);
+        }
+        for (String keyParam :keyParameterList) {
+            KeyParameterData keyParameterData = new KeyParameterData();
+            keyParameterData.setInputFrameDataId(inputFrameData.getId());
+            keyParameterData.setTitle(keyParam);
+            System.out.println(3);
+            this.keyParameterDataDao.insert(keyParameterData);
+        }
+    }
 //    @RequestMapping(value = "", method = RequestMethod.POST)
 //    public int post(@PathVariable String tableName, @RequestBody String record){
 //        ModelImpl.setTableName(tableName);
