@@ -97,7 +97,6 @@ public class ManageController{
     @RequestMapping(value = "", method = RequestMethod.POST)
     public int post(@PathVariable String tableName, @RequestBody String record){
         if (tableName.equals("sceneData")) {
-            //将数据表单
             JSONObject jsonObject= JSON.parseObject(record);
             String sceneData = jsonObject.getString("sceneData");
             System.out.println(sceneData);
@@ -267,6 +266,59 @@ public class ManageController{
 //            this.sceneDataDao.insert(scene);
             this.insertData(scene, temp, temp1, temp2);
             return scene.getId();
+        } else if(tableName.equals("inputFrameData")) {
+            JSONObject jsonObject= JSON.parseObject(record);
+            int sceneDataId = Integer.parseInt(jsonObject.getString("sceneDataId"));
+            String materialDataIdList = jsonObject.getString("materialDataList").substring(1,jsonObject.getString("materialDataList").length()-1);
+            String[] temp = materialDataIdList.split(",");
+            String deviceDataIdList = jsonObject.getString("deviceDataList").substring(1,jsonObject.getString("deviceDataList").length()-1);
+            String[] temp1 = deviceDataIdList.split(",");
+            String keyParameterDataList = jsonObject.getString("keyParameterDataList").substring(1,jsonObject.getString("keyParameterDataList").length()-1);
+            String[] temp2 = keyParameterDataList.split(",");
+            if (temp.equals("") && temp1.equals("") && temp2.equals("") ) {
+                InputFrameData inputFrameData = new InputFrameData();
+                inputFrameData.setSceneDataId(sceneDataId);
+                this.inputFrameDataDao.insert(inputFrameData);
+                return inputFrameData.getId();
+            } else {
+                InputFrameData inputFrameData = new InputFrameData();
+                inputFrameData.setSceneDataId(sceneDataId);
+                this.inputFrameDataDao.insert(inputFrameData);
+                if (!(temp.length==1&&temp[0].equals(""))) {
+                    int[] materialNumber = new int[temp.length];
+                    for (int i=0;i<materialNumber.length;i++) {
+                        materialNumber[i] = Integer.parseInt(temp[i]);
+                        System.out.println(materialNumber[i]);
+                    }
+                    for (int i=0;i<materialNumber.length;i++) {
+                        MaterialData materialData = new MaterialData();
+                        materialData.setInputFrameDataId(inputFrameData.getId());
+                        materialData.setMaterialId(materialNumber[i]);
+                        this.materialDataDao.insert(materialData);
+                    }
+                }
+                if (!(temp1.length==1&&temp1[0].equals(""))) {
+                    int[] deviceNumber = new int[temp1.length];
+                    for (int i=0;i<deviceNumber.length;i++) {
+                        deviceNumber[i] = Integer.parseInt(temp1[i]);
+                    }
+                    for (int i=0;i<deviceNumber.length;i++) {
+                        DeviceData deviceData = new DeviceData();
+                        deviceData.setInputFrameDataId(inputFrameData.getId());
+                        deviceData.setDeviceId(deviceNumber[i]);
+                        this.deviceDataDao.insert(deviceData);
+                    }
+                }
+                if(!(temp2.length==1&&temp2[0].equals(""))) {
+                    for (String keyParam :temp2) {
+                        KeyParameterData keyParameterData = new KeyParameterData();
+                        keyParameterData.setInputFrameDataId(inputFrameData.getId());
+                        keyParameterData.setTitle(keyParam);
+                        this.keyParameterDataDao.insert(keyParameterData);
+                    }
+                }
+                return inputFrameData.getId();
+            }
         } else {
             ModelImpl.setTableName(tableName);
             AbstractModel model = ModelHandler.newModelInstance(tableName, record);

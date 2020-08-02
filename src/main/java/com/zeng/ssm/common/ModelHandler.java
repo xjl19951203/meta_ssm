@@ -91,8 +91,9 @@ public class ModelHandler implements ApplicationContextAware {
         List<AbstractModel> tableList = getModelDaoInstance("systemTableData").selectAll();
         for (AbstractModel table : tableList) {
 //            System.out.println(table.getTableName());
+            String regex = ".*Data$";
             // 滤过数据表，只处理基础表
-            if (table.getTableName().contains("data")) {
+            if (table.getTableName().matches(regex)) {
                 continue;
             }
 //            System.out.println(table.getTableName());
