@@ -99,7 +99,7 @@ public class ManageController{
         if (tableName.equals("sceneData")) {
             JSONObject jsonObject= JSON.parseObject(record);
             String sceneData = jsonObject.getString("sceneData");
-            System.out.println(sceneData);
+//            System.out.println(sceneData);
             String materialDataIdList = jsonObject.getString("materialDataList").substring(1,jsonObject.getString("materialDataList").length()-1);
             String[] temp = materialDataIdList.split(",");
             String deviceDataIdList = jsonObject.getString("deviceDataList").substring(1,jsonObject.getString("deviceDataList").length()-1);
@@ -172,7 +172,9 @@ public class ManageController{
 //                this.sceneDataDao.insert(scene);
 //                return scene.getId();
 //            }
+            //查询所有基本信息相同的场景
             List<AbstractModel> repeatSceneList = this.sceneDataDao.selectRepeatItem(scene);
+            //如果场景没有找到就直接新建场景，返回场景编号
             if (repeatSceneList.size()==0) {
 //                this.sceneDataDao.insert(scene);
 //                InputFrameData inputFrameData = new InputFrameData();
@@ -206,15 +208,19 @@ public class ManageController{
                 this.insertData(scene, temp, temp1, temp2);
                 return scene.getId();
             }
+            //对于每一个基本信息相同的场景，对场景的输入帧信息进行对比
             for (AbstractModel repeatScene: repeatSceneList) {
                 List<InputFrameData> inputFrameDataList =this.inputFrameDataDao.selectInputFrameDataListBySceneDataId(repeatScene.getId());
+                //输入帧信息为空
                 if (inputFrameDataList.size()==0) {
+                    // 如果新增的物料信息和设备信息都为空，则场景重复，返回重复场景的ID，否则判断下一个场景
                     if (materialDataIdList.equals("")&&deviceDataIdList.equals("")) {
                         return repeatScene.getId();
                     } else {
                         continue;
                     }
                 } else {
+                    //如果输入帧信息不为空，依次比较物料数据信息和设备数据信息，一旦不符立刻停止比对，进入下一个场景的比对。
                     List<MaterialData> materialDataList = this.materialDataDao.selectMaterialDataListByInputFrameDataId(inputFrameDataList.get(0).getId());
                     if ((materialDataList.size()==0&&temp.length==1&&temp[0].equals(""))||(materialDataList.size()!=0&&materialDataList.size()==temp.length)) {
                         if (materialDataList.size()!=0) {
@@ -260,19 +266,24 @@ public class ManageController{
                     } else {
                         continue;
                     }
+                    //如果数据比对全部通过，则找到了重复场景，返回重复场景的Id
                     return repeatScene.getId();
                 }
             }
+//            全部比对完毕依然没有找到重复场景，新建场景
 //            this.sceneDataDao.insert(scene);
             this.insertData(scene, temp, temp1, temp2);
             return scene.getId();
         } else if(tableName.equals("inputFrameData")) {
             JSONObject jsonObject= JSON.parseObject(record);
             int sceneDataId = Integer.parseInt(jsonObject.getString("sceneDataId"));
+//            System.out.println(jsonObject.getString("materialDataList"));
             String materialDataIdList = jsonObject.getString("materialDataList").substring(1,jsonObject.getString("materialDataList").length()-1);
             String[] temp = materialDataIdList.split(",");
+//            System.out.println(jsonObject.getString("deviceDataList"));
             String deviceDataIdList = jsonObject.getString("deviceDataList").substring(1,jsonObject.getString("deviceDataList").length()-1);
             String[] temp1 = deviceDataIdList.split(",");
+//            System.out.println(jsonObject.getString("keyParameterDataList"));
             String keyParameterDataList = jsonObject.getString("keyParameterDataList").substring(1,jsonObject.getString("keyParameterDataList").length()-1);
             String[] temp2 = keyParameterDataList.split(",");
             if (temp.equals("") && temp1.equals("") && temp2.equals("") ) {
@@ -313,7 +324,7 @@ public class ManageController{
                     for (String keyParam :temp2) {
                         KeyParameterData keyParameterData = new KeyParameterData();
                         keyParameterData.setInputFrameDataId(inputFrameData.getId());
-                        keyParameterData.setTitle(keyParam);
+                        keyParameterData.setTitle(keyParam.substring(1,keyParam.length()-1));
                         this.keyParameterDataDao.insert(keyParameterData);
                     }
                 }
@@ -350,7 +361,7 @@ public class ManageController{
             MaterialData materialData = new MaterialData();
             materialData.setInputFrameDataId(inputFrameData.getId());
             materialData.setMaterialId(materialNumber[i]);
-            System.out.println(1);
+//            System.out.println(1);
             this.materialDataDao.insert(materialData);
         }
         int[] deviceNumber = new int[DeviceList.length];
@@ -361,14 +372,14 @@ public class ManageController{
             DeviceData deviceData = new DeviceData();
             deviceData.setInputFrameDataId(inputFrameData.getId());
             deviceData.setDeviceId(deviceNumber[i]);
-            System.out.println(2);
+//            System.out.println(2);
             this.deviceDataDao.insert(deviceData);
         }
         for (String keyParam :keyParameterList) {
             KeyParameterData keyParameterData = new KeyParameterData();
             keyParameterData.setInputFrameDataId(inputFrameData.getId());
-            keyParameterData.setTitle(keyParam);
-            System.out.println(3);
+            keyParameterData.setTitle(keyParam.substring(1,keyParam.length()-1));
+//            System.out.println(3);
             this.keyParameterDataDao.insert(keyParameterData);
         }
     }
