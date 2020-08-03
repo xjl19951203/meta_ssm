@@ -58,7 +58,6 @@ public class ManageController{
 //            pageResult.setCount(pageInfo.getTotal());//总条数
 //            pageResult.setData(pageInfo.getList());//显示的数据
 //            return pageResult;
-//
 //        }
 //    }
     /*
