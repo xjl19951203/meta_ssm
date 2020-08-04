@@ -330,6 +330,9 @@ public class ManageController{
                 return inputFrameData.getId();
             }
         } else {
+            if (record==null|| record.equals("")) {
+                return 0;
+            }
             ModelImpl.setTableName(tableName);
             AbstractModel model = ModelHandler.newModelInstance(tableName, record);
 //            AbstractModel repeatModel = this.modelDao.selectRepeatItem(model);
